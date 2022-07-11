@@ -1,0 +1,52 @@
+		<!--all product start -->
+		<section id="new-arrivals" class="all-product">
+			<div class="container">
+				<div class="section-header">
+				
+				</div><!--/.section-header-->
+				<div class="all-product-content">
+					<div class="row">
+					<%= for x <- 1..8 do %>
+						<div class="col-md-3 col-sm-4">
+							<div class="details-product" id="details">
+							<a href={Routes.single_product_path(@conn, :index)}>
+								<div class="single-product-bg shadow">
+									<img src="" alt="">
+									<div class="single-product-bg-overlay"></div>
+									<div hidden class="sale bg-1">
+										<p hidden><%= x %>.news</p>
+										<p>Arrivage</p>
+									</div>
+									<!--product_title-->
+								<div class="product-name">	
+								<a class="a-product-name" href="#">Product_name</a>
+								</div>
+								<!--product_price-->
+								<div class="product-price">
+								<p class="p-product-price">$65.00</p>
+								</div>
+									<div class="new-arrival-cart">
+										<p class="add-to-cart">
+											<a href="#">
+											<span class="lnr lnr-cart"></span>
+											<span class="addtocart">Ajouter au panier</span>
+											</a>
+										</p>
+										<!--p class="arrival-review pull-right">
+											<span class="lnr lnr-heart"></span>
+											<span class="lnr lnr-frame-expand" title="Zoom"></span>
+										</p-->
+									</div>
+								</div>
+								
+							</a>	
+							</div>
+							
+						</div>
+					<% end %>
+					</div>
+				</div>
+			</div><!--/.container-->
+		
+		</section><!--/.new-arrivals-->
+		<!--new-arrivals end -->

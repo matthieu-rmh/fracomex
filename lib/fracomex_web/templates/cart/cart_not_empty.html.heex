@@ -1,0 +1,91 @@
+<div class="container" style="margin-top: 15rem; margin-bottom: 15rem;">
+        <div class="row">
+			<div class="col-md-8 cart-table">
+				<table class="table align-middle cart">
+						<thead>
+							<tr>
+							<th scope="col"></th>
+							<th scope="col">Produits</th>
+							<th scope="col">Prix</th>
+							<th scope="col">Quantité</th>
+							<th scope="col"></th>
+							</tr>
+						</thead>
+						<tbody style="overflow: scroll;">
+							<tr>
+							<td class="img-cart" style="margin-top: -8px;">
+							<img src="" width="80px" height="80px">
+							</td>
+							<td class="title-cart" width="30%">
+							<p>Mark</p>
+							</td>
+							<td class="price-cart">
+							<p>$100</p>
+							</td>
+							<td class="quantity-cart">
+							<div class="counter">
+									<span class="down" onClick='decreaseCount(event, this)'>-</span>
+									<input type="text" value="1">
+									<span class="up" onClick='increaseCount(event, this)'>+</span>
+							</div>
+							</td>
+							<td class="remove-cart"><p><i class="lnr lnr-cross"></i></p></td>
+							</tr>
+							<tr>
+							<td class="img-cart" style="margin-top: -8px;">
+							<img src="" width="80px" height="80px">
+							</td>
+							<td class="title-cart" width="30%">
+							<p>Mark</p>
+							</td>
+							<td class="price-cart">
+							<p>$100</p>
+							</td>
+							<td class="quantity-cart">
+							<div class="counter">
+									<span class="down" onClick='decreaseCount(event, this)'>-</span>
+									<input type="text" value="1">
+									<span class="up" onClick='increaseCount(event, this)'>+</span>
+							</div>
+							</td>
+							<td class="remove-cart"><p><i class="lnr lnr-cross"></i></p></td>
+							</tr>
+						</tbody>
+				</table>
+				<div class="row">
+				<div class="col-md-12">
+				<button class="btn-cart valide-cart update" onclick="window.location.href='#'">
+					<span class="single_product_addtocart">Mettre à jour</span>
+				</button>
+				</div>
+				</div>
+			</div>    
+			<div class="col-md-4">
+			<div class="card cart">		
+			<div class="card-body">
+			<h3 class="cart-title-total">Total panier</h3>
+				<ul class="list-group list-group-flush">
+				<li
+					class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+					Sous-total :
+					<span> $53.98</span>
+				</li>
+				<li
+					class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+					<div>
+					<strong>Total :</strong>
+					<span><strong> $53.98</strong></span>
+					</div>
+					
+				</li>
+				</ul>
+
+				<button class="btn-cart valide-cart" onclick="window.location.href='#'">
+					<span class="single_product_addtocart">Valider</span>
+				</button>
+			</div>
+			</div>
+			</div>
+		</div>
+	
+</div>

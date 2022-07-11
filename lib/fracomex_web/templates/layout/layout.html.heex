@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="csrf-token" content={csrf_token_value()}>
+    <%= live_title_tag assigns[:page_title] || "Fracomex", suffix: " · Phoenix Framework" %>
+    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/fontawesome.min.css" integrity="sha512-xX2rYBFJSj86W54Fyv1de80DWBq7zYLn2z0I9bIhQG+rxIF6XVJUpdGnsNHWRa6AvP89vtFupEPDP8eZAtu9qA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/linearicons@1.0.2/dist/web-font/style.min.css"/>
+    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </head>
+  <body>
+		<header id="home" class="slide-hero">
+			<div class="top-area">
+				<div class="header-area">
+				    <nav class="navbar navbar-default bootsnav  navbar-sticky"  data-minus-value-desktop="70" data-minus-value-mobile="55" data-speed="1000">
+				        <form class="s" id="search-nav">
+						<input type="search" class="sb" name="q" autocomplete="off" placeholder="Recherche produits" />
+						<button type="submit" class="sbtn lnr lnr-magnifier"></button>
+						<i class="sbtn lnr lnr-cross" id="close-search"></i> 
+						</form> 
+						<div class="container">            
+				            <div class="attr-nav">
+				                <ul>
+				                	<li class="search">
+				                		<a id="search" href=""><span class="lnr lnr-magnifier"></span></a>
+				                	</li>
+				                	<li class="nav-setting">
+				                		<a href={Routes.users_path(@conn, :index)}><span class="lnr lnr-user"></span></a>
+				                	</li>
+				                    <li class="dropdown">
+				                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+				                            <span class="lnr lnr-cart"></span>
+											<span class="badge badge-bg-1">2</span>
+				                        </a>
+				                        <ul class="dropdown-menu cart-list s-cate">
+				                            <li class="single-cart-list">
+				                                <a href="#" class="photo"><img src="" class="cart-thumb" alt="image" /></a>
+				                                <div class="cart-list-txt">
+				                                	<h6><a href="#">arm <br> chair</a></h6>
+				                                	<p>1 x - <span class="price">$180.00</span></p>
+				                                </div>
+				                                <div class="cart-close">
+				                                	<span class="lnr lnr-cross"></span>
+				                                </div>
+				                            </li>
+				                            <li class="single-cart-list">
+				                                <a href="#" class="photo"><img src="" class="cart-thumb" alt="image" /></a>
+				                                <div class="cart-list-txt">
+				                                	<h6><a href="#">single <br> armchair</a></h6>
+				                                	<p>1 x - <span class="price">$180.00</span></p>
+				                                </div>
+				                                <div class="cart-close">
+				                                	<span class="lnr lnr-cross"></span>
+				                                </div>
+				                            </li>
+				                            <li class="single-cart-list">
+				                                <a href="#" class="photo"><img src="" class="cart-thumb" alt="image" /></a>
+				                                <div class="cart-list-txt">
+				                                	<h6><a href="#">wooden arn <br> chair</a></h6>
+				                                	<p>1 x - <span class="price">$180.00</span></p>
+				                                </div>
+				                                <div class="cart-close">
+				                                	<span class="lnr lnr-cross"></span>
+				                                </div>
+				                            </li>
+				                            <li class="total">
+				                                <h4>Total: $0.00</h4>
+				                            </li>
+											<button class="btn-cart valide-cart" onclick="window.location.href='#'">
+									            <span class="single_product_addtocart">Valider panier</span>
+											</button>
+				                        </ul>
+
+				                    </li>
+				                </ul>
+				            </div>
+				            <div class="navbar-header">
+				                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+				                    <i class="fa fa-bars"></i>
+				                </button>
+				                <a class="navbar-brand" href="index.html">Fraco<span>mex</span>.</a>
+
+				            </div>
+				            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
+				                <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
+				                    <li class=" scroll active"><a href={Routes.page_path(@conn, :index)}>Accueil</a></li>
+				                    <li class=""><a href={Routes.product_path(@conn, :index)}>Boutique</a></li>
+									
+				                    <li class="dropdown scroll">
+				                        <a href="#" class="dropdown" data-toggle="dropdown" >
+				                            dropdown
+				                        </a>
+				                        <ul class="dropdown-menu">
+				                           <li class="scroll"><a href="#blog">dropdown1</a></li>
+										   <li class="scroll"><a href="#blog">dropdown2</a></li>
+										   <li class="scroll"><a href="#blog">dropdown3</a></li>
+				                        </ul>
+
+				                    </li>
+				                    <li class="scroll"><a href="#blog">blog</a></li>
+				                    <li class="scroll"><a href="#newsletter">contact</a></li>
+				                </ul>
+				            </div>
+				        </div>
+				    </nav>
+				</div>
+			    <div class="clearfix"></div>
+
+			</div>
+		</header>
+    <%= @inner_content %>
+	<!--prefooter start -->
+		<section id="prefooter"  class="prefooter">
+			<div class="container">
+				<div class="hm-footer-details">
+					<div class="row">
+						<div class=" col-md-3 col-sm-6 col-xs-12">
+							<div class="hm-footer-widget">
+								<div class="hm-foot-title">
+									<h4>information</h4>
+									
+								</div>
+								<div class="hm-foot-menu">
+									<ul>
+										<li><a href="#">about us</a></li>
+										<li><a href="#">contact us</a></li>
+										<li><a href="#">news</a></li>
+										<li><a href="#">store</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class=" col-md-3 col-sm-6 col-xs-12">
+							<div class="hm-footer-widget">
+								<div class="hm-foot-title">
+									<h4>Navigation</h4>
+								</div>
+								<div class="hm-foot-menu">
+									<ul>
+										<li><a href="#">link</a></li>
+										<li><a href="#">link</a></li>
+										<li><a href="#">link</a></li>
+										<li><a href="#">link</a></li>
+										<li><a href="#">link</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class=" col-md-3 col-sm-6 col-xs-12">
+							<div class="hm-footer-widget">
+								<div class="hm-foot-title">
+									<h4>Contact</h4>
+								</div>
+								<div class="hm-foot-menu">
+										<p>Adresse:</p>
+										<p>Tél:</p>
+										<p>E-mail:</p>							
+								</div>
+							</div>
+						</div>
+						<div class=" col-md-3 col-sm-6 col-xs-12">
+							<div class="hm-footer-widget">
+								<div class="hm-foot-title">
+									<h4>Contact</h4>
+								</div>
+								<div class="hm-foot-menu">
+										<p>Adresse:</p>
+										<p>Tél:</p>
+										<p>E-mail:</p>							
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	<!--/prefooter end-->
+    <!--footer start-->
+		<footer id="footer"  class="footer">
+			<div class="container">
+				<div class="hm-footer-copyright text-center">
+					<!--div class="footer-social">
+						<a href="#"><i class="fab fa-facebook"></i></a>	
+						<a href="#"><i class="fab fa-instagram"></i></a>
+						<a href="#"><i class="fab fa-linkedin"></i></a>
+						<a href="#"><i class="fab fa-pinterest"></i></a>
+						<a href="#"><i class="fab fa-behance"></i></a>	
+					</div-->
+					<p>
+						&copy;copyright.  <a href="https://www.themesine.com/"></a>
+					</p>
+				</div>
+			</div>
+			<!--/.scroll-Top-->
+			<div id="scroll-Top">
+				<div class="return-to-top">
+					<i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+				</div>
+			</div>
+<script>
+  $( document ).ready(function() {
+	$("#search").click(function(){
+	  $("#search-nav").slideToggle("500", "easeInOutCirc");
+	  $(".sb").focus();
+	  $("#search").hide("500", "easeInOutCirc");
+	  $(".top-section").css( { "margin-top" : "170px","transition" : "0.3s" } );
+	});
+	$("#close-search").click(function(){
+	  $("#search-nav").slideToggle("500", "easeInOutCirc");
+	  $(".sb").focus();
+	  $("#search").show("500", "easeInOutCirc");
+	  $(".top-section").css( { "margin-top" : "110px", "transition" : "0.3s" } );  
+	});
+  });
+</script>
+<script>
+function increaseCount(a, b) {
+	var input = b.previousElementSibling;
+	var value = parseInt(input.value, 10);
+	value = isNaN(value) ? 0 : value;
+	value++;
+	input.value = value;
+  }
+  
+  function decreaseCount(a, b) {
+	var input = b.nextElementSibling;
+	var value = parseInt(input.value, 10);
+	if (value > 1) {
+	  value = isNaN(value) ? 0 : value;
+	  value--;
+	  input.value = value;
+	}
+  }
+</script>  
+<script>    
+var togglePassword = document.querySelector("#togglePassword");
+var password = document.querySelector("#password");
+$("#togglePassword").click(function(){
+  // toggle the type attribute
+  var type = password.getAttribute("type") === "password" ? "text" : "password";
+  password.setAttribute("type", type);
+  // toggle the eye icon
+  this.classList.toggle('fa-eye');
+  this.classList.toggle('fa-eye-slash');
+});
+</script>
+<!--script>
+var product_content = document.querySelector(".all-product-content");
+for (var x = 1; x < product_content.length; x++) {
+  
+
+  $(".details-product"+x).hover(function () {
+    $(".product-name").css( { "margin-top" : "150px","transition" : "0.3s" } );
+	  $(".product-price").css( { "margin-top" : "200px","transition" : "0.3s" } );
+}, 
+function () {
+    $(".product-name").css( { "margin-top" : "200px","transition" : "0.3s" } );
+	  $(".product-price").css( { "margin-top" : "250px","transition" : "0.3s" } );
+});
+}
+</script-->
+        </footer>
+	<!--footer end-->
+  </body>
+</html>
+

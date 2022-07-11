@@ -1,0 +1,47 @@
+<div class="container" style="margin-top: 15rem; margin-bottom: 10rem;">
+    <div class="row">
+		<div class="col-md-12">	
+		<div class="card shadow login">		
+    <h2 class="text-center mt-4">Connexion</h2>
+			<div class="card-body">
+			<form>
+			<div class="row mb-0 p-4">
+			<div class="col-md-12">
+		<label for="Email">Email address</label>	
+      	<input type="email" class="form-control" placeholder="">
+			</div>
+			</div>
+			<div class="row mb-2 p-4">
+			<div class="col-md-12">
+			<label for="Email">Mot de passe</label>	
+		<div class="input-group">
+        <input type="password" id="password" class="form-control" placeholder="" aria-describedby="inputGroupPrepend" required>
+        <div class="input-group-append">
+          <span class="input-group-text"><i class="far fa-eye p-2" id="togglePassword" 
+   style="cursor: pointer"></i></span>
+        </div>
+		</div>
+			</div>
+			</div>
+			<div class="row text-left">
+			<a class="forgot" style="margin-left: 30px;" href="">		
+			Mot de passe oublié?				
+			</a>
+			</div>
+			<div class="row mb-4 text-center">
+	  		<a class="btn-cart product-add-cart" href="">		
+				<span class="single_product_addtocart">Connexion</span>				
+			</a>
+			</div>
+			<div class="row mb-2 text-center">
+			Vous n’avez pas de compte?
+			<a href={Routes.users_path(@conn, :signin)}>
+			<span class="single_product_addtocart">Inscrivez-vous</span>	
+			</a>
+			</div>
+			</form>
+			</div>
+		</div> 
+		</div>   
+	</div>
+</div>
