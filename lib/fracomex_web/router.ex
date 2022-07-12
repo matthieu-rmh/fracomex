@@ -19,10 +19,14 @@ defmodule FracomexWeb.Router do
 
     get "/", PageController, :index
     get "/product", ProductController, :index
+
     get "/product-details", SingleProductController, :index
+
     get "/cart", CartController, :index
     get "/users", UsersController, :index
     get "/signin", UsersController, :signin
+    get "/signup", UsersController, :signup
+    post "/submit_signup", UsersController, :submit_signup
   end
 
   # Other scopes may use custom stacks.
