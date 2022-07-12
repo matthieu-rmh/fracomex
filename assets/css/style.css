@@ -850,8 +850,8 @@ p.arrival-review span {margin-right: 15px;}
     background-position: center;
     background-size: cover;
 }
-.sofa-collection.collectionbg1{background: url(../images/collection/sofa-collection-banner.jpg)no-repeat;}
-.sofa-collection.collectionbg2{background: url(../images/collection/table-banner.jpg)no-repeat;}
+/* .sofa-collection.collectionbg1{background: url(../images/collection/sofa-collection-banner.jpg)no-repeat;}
+.sofa-collection.collectionbg2{background: url(../images/collection/table-banner.jpg)no-repeat;} */
 
 .sofa-collection:before,.sofa-collection:after {
     position: absolute;

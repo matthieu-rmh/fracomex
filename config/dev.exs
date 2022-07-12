@@ -26,7 +26,7 @@ config :fracomex, FracomexWeb.Endpoint,
   secret_key_base: "a47qN/Cgy6ikhBek4f55bQWq42gjbWE30sVVx2PgLzbsn9IYlFXUrq9/HL0Dq9r8",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch --loader:.woff=file --loader:.eot=file --loader:.woff2=file --loader:.svg=file --loader:.ttf=file)]}
   ]
 
 # ## SSL Support
