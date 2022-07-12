@@ -28,7 +28,7 @@ defmodule FracomexWeb.UsersController do
 
   # Validation de formulaire d'inscription
   def submit_signup(conn, %{"user" => user_params}) do
-    IO.inspect user_params
+    # IO.inspect user_params
 
     countries = Accounts.list_countries
                 |> Enum.map(fn country -> [key: country.name, value: country.id] end)
@@ -41,7 +41,6 @@ defmodule FracomexWeb.UsersController do
         conn
         |> redirect(to: Routes.page_path(conn, :index))
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset)
         render(conn, "signup.html", changeset: changeset, countries: countries, cities: cities, layout: {FracomexWeb.LayoutView, "layout.html"})
     end
   end

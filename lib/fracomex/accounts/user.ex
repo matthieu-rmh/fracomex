@@ -11,6 +11,7 @@ defmodule Fracomex.Accounts.User do
     field :street, :string
     field :country_id, :id
     field :city_id, :id
+    field :is_valid, :boolean
     timestamps()
   end
 
@@ -33,20 +34,31 @@ defmodule Fracomex.Accounts.User do
     |> validate_required(:city_id, message: "Sélectionnez une ville")
     |> validate_format(:mail_address, ~r<(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])>, message: "Format d'email non valide")
     |> unique_constraint(:mail_address, message: "Adresse email déjà pris")
-    |> validate_format(:phone_number, ~r/^[0-9][A-Za-z0-9 -]*$/, message: "Entrez un numéro")
+    # |> validate_format(:phone_number, ~r/^[0-9][A-Za-z0-9 -]*$/, message: "Entrez un numéro")
     |> validate_password_confirmation(attrs)
+    |> validate_format(:password, ~r/^.{6,}$/, message: "Mot de passe trop court, 6 caractères minimum")
+    |> hash_password()
   end
 
   defp validate_password_confirmation(changeset, attrs) do
     password = get_change(changeset, :password)
+    IO.inspect(password)
+    IO.inspect(attrs["password_confirmation"])
     cond do
-      is_nil(attrs[:password_confirmation]) ->
+      is_nil(attrs["password_confirmation"]) ->
         add_error(changeset, :password_confirmation, "Confirmez le mot de passe")
-      password != attrs[:password_confirmation] ->
+      password != attrs["password_confirmation"] ->
         add_error(changeset, :password_confirmation, "Les mots de passe doivent être identiques")
       true ->
         changeset
     end
+  end
+
+  defp hash_password(changeset) do
+    pass_field = get_field(changeset, :password)
+    cry = to_string(pass_field)
+    encrypted = Bcrypt.hash_pwd_salt(cry)
+    put_change(changeset, :password, encrypted)
   end
 
 end
