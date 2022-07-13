@@ -33,17 +33,24 @@ defmodule Fracomex.Accounts.User do
     |> validate_required(:country_id, message: "Sélectionnez un pays")
     |> validate_required(:city_id, message: "Sélectionnez une ville")
     |> validate_format(:mail_address, ~r<(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])>, message: "Format d'email non valide")
-    |> unique_constraint(:mail_address, message: "Adresse email déjà pris")
+    # |> unique_constraint(:mail_address, message: "Adresse email déjà pris")
+    |> unique_mail_address()
     # |> validate_format(:phone_number, ~r/^[0-9][A-Za-z0-9 -]*$/, message: "Entrez un numéro")
     |> validate_password_confirmation(attrs)
     |> validate_format(:password, ~r/^.{6,}$/, message: "Mot de passe trop court, 6 caractères minimum")
     |> hash_password()
   end
 
+  def validate_user_changeset(user) do
+    user
+    |> cast(%{}, [])
+    |> put_change(:is_valid, true)
+  end
+
   defp validate_password_confirmation(changeset, attrs) do
     password = get_change(changeset, :password)
-    IO.inspect(password)
-    IO.inspect(attrs["password_confirmation"])
+    # IO.inspect(password)
+    # IO.inspect(attrs["password_confirmation"])
     cond do
       is_nil(attrs["password_confirmation"]) ->
         add_error(changeset, :password_confirmation, "Confirmez le mot de passe")
@@ -60,5 +67,21 @@ defmodule Fracomex.Accounts.User do
     encrypted = Bcrypt.hash_pwd_salt(cry)
     put_change(changeset, :password, encrypted)
   end
+
+  defp unique_mail_address(changeset) do
+    mail_address = get_change(changeset, :mail_address)
+    list_mail_addresses = Fracomex.Repo.all(Fracomex.Accounts.User)
+                          |> Enum.map(fn user ->
+                            user.mail_address
+                          end)
+
+    cond do
+      mail_address in list_mail_addresses ->
+        add_error(changeset, :mail_address, "Adresse email déjà prise")
+      true ->
+        changeset
+    end
+  end
+
 
 end

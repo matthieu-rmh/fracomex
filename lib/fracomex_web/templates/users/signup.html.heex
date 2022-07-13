@@ -129,9 +129,9 @@
 									end
 								%>			
 							<div class="input-group">
-								<%= password_input f, :password_confirmation, id: "password", class: "form-control #{password_confirmation_validity}", placeholder: "" %>
+								<%= password_input f, :password_confirmation, id: "confirm_password", class: "form-control #{password_confirmation_validity}", placeholder: "" %>
 									<div class="input-group-append">
-										<span class="input-group-text"><i class="far fa-eye p-2" id="togglePassword" style="cursor: pointer"></i></span>
+										<span class="input-group-text"><i class="far fa-eye p-2" id="toggleConfirmPassword" style="cursor: pointer"></i></span>
 									</div>
 								<div class="invalid-feedback">
 								<%= password_confirmation_error %>

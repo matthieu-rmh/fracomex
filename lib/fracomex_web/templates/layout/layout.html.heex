@@ -251,6 +251,17 @@ $("#togglePassword").click(function(){
   this.classList.toggle('fa-eye');
   this.classList.toggle('fa-eye-slash');
 });
+
+var toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
+var confirm_password = document.querySelector("#confirm_password");
+$("#toggleConfirmPassword").click(function(){
+  // toggle the type attribute
+  var type = confirm_password.getAttribute("type") === "password" ? "text" : "password";
+  confirm_password.setAttribute("type", type);
+  // toggle the eye icon
+  this.classList.toggle('fa-eye');
+  this.classList.toggle('fa-eye-slash');
+});
 </script>
 <!--script>
 var product_content = document.querySelector(".all-product-content");

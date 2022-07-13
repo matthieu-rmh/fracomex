@@ -73,6 +73,12 @@ defmodule Fracomex.Accounts do
     |> Repo.update()
   end
 
+  def validate_user(%User{} = user) do
+    user
+    |> User.validate_user_changeset
+    |> Repo.update()
+  end
+
   @doc """
   Deletes a user.
 
