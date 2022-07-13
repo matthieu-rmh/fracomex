@@ -73,6 +73,7 @@ defmodule Fracomex.Accounts do
     |> Repo.update()
   end
 
+  # Valider utilisateur après confirmation réussie de l'adresse email
   def validate_user(%User{} = user) do
     user
     |> User.validate_user_changeset
