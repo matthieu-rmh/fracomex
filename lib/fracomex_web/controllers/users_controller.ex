@@ -12,7 +12,8 @@ defmodule FracomexWeb.UsersController do
 
   # Page de connexion
   def signin(conn, _params) do
-    render(conn, "signin.html", layout: {FracomexWeb.LayoutView, "layout.html"})
+    changeset = Accounts.change_user(%User{})
+    render(conn, "signin.html", changeset: changeset, layout: {FracomexWeb.LayoutView, "layout.html"})
   end
 
   # Page d'inscription
@@ -48,6 +49,21 @@ defmodule FracomexWeb.UsersController do
         |> render("signup_mail_sent.html", layout: {FracomexWeb.LayoutView, "layout.html"})
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "signup.html", changeset: changeset, countries: countries, cities: cities, layout: {FracomexWeb.LayoutView, "layout.html"})
+    end
+  end
+
+  # Validation de formulaire de connexion
+  def submit_signin(conn, %{"user" => user_params}) do
+    # IO.inspect(user_params)
+    case Accounts.signin_user(user_params) do
+      {:error, changeset} ->
+        # IO.inspect(changeset)
+        render(conn, "signin.html", changeset: changeset, layout: {FracomexWeb.LayoutView, "layout.html"})
+      _ ->
+        id = Accounts.get_user_by_mail_address!(user_params["mail_address"]).id
+        conn
+        |> put_session(:user_id, id)
+        |>redirect(to: "/product")
     end
   end
 

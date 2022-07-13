@@ -33,7 +33,6 @@ defmodule Fracomex.Accounts.User do
     |> validate_required(:country_id, message: "Sélectionnez un pays")
     |> validate_required(:city_id, message: "Sélectionnez une ville")
     |> validate_format(:mail_address, ~r<(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])>, message: "Format d'email non valide")
-    # |> unique_constraint(:mail_address, message: "Adresse email déjà pris")
     |> unique_mail_address()
     # |> validate_format(:phone_number, ~r/^[0-9][A-Za-z0-9 -]*$/, message: "Entrez un numéro")
     |> validate_password_confirmation(attrs)
@@ -45,6 +44,49 @@ defmodule Fracomex.Accounts.User do
     user
     |> cast(%{}, [])
     |> put_change(:is_valid, true)
+  end
+
+  def signin_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:mail_address, :password])
+    |> validate_required(:mail_address, message: "Entrez votre adresse email")
+    |> validate_required(:password, message: "Entrez mot de passe")
+    |> check_if_mail_address_exist()
+    |> check_password()
+    |> apply_action(:signin)
+  end
+
+  defp check_if_mail_address_exist(changeset) do
+    mail_address = get_field(changeset, :mail_address)
+
+    list_mail_addresses = Fracomex.Repo.all(Fracomex.Accounts.User)
+                          |> Enum.map(fn user ->
+                            user.mail_address
+                          end)
+    cond do
+      is_nil(mail_address) ->
+        add_error(changeset, :mail_address, "Entrez votre adresse email", [validation: :required])
+      mail_address not in list_mail_addresses ->
+        add_error(changeset, :mail_address, "Vous n'êtes pas encore inscrit")
+      true ->
+        changeset
+    end
+  end
+
+  defp check_password(changeset) do
+    mail_address = get_field(changeset, :mail_address)
+    password = get_field(changeset, :password)
+
+    cond do
+      is_nil(mail_address) ->
+        add_error(changeset, :mail_address, "Entrez votre adresse email", [validation: :required])
+      is_nil(password) ->
+        add_error(changeset, :password, "Entrez mot de passe", [validation: :required])
+      not Bcrypt.verify_pass(password, Fracomex.Accounts.get_user_by_mail_address!(mail_address).password) ->
+        add_error(changeset, :password, "Mot de passe invalide")
+      true ->
+        changeset
+    end
   end
 
   defp validate_password_confirmation(changeset, attrs) do

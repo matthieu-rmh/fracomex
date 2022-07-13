@@ -37,6 +37,19 @@ defmodule Fracomex.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user_by_mail_address!(mail_address) do
+    address = cond do
+      is_nil(mail_address) ->
+        ""
+      true ->
+        mail_address
+    end
+
+    query = from u in User,
+            where: u.mail_address == ^address
+    Repo.one(query)
+  end
+
   @doc """
   Creates a user.
 
@@ -53,6 +66,11 @@ defmodule Fracomex.Accounts do
     %User{}
     |> User.create_changeset(attrs)
     |> Repo.insert()
+  end
+
+  def signin_user(attrs \\ %{}) do
+    %User{}
+    |> User.signin_changeset(attrs)
   end
 
   @doc """

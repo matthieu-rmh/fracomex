@@ -28,6 +28,7 @@ defmodule FracomexWeb.Router do
     get "/signup", UsersController, :signup
     get "/check_signup_mail", UsersController, :check_signup_mail
     post "/submit_signup", UsersController, :submit_signup
+    post "/submit_signin", UsersController, :submit_signin
   end
 
   # Other scopes may use custom stacks.
