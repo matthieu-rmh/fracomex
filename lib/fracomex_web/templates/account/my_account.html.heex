@@ -1,0 +1,72 @@
+<div class="container" style="margin-top: 15rem; margin-bottom: 10rem;">
+    <div class="row">
+		<div class="col-md-12">	
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="#">Tableau de bord</a></li>
+					<li class="breadcrumb-item"><a href="#">Commandes</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Adresse</li>
+					<li class="breadcrumb-item"><a href="#">Détail du compte</a></li>
+				</ol>
+				</nav>
+			<div class="card shadow signin">		
+				<h2 class="text-center mt-4">Détail du compte</h2>
+				<div class="card-body">
+					<div class="row mb-2 p-4">
+						<div class="col-md-6">
+							<label for="Firstname">Nom</label>	
+							<input type="text" class="form-control">
+						</div>
+						<div class="col-md-6">
+							<label for="Lastname">Prénom</label>	
+							<input type="text" class="form-control">
+						</div>
+					</div>
+					<p>
+						<a class="text-primary pl-4" data-toggle="collapse" href="#editpassword" aria-expanded="false" aria-controls="editpassword">Changement de mot de passe</a> 
+					</p>
+					<div class="row edit p-4">
+					<div class="col-md-12 text-center">
+						<div class="collapse" id="editpassword">
+							<div class="row">
+								<div class="col-md-4">
+									<label for="password" style="font-size: 1.45rem;">Mot de passe actuel</label>	
+									<div class="input-group">
+										<input type="password" id="current-password" class="form-control" placeholder="">
+											<div class="input-group-append">
+												<span class="input-group-text"><i class="far fa-eye p-2" id="togglePassword" style="cursor: pointer"></i></span>
+											</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<label for="password" style="font-size: 1.45rem;">Nouveau mot de passe</label>	
+									<div class="input-group">
+										<input type="password" id="new-password" class="form-control" placeholder="">
+											<div class="input-group-append">
+												<span class="input-group-text"><i class="far fa-eye p-2" id="togglePassword" style="cursor: pointer"></i></span>
+											</div>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<label for="password" style="font-size: 1.45rem;">Confirmer le mot de passe </label>	
+									<div class="input-group">
+										<input type="password" id="confirm-new-password" class="form-control" placeholder="">
+											<div class="input-group-append">
+												<span class="input-group-text"><i class="far fa-eye p-2" id="togglePassword" style="cursor: pointer"></i></span>
+											</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					</div>  
+					<div class="row mb-4 text-center">
+					<a class="btn-cart product-add-cart" href="">		
+						<span class="single_product_addtocart">Enregister</span>				
+					</a>
+					</div>
+				</div>
+			</div> 
+		</div>   
+	</div>
+</div>
