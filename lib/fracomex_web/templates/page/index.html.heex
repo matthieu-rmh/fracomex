@@ -36,7 +36,7 @@
 										<div class="col-sm-5">
 											<div class="single-slide-hero">
 												<div class="slide-hero-img">
-													<img src="assets/images/slider/slider1.png" alt="slider image">
+													<img src={Routes.static_path(@conn, "/images/slider1.png")} alt="slider image">
 												</div><!--/.slide-hero-txt-->
 											</div><!--/.single-slide-hero-->
 										</div><!--/.col-->
@@ -73,7 +73,7 @@
 										<div class="col-sm-5">
 											<div class="single-slide-hero">
 												<div class="slide-hero-img">
-													<img src="assets/images/slider/slider2.png" alt="slider image">
+													<img src={Routes.static_path(@conn, "/images/slider2.png")} alt="slider image">
 												</div><!--/.slide-hero-txt-->
 											</div><!--/.single-slide-hero-->
 										</div><!--/.col-->
@@ -110,7 +110,7 @@
 										<div class="col-sm-5">
 											<div class="single-slide-hero">
 												<div class="slide-hero-img">
-													<img src="assets/images/slider/slider3.png" alt="slider image">
+													<img src={Routes.static_path(@conn, "/images/slider1.png")} alt="slider image">
 												</div><!--/.slide-hero-txt-->
 											</div><!--/.single-slide-hero-->
 										</div><!--/.col-->
@@ -126,7 +126,7 @@
 <%= render "arrivage.html", Map.put(assigns, :action, Routes.page_path(@conn, :index)) %>
 
 <!-- mini slide -->
-        <section id="mini-slide"  class="mini-slide">
+        <section id="mini-slide"  class="mini-slide mb-4">
             <div class="container">
             <div class="section-header">
                 <h2 class="title-promo">Promotions</h2>
