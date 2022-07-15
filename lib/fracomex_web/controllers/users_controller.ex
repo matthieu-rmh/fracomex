@@ -6,6 +6,16 @@ defmodule FracomexWeb.UsersController do
   alias Fracomex.Token
   alias Fracomex.UserEmail
 
+  #page mon compte
+  def my_account(conn, _params) do
+    render(conn, "my_account.html", layout: {FracomexWeb.LayoutView, "layout.html"})
+  end
+
+  #page adresse
+  def address(conn, _params) do
+    render(conn, "my_address.html", layout: {FracomexWeb.LayoutView, "layout.html"})
+  end
+
   def index(conn, _params) do
     render(conn, "signin.html", layout: {FracomexWeb.LayoutView, "layout.html"})
   end
