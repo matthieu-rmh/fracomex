@@ -32,7 +32,7 @@ defmodule FracomexWeb.Router do
     get "/forgot_password", UsersController, :forgot_password
     get "/resend_confirmation_mail", UsersController, :resend_confirmation_mail
     get "/my_account", UsersController, :my_account
-    get "/address", UsersController, :address
+    get "/my_address", UsersController, :my_address
 
     post "/submit_signin", UsersController, :submit_signin
     post "/submit_signup", UsersController, :submit_signup

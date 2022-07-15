@@ -8,11 +8,16 @@ defmodule FracomexWeb.UsersController do
 
   #page mon compte
   def my_account(conn, _params) do
-    render(conn, "my_account.html", layout: {FracomexWeb.LayoutView, "layout.html"})
+    cond do
+      is_nil(get_session(conn, :user_id)) ->
+        redirect(conn, to: "/signin")
+      true ->
+        render(conn, "my_account.html", layout: {FracomexWeb.LayoutView, "layout.html"})
+    end
   end
 
   #page adresse
-  def address(conn, _params) do
+  def my_address(conn, _params) do
     render(conn, "my_address.html", layout: {FracomexWeb.LayoutView, "layout.html"})
   end
 
@@ -23,7 +28,13 @@ defmodule FracomexWeb.UsersController do
   # Page de connexion
   def signin(conn, _params) do
     changeset = Accounts.change_user(%User{})
-    render(conn, "signin.html", changeset: changeset, layout: {FracomexWeb.LayoutView, "layout.html"})
+    cond do
+      is_nil(get_session(conn, :user_id)) ->
+        render(conn, "signin.html", changeset: changeset, layout: {FracomexWeb.LayoutView, "layout.html"})
+      true ->
+        # IO.inspect(conn)
+        redirect(conn, to: "/my_account")
+    end
   end
 
   # Page d'inscription
