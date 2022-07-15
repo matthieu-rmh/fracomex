@@ -20,7 +20,7 @@ $(document).ready(function(){
 	// 2. owl carousel
 	
 		
-			$('#client').owlCarousel({
+			$('#content-mini-slide').owlCarousel({
 				items:5,
 				loop:true,
 				smartSpeed: 1000,
