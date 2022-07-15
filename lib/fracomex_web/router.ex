@@ -23,12 +23,21 @@ defmodule FracomexWeb.Router do
     get "/product-details", SingleProductController, :index
 
     get "/cart", CartController, :index
+
     get "/users", UsersController, :index
     get "/signin", UsersController, :signin
     get "/signup", UsersController, :signup
     get "/check_signup_mail", UsersController, :check_signup_mail
-    post "/submit_signup", UsersController, :submit_signup
+    get "/check_forgotten_password_mail", UsersController, :check_forgotten_password_mail
+    get "/forgot_password", UsersController, :forgot_password
+    get "/resend_confirmation_mail", UsersController, :resend_confirmation_mail
+
     post "/submit_signin", UsersController, :submit_signin
+    post "/submit_signup", UsersController, :submit_signup
+    post "/submit_forgotten_password", UsersController, :submit_forgotten_password
+    post "/submit_resend_confirmation_mail", UsersController, :submit_resend_confirmation_mail
+
+    put "/submit_new_password_forgotten/:id", UsersController, :submit_new_password_forgotten
   end
 
   # Other scopes may use custom stacks.

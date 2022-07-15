@@ -24,6 +24,18 @@ defmodule Fracomex.UserEmail do
       |> subject("[FRACOMEX.FR] Confirmation de votre inscription")
       |> html_body(html_text)
       |> Mailer.deliver()
+  end
 
+  def send_forgotten_password_mail(forgot_password_mail_url, mail_address) do
+    html_text = "
+      <p>Veulliez cliquer sur le lien ci-dessous pour modifier votre mot de passe</p>
+      <a href=\"#{forgot_password_mail_url}\">#{forgot_password_mail_url}</a>
+      "
+      new()
+      |> from("fracomexmayotte@outlook.com")
+      |> to(mail_address)
+      |> subject("[FRACOMEX.FR] Mot de passe oublié")
+      |> html_body(html_text)
+      |> Mailer.deliver()
   end
 end
