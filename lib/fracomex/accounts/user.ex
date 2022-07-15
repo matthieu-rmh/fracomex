@@ -128,7 +128,7 @@ defmodule Fracomex.Accounts.User do
     cond do
       is_nil(change_password) ->
         add_error(changeset, :password, "Entrez nouveau mot de passe", [validation: :required])
-      Bcrypt.verify_pass(change_password, user_password) ->
+        Pbkdf2.verify_pass(change_password, user_password) ->
         add_error(changeset, :password, "Vous avez déjà utilisé ce mot de passe")
       true ->
         changeset
@@ -161,7 +161,7 @@ defmodule Fracomex.Accounts.User do
         add_error(changeset, :mail_address, "Entrez votre adresse email", [validation: :required])
       is_nil(password) ->
         add_error(changeset, :password, "Entrez mot de passe", [validation: :required])
-      not Bcrypt.verify_pass(password, Fracomex.Accounts.get_user_by_mail_address!(mail_address).password) ->
+      not Pbkdf2.verify_pass(password, Fracomex.Accounts.get_user_by_mail_address!(mail_address).password) ->
         add_error(changeset, :password, "Mot de passe invalide")
       true ->
         changeset
@@ -185,7 +185,7 @@ defmodule Fracomex.Accounts.User do
   defp hash_password(changeset) do
     pass_field = get_change(changeset, :password)
     cry = to_string(pass_field)
-    encrypted = Bcrypt.hash_pwd_salt(cry)
+    encrypted = Pbkdf2.hash_pwd_salt(cry)
     put_change(changeset, :password, encrypted)
   end
 
