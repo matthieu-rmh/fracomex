@@ -1,14 +1,7 @@
 <div class="container" style="margin-top: 15rem; margin-bottom: 10rem;">
     <div class="row">
 		<div class="col-md-12">	
-			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item"><a href="#">Tableau de bord</a></li>
-					<li class="breadcrumb-item"><a href="#">Commandes</a></li>
-					<li class="breadcrumb-item active" aria-current="page"><a href="#">Adresse</a></li>
-					<li class="breadcrumb-item"><a href="#">Détail du compte</a></li>
-				</ol>
-			</nav>
+			<%= FracomexWeb.UsersView.render("my_account_breadcrumb.html", conn: @conn) %>
 			<div class="card shadow signin">		
 				<h2 class="text-center mt-4">Adresse</h2>
 				<div class="card-body">
