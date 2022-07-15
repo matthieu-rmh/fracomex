@@ -50,8 +50,34 @@
 								</div>
 							</div>
 						</div>
+						<div class="row text-center">
+								<% 
+								{invalid_account_error, _} = cond do
+									not is_nil(@changeset.action) and @changeset.errors[:invalid_account] ->
+										{error, _} = @changeset.errors[:invalid_account]
+										{error, ""}
+									not is_nil(@changeset.action) and is_nil(@changeset.errors[:invalid_account]) ->
+										{"", ""}
+									true ->
+										{"", ""}
+									end
+									account_is_invalid = cond do
+										not is_nil(@changeset.action) and @changeset.errors[:invalid_account] ->
+											true
+										true ->
+											false
+									end
+								%>	
+							<div class="invalid-feedback" style="display: block; margin-bot: 10px !important;">
+								<%= invalid_account_error %>
+								<%= if account_is_invalid do %>
+									<br/>
+									Vérifiez votre boîte mail ou <a href={Routes.users_path(@conn, :resend_confirmation_mail)} style="font-size: 0.875em;color: #dc3545;text-decoration: underline;">renvoyez le lien de confirmation</a> <br/>
+								<% end %>
+							</div>
+						</div>
 						<div class="row text-left">
-							<a class="forgot" style="margin-left: 30px;" href="">Mot de passe oublié?</a>
+							<a class="forgot" style="margin-left: 30px;" href={Routes.users_path(@conn, :forgot_password)}>Mot de passe oublié?</a>
 						</div>
 						<div class="row mb-4 text-center">
 							<%= submit "CONNEXION", class: "btn-cart product-add-cart"%>

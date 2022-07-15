@@ -53,7 +53,86 @@ defmodule Fracomex.Accounts.User do
     |> validate_required(:password, message: "Entrez mot de passe")
     |> check_if_mail_address_exist()
     |> check_password()
+    |> check_if_account_is_valid()
     |> apply_action(:signin)
+  end
+
+  def resend_confirmation_mail_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:mail_address])
+    |> validate_required(:mail_address, message: "Entrez votre adresse email")
+    |> validate_format(:mail_address, ~r<(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])>, message: "Format d'email non valide")
+    |> check_if_mail_address_exist()
+    |>check_if_account_is_not_already_valid()
+    |> apply_action(:resend_confirmation_mail)
+  end
+
+  defp check_if_account_is_not_already_valid(changeset) do
+    mail_address = get_field(changeset, :mail_address)
+    list_mail_addresses = Fracomex.Repo.all(Fracomex.Accounts.User)
+                          |> Enum.map(fn user ->
+                            user.mail_address
+                          end)
+    cond do
+      is_nil(mail_address) or mail_address == "" ->
+        add_error(changeset, :mail_address, "Entrez votre adresse email", [validation: :required])
+      mail_address not in list_mail_addresses ->
+        add_error(changeset, :mail_address, "Vous n'êtes pas encore inscrit")
+       Fracomex.Accounts.get_user_by_mail_address!(mail_address).is_valid ->
+        add_error(changeset, :mail_address, "Ce compte a déjà été vérifié")
+      true ->
+        changeset
+      end
+  end
+
+  defp check_if_account_is_valid(changeset) do
+    mail_address = get_field(changeset, :mail_address)
+    list_mail_addresses = Fracomex.Repo.all(Fracomex.Accounts.User)
+                          |> Enum.map(fn user ->
+                            user.mail_address
+                          end)
+    cond do
+      is_nil(mail_address) or mail_address == "" ->
+        add_error(changeset, :mail_address, "Entrez votre adresse email", [validation: :required])
+      mail_address not in list_mail_addresses ->
+        add_error(changeset, :mail_address, "Vous n'êtes pas encore inscrit")
+      not Fracomex.Accounts.get_user_by_mail_address!(mail_address).is_valid ->
+        add_error(changeset, :invalid_account, "Ce compte n'a pas encore été confirmé")
+      true ->
+        changeset
+      end
+  end
+
+  def forgot_password_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:mail_address])
+    |> validate_required(:mail_address, message: "Entrez votre adresse email")
+    |> validate_format(:mail_address, ~r<(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])>, message: "Email non valide")
+    |> check_if_mail_address_exist()
+    |> apply_action(:forgot_password)
+  end
+
+  def new_password_forgotten_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:password])
+    |> validate_required(:password, message: "Entrez nouveau mot de passe")
+    |> validate_format(:password, ~r/^.{6,}$/, message: "Mot de passe trop court, 6 caractères minimum")
+    |> validate_password_confirmation(attrs)
+    |> check_if_old_password(user)
+    |> hash_password()
+  end
+
+  defp check_if_old_password(changeset, user) do
+    user_password = user.password
+    change_password = get_change(changeset, :password)
+    cond do
+      is_nil(change_password) ->
+        add_error(changeset, :password, "Entrez nouveau mot de passe", [validation: :required])
+        Pbkdf2.verify_pass(change_password, user_password) ->
+        add_error(changeset, :password, "Vous avez déjà utilisé ce mot de passe")
+      true ->
+        changeset
+      end
   end
 
   defp check_if_mail_address_exist(changeset) do
@@ -82,7 +161,7 @@ defmodule Fracomex.Accounts.User do
         add_error(changeset, :mail_address, "Entrez votre adresse email", [validation: :required])
       is_nil(password) ->
         add_error(changeset, :password, "Entrez mot de passe", [validation: :required])
-      not Bcrypt.verify_pass(password, Fracomex.Accounts.get_user_by_mail_address!(mail_address).password) ->
+      not Pbkdf2.verify_pass(password, Fracomex.Accounts.get_user_by_mail_address!(mail_address).password) ->
         add_error(changeset, :password, "Mot de passe invalide")
       true ->
         changeset
@@ -104,9 +183,9 @@ defmodule Fracomex.Accounts.User do
   end
 
   defp hash_password(changeset) do
-    pass_field = get_field(changeset, :password)
+    pass_field = get_change(changeset, :password)
     cry = to_string(pass_field)
-    encrypted = Bcrypt.hash_pwd_salt(cry)
+    encrypted = Pbkdf2.hash_pwd_salt(cry)
     put_change(changeset, :password, encrypted)
   end
 

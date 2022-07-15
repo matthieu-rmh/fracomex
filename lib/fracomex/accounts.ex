@@ -73,6 +73,16 @@ defmodule Fracomex.Accounts do
     |> User.signin_changeset(attrs)
   end
 
+  def forgot_password(attrs \\ %{}) do
+    %User{}
+    |> User.forgot_password_changeset(attrs)
+  end
+
+  def resend_confirmation_mail(attrs \\ %{}) do
+    %User{}
+    |> User.resend_confirmation_mail_changeset(attrs)
+  end
+
   @doc """
   Updates a user.
 
@@ -88,6 +98,12 @@ defmodule Fracomex.Accounts do
   def update_user(%User{} = user, attrs) do
     user
     |> User.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_new_password_forgotten_user(%User{} = user, attrs) do
+    user
+    |> User.new_password_forgotten_changeset(attrs)
     |> Repo.update()
   end
 
