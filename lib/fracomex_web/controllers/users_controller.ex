@@ -6,19 +6,53 @@ defmodule FracomexWeb.UsersController do
   alias Fracomex.Token
   alias Fracomex.UserEmail
 
+  # VALIDATION DU FORMULAIRE DE MODIFICATION DU PROFIL PAR L'UTILISATEUR
+  def submit_edit_my_account(conn, %{"id" => id, "user" => user_params}) do
+    changeset = Accounts.change_user(%User{})
+    user = Accounts.get_user!(id)
+
+    # IO.inspect Accounts.edit_oneself(user, user_params)
+
+    case Accounts.edit_oneself(user, user_params) do
+      {:error, %Ecto.Changeset{} = changeset} ->
+        there_is_password_error = cond do
+          is_nil(changeset.errors[:password]) and is_nil(changeset.errors[:current_password]) and is_nil(changeset.errors[:password_confirmation]) ->
+            false
+          true ->
+            true
+        end
+        render(conn, "my_account.html", user: user, changeset: changeset, there_is_password_error: there_is_password_error, edit_succesful: false, layout: {FracomexWeb.LayoutView, "layout.html"})
+      {:ok, user} ->
+        render(conn, "my_account.html", user: user, changeset: changeset, there_is_password_error: false, edit_succesful: true, layout: {FracomexWeb.LayoutView, "layout.html"})
+    end
+
+  end
   #page mon compte
   def my_account(conn, _params) do
     cond do
       is_nil(get_session(conn, :user_id)) ->
         redirect(conn, to: "/signin")
       true ->
-        render(conn, "my_account.html", layout: {FracomexWeb.LayoutView, "layout.html"})
+        user_id = get_session(conn, :user_id)
+        user = Accounts.get_user!(user_id)
+        changeset = Accounts.change_user(%User{})
+        render(conn, "my_account.html", user: user, changeset: changeset, there_is_password_error: false, edit_succesful: false, layout: {FracomexWeb.LayoutView, "layout.html"})
     end
   end
 
   #page adresse
   def my_address(conn, _params) do
-    render(conn, "my_address.html", layout: {FracomexWeb.LayoutView, "layout.html"})
+
+    cond do
+      is_nil(get_session(conn, :user_id)) ->
+        redirect(conn, to: "/signin")
+      true ->
+        user_id = get_session(conn, :user_id)
+        user = Accounts.get_user!(user_id)
+        changeset = Accounts.change_user(%User{})
+        render(conn, "my_address.html", user: user, changeset: changeset,layout: {FracomexWeb.LayoutView, "layout.html"})
+    end
+
   end
 
   def index(conn, _params) do

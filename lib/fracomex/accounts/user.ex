@@ -22,6 +22,49 @@ defmodule Fracomex.Accounts.User do
     |> validate_required([:name, :firstname, :mail_address, :street, :phone_number, :password, :country_id, :city_id])
   end
 
+  def edit_oneself_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:name, :firstname, :password])
+    |> validate_required(:name, message: "Le nom ne peut être vide")
+    |> validate_required(:firstname, message: "Le prénom ne peut être vide")
+    |> check_if_current_password_is_entered(user, attrs)
+  end
+
+  defp check_if_current_password_is_entered(changeset, user, attrs) do
+    # IO.inspect(attrs)
+
+    cond do
+
+      not is_nil(get_change(changeset, :password)) ->
+        cond do
+
+          is_nil(attrs["current_password"]) or attrs["current_password"] == "" ->
+            changeset |> add_error(:current_password, "Entrez votre mot de passe actuel si vous voulez le changer")
+
+          not Pbkdf2.verify_pass(attrs["current_password"], user.password) ->
+            changeset |> add_error(:current_password, "Mot de passe actuel incorrect")
+
+          is_nil(attrs["password_confirmation"]) or attrs["password_confirmation"] == "" ->
+            changeset |> add_error(:password_confirmation, "Confirmez votre nouveau mot de passe")
+
+
+          get_change(changeset, :password) != attrs["password_confirmation"] ->
+            changeset |> add_error(:password_confirmation, "Les mots de passe doivent correspondre")
+
+          Pbkdf2.verify_pass(get_change(changeset, :password), user.password) ->
+            changeset |> add_error(:password, "Ceci est déjà votre mot de passe actuel")
+
+          true ->
+            changeset
+            |> validate_format(:password, ~r/^.{6,}$/, message: "Nouveau mot de passe trop court, 6 caractères minimum")
+            |> put_change(:password, Pbkdf2.hash_pwd_salt(get_change(changeset, :password)))
+        end
+
+      true ->
+        changeset |> delete_change(:password)
+    end
+  end
+
   def create_changeset(user, attrs) do
     user
     |> cast(attrs, [:name, :firstname, :mail_address, :phone_number, :password, :country_id, :city_id])

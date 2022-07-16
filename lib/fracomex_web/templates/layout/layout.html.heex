@@ -262,6 +262,17 @@ $("#toggleConfirmPassword").click(function(){
   this.classList.toggle('fa-eye');
   this.classList.toggle('fa-eye-slash');
 });
+
+var toggleCurrentPassword = document.querySelector("#toggleCurrentPassword");
+var current_password = document.querySelector("#current_password");
+$("#toggleCurrentPassword").click(function(){
+  // toggle the type attribute
+  var type = current_password.getAttribute("type") === "password" ? "text" : "password";
+  current_password.setAttribute("type", type);
+  // toggle the eye icon
+  this.classList.toggle('fa-eye');
+  this.classList.toggle('fa-eye-slash');
+});
 </script>
 <!--script>
 var product_content = document.querySelector(".all-product-content");

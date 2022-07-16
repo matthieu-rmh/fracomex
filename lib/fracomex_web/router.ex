@@ -40,6 +40,7 @@ defmodule FracomexWeb.Router do
     post "/submit_resend_confirmation_mail", UsersController, :submit_resend_confirmation_mail
 
     put "/submit_new_password_forgotten/:id", UsersController, :submit_new_password_forgotten
+    put "/submit_edit_my_account/:id", UsersController, :submit_edit_my_account
   end
 
   # Other scopes may use custom stacks.

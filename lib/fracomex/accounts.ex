@@ -101,6 +101,12 @@ defmodule Fracomex.Accounts do
     |> Repo.update()
   end
 
+  def edit_oneself(%User{} = user, attrs) do
+    user
+    |> User.edit_oneself_changeset(attrs)
+    |> Repo.update()
+  end
+
   def update_new_password_forgotten_user(%User{} = user, attrs) do
     user
     |> User.new_password_forgotten_changeset(attrs)
