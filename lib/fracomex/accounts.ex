@@ -37,6 +37,15 @@ defmodule Fracomex.Accounts do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user_with_city!(id) do
+    city_query = from c in City
+
+    query = from u in User,
+            preload: [city: ^city_query],
+            where: u.id == ^id
+    Repo.one(query)
+  end
+
   def get_user_by_mail_address!(mail_address) do
     address = cond do
       is_nil(mail_address) ->
@@ -98,6 +107,12 @@ defmodule Fracomex.Accounts do
   def update_user(%User{} = user, attrs) do
     user
     |> User.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def edit_oneself_address(%User{} = user, attrs) do
+    user
+    |> User.edit_address_changeset(attrs)
     |> Repo.update()
   end
 

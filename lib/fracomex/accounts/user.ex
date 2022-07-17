@@ -1,6 +1,7 @@
 defmodule Fracomex.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Fracomex.Accounts.City
 
   schema "users" do
     field :firstname, :string
@@ -10,7 +11,8 @@ defmodule Fracomex.Accounts.User do
     field :phone_number, :string
     field :street, :string
     field :country_id, :id
-    field :city_id, :id
+    # field :city_id, :id
+    belongs_to :city, City
     field :is_valid, :boolean
     timestamps()
   end
@@ -28,6 +30,12 @@ defmodule Fracomex.Accounts.User do
     |> validate_required(:name, message: "Le nom ne peut être vide")
     |> validate_required(:firstname, message: "Le prénom ne peut être vide")
     |> check_if_current_password_is_entered(user, attrs)
+  end
+
+  def edit_address_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:street, :city_id])
+    |> validate_required(:street, message: "L'adresse est obligatoire")
   end
 
   defp check_if_current_password_is_entered(changeset, user, attrs) do
