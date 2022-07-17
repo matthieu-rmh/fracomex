@@ -207,9 +207,16 @@ defmodule Fracomex.Accounts.User do
     mail_address = get_field(changeset, :mail_address)
     password = get_field(changeset, :password)
 
+    list_mail_addresses = Fracomex.Repo.all(Fracomex.Accounts.User)
+    |> Enum.map(fn user ->
+      user.mail_address
+    end)
+
     cond do
       is_nil(mail_address) ->
         add_error(changeset, :mail_address, "Entrez votre adresse email", [validation: :required])
+      mail_address not in list_mail_addresses ->
+        add_error(changeset, :mail_address, "Vous n'êtes pas encore inscrit")
       is_nil(password) ->
         add_error(changeset, :password, "Entrez mot de passe", [validation: :required])
       not Pbkdf2.verify_pass(password, Fracomex.Accounts.get_user_by_mail_address!(mail_address).password) ->
