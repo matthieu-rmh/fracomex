@@ -34,7 +34,7 @@
 										{error, _} = @changeset.errors[:password]
 										{error, "is-invalid"}
 									not is_nil(@changeset.action) and is_nil(@changeset.errors[:password]) ->
-										{"", "is-valid"}
+										{"", ""}
 									true ->
 										{"", ""}
 									end
