@@ -43,7 +43,7 @@
 										 <% end %>
 				                	</li>
 				                    <li class="dropdown">
-				                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+				                        <a href={Routes.cart_path(@conn, :index)} class="dropdown-toggle" data-toggle="dropdown">
 				                            <span class="lnr lnr-cart"></span>
 											<span class="badge badge-bg-1">2</span>
 				                        </a>
@@ -166,8 +166,8 @@
 								</div>
 								<div class="hm-foot-menu">
 									<ul>
-										<li><a href="#">Nos produits</a></li>
-										<li><a href="#">Boutique</a></li>
+										<li><a href={Routes.product_path(@conn, :index)}>Nos produits</a></li>
+										<li><a href={Routes.product_path(@conn, :index)}>Boutique</a></li>
 									</ul>
 								</div>
 							</div>
