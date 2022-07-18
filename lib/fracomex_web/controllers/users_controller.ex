@@ -106,6 +106,12 @@ defmodule FracomexWeb.UsersController do
     render(conn, "signup.html", changeset: changeset, countries: countries, cities: cities, layout: {FracomexWeb.LayoutView, "layout.html"})
   end
 
+  def signout(conn, _params) do
+    conn
+    |> delete_session(:user_id)
+    |> redirect(to: "/")
+  end
+
   # Validation de formulaire d'inscription avec envoi de mail de confirmation
   def submit_signup(conn, %{"user" => user_params}) do
     # IO.inspect user_params

@@ -27,6 +27,7 @@ defmodule FracomexWeb.Router do
     get "/users", UsersController, :index
     get "/signin", UsersController, :signin
     get "/signup", UsersController, :signup
+    get "/signout", UsersController, :signout
     get "/check_signup_mail", UsersController, :check_signup_mail
     get "/check_forgotten_password_mail", UsersController, :check_forgotten_password_mail
     get "/forgot_password", UsersController, :forgot_password

@@ -4,6 +4,7 @@
 			<%= FracomexWeb.UsersView.render("my_account_breadcrumb.html", conn: @conn, user: @user) %>
 			<div class="card shadow signin">		
 				<h2 class="text-center mt-4">Mon profil</h2>
+				<p class="text-center mt-4"><span class="lnr lnr-envelope"></span> <%= @user.mail_address %></p>
 				<div class="valid-feedback text-center" style={if @edit_succesful, do: "display: block;", else: "display: none;"}>Profil mis à jour!</div>
 				<div class="card-body">
 					<%= form_for @changeset, Routes.users_path(@conn, :edit_my_account, @user.id), [method: :put], fn f -> %>
