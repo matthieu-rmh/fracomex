@@ -220,7 +220,7 @@ defmodule Fracomex.Accounts.User do
       is_nil(password) ->
         add_error(changeset, :password, "Entrez mot de passe", [validation: :required])
       not Pbkdf2.verify_pass(password, Fracomex.Accounts.get_user_by_mail_address!(mail_address).password) ->
-        add_error(changeset, :password, "Mot de passe invalide")
+        add_error(changeset, :password, "Mot de passe incorrect")
       true ->
         changeset
     end

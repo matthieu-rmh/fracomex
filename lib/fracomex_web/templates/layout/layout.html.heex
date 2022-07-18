@@ -32,11 +32,17 @@
 				                	<li class="search">
 				                		<a id="search" href=""><span class="lnr lnr-magnifier"></span></a>
 				                	</li>
-				                	<li class="nav-setting">
-				                		<a href={Routes.users_path(@conn, :signin)}><span class="lnr lnr-user"></span></a>
+				                	<li class="nav-setting dropdown">
+				                		<a href={Routes.users_path(@conn, :signin)} class="dropdown-toggle" data-toggle="dropdown"><span class="lnr lnr-user"></span></a>
+										<%= if not is_nil(Plug.Conn.get_session(@conn, :user_id)) do %>
+										<ul class="dropdown-menu s-cate" id="user-icon-dropdown">
+											<li class="scroll"><a href={Routes.users_path(@conn, :my_account)}><span class="lnr lnr-user"></span> Mon profil</a></li>
+											<li class="scroll"><a href={Routes.users_path(@conn, :my_address)}><span class="lnr lnr-map-marker"></span> Mon adresse</a></li>
+										 </ul>
+										 <% end %>
 				                	</li>
 				                    <li class="dropdown">
-				                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+				                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 				                            <span class="lnr lnr-cart"></span>
 											<span class="badge badge-bg-1">2</span>
 				                        </a>
@@ -91,16 +97,21 @@
 				            </div>
 				            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
 				                <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
-				                    <li class=" scroll active"><a href={Routes.page_path(@conn, :index)}>Accueil</a></li>
-				                    <li class="dropdown scroll">
-										<a href={Routes.product_path(@conn, :index)} class="dropdown" data-toggle="dropdown">
+				                    <li class={"scroll #{if @conn.request_path=="/", do: "active"}"}><a href={Routes.page_path(@conn, :index)}>Accueil</a></li>
+				                    <li class={"dropdown scroll #{if @conn.request_path=="/product", do: "active"}"}>
+										<a href={Routes.product_path(@conn, :index)} class="dropdown" data-toggle="">
 											Boutique
 										</a>
 
-										<ul class="dropdown-menu">
+										<ul class="dropdown-menu itemfamilies-dropdown-menu s-cate">
 											<%= for item_family <- Fracomex.Products.list_item_families() do %>
 												 <li class="scroll"><a href="#blog"><%= item_family.caption %></a></li>
 											<% end %>
+											<li class="scroll"><a href="#blog">Catégorie</a></li>
+											<li class="scroll"><a href="#blog">Catégorie</a></li>
+											<li class="scroll"><a href="#blog">Catégorie</a></li>
+											<li class="scroll"><a href="#blog">Catégorie</a></li>
+
 										 </ul>
 									</li>
 									
@@ -116,7 +127,7 @@
 				                        </ul>
 				                    </li>
 									-->
-				                    <li class="scroll"><a href="#blog">blog</a></li>
+				                    <!--  <li class="scroll"><a href="#blog">blog</a></li> -->
 				                    <li class="scroll"><a href="#newsletter">contact</a></li>
 				                </ul>
 				            </div>
@@ -136,15 +147,15 @@
 						<div class=" col-md-3 col-sm-6 col-xs-12">
 							<div class="hm-footer-widget">
 								<div class="hm-foot-title">
-									<h4>information</h4>
+									<h4>Informations</h4>
 									
 								</div>
 								<div class="hm-foot-menu">
 									<ul>
-										<li><a href="#">about us</a></li>
-										<li><a href="#">contact us</a></li>
-										<li><a href="#">news</a></li>
-										<li><a href="#">store</a></li>
+										<li><a href="#">A propos de nous</a></li>
+										<li><a href="#">Contactez-nous</a></li>
+										<li><a href="#">Nouveautés</a></li>
+										<li><a href="#">Boutique</a></li>
 									</ul>
 								</div>
 							</div>
@@ -156,11 +167,10 @@
 								</div>
 								<div class="hm-foot-menu">
 									<ul>
-										<li><a href="#">link</a></li>
-										<li><a href="#">link</a></li>
-										<li><a href="#">link</a></li>
-										<li><a href="#">link</a></li>
-										<li><a href="#">link</a></li>
+										<li><a href="#">lien</a></li>
+										<li><a href="#">lien</a></li>
+										<li><a href="#">lien</a></li>
+										<li><a href="#">lien</a></li>
 									</ul>
 								</div>
 							</div>
@@ -206,7 +216,7 @@
 						<a href="#"><i class="fab fa-behance"></i></a>	
 					</div-->
 					<p>
-						&copy;copyright.  <a href="https://www.themesine.com/"></a>
+						&copy;copyright. | <a href="http://www.phidia.fr" style="font-weight: bold;">Phidia</a> | 2022
 					</p>
 				</div>
 			</div>
