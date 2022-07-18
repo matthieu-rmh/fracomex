@@ -125,16 +125,20 @@
 			</div><!--/#header-carousel-->
 <%= render "arrivage.html", Map.put(assigns, :action, Routes.page_path(@conn, :index)) %>
 
-<!-- mini slide -->
-        <section id="mini-slide"  class="mini-slide mb-4">
-            <div class="container">
-            <div class="section-header">
+<div class="container">
+	<div class="row">
+			<div class="well">
+			<div class="section-header mb-4">
                 <h2 class="title-promo">Promotions</h2>
             </div><!--/.section-header-->
-        
-                <div class="owl-carousel owl-theme" id="content-mini-slide">
-                        <div class="item p-2">
-                            <a href="#">
+            <!-- Carousel
+            ================================================== -->            
+            <div id="myCarousel" class="carousel slide">
+                <div class="carousel-inner p-4">
+                    <div class="item active">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="#">
                                 <div class="single-populer-products shadow">
                                     <div class="single-populer-product-img">
                                         <img src={Routes.static_path(@conn, "/images/slider1.png")} alt="populer-products images">
@@ -144,10 +148,10 @@
                                         <span class="single_product_addtocart">Découvrir</span>
                                     </button>
                                 </div>
-                            </a>
-                        </div><!--/.item-->
-                        <div class="item p-2">
-                            <a href="#">
+                            	</a>       
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#">
                                 <div class="single-populer-products shadow">
                                     <div class="single-populer-product-img">
                                         <img src={Routes.static_path(@conn, "/images/slider1.png")} alt="populer-products images">
@@ -157,10 +161,10 @@
                                         <span class="single_product_addtocart">Découvrir</span>
                                     </button>
                                 </div>
-                            </a>
-                        </div><!--/.item-->
-                        <div class="item p-2">
-                            <a href="#">
+                            	</a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#">
                                 <div class="single-populer-products shadow">
                                     <div class="single-populer-product-img">
                                         <img src={Routes.static_path(@conn, "/images/slider1.png")} alt="populer-products images">
@@ -170,10 +174,10 @@
                                         <span class="single_product_addtocart">Découvrir</span>
                                     </button>
                                 </div>
-                            </a>
-                        </div><!--/.item-->
-                        <div class="item p-2">
-                            <a href="#">
+                            	</a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#">
                                 <div class="single-populer-products shadow">
                                     <div class="single-populer-product-img">
                                         <img src={Routes.static_path(@conn, "/images/slider1.png")} alt="populer-products images">
@@ -183,10 +187,14 @@
                                         <span class="single_product_addtocart">Découvrir</span>
                                     </button>
                                 </div>
-                            </a>
-                        </div><!--/.item-->
-                        <div class="item p-2">
-                            <a href="#">
+                            	</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="#">
                                 <div class="single-populer-products shadow">
                                     <div class="single-populer-product-img">
                                         <img src={Routes.static_path(@conn, "/images/slider1.png")} alt="populer-products images">
@@ -196,11 +204,121 @@
                                         <span class="single_product_addtocart">Découvrir</span>
                                     </button>
                                 </div>
-                            </a>
-                        </div><!--/.item-->
-                    </div><!--/.owl-carousel-->
-
-            </div><!--/.container-->
-
-        </section>
-        <!-- mini slide --> 
+                            	</a>       
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#">
+                                <div class="single-populer-products shadow">
+                                    <div class="single-populer-product-img">
+                                        <img src={Routes.static_path(@conn, "/images/slider1.png")} alt="populer-products images">
+                                    </div>
+                                    <h2><a href="#">Category_name</a></h2>
+                                    <button class="btn-cart valide-cart">
+                                        <span class="single_product_addtocart">Découvrir</span>
+                                    </button>
+                                </div>
+                            	</a> 
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#">
+                                <div class="single-populer-products shadow">
+                                    <div class="single-populer-product-img">
+                                        <img src={Routes.static_path(@conn, "/images/slider1.png")} alt="populer-products images">
+                                    </div>
+                                    <h2><a href="#">Category_name</a></h2>
+                                    <button class="btn-cart valide-cart">
+                                        <span class="single_product_addtocart">Découvrir</span>
+                                    </button>
+                                </div>
+                            	</a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#">
+                                <div class="single-populer-products shadow">
+                                    <div class="single-populer-product-img">
+                                        <img src={Routes.static_path(@conn, "/images/slider1.png")} alt="populer-products images">
+                                    </div>
+                                    <h2><a href="#">Category_name</a></h2>
+                                    <button class="btn-cart valide-cart">
+                                        <span class="single_product_addtocart">Découvrir</span>
+                                    </button>
+                                </div>
+                            	</a> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="#">
+                                <div class="single-populer-products shadow">
+                                    <div class="single-populer-product-img">
+                                        <img src={Routes.static_path(@conn, "/images/slider1.png")} alt="populer-products images">
+                                    </div>
+                                    <h2><a href="#">Category_name</a></h2>
+                                    <button class="btn-cart valide-cart">
+                                        <span class="single_product_addtocart">Découvrir</span>
+                                    </button>
+                                </div>
+                            	</a>        
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#">
+                                <div class="single-populer-products shadow">
+                                    <div class="single-populer-product-img">
+                                        <img src={Routes.static_path(@conn, "/images/slider1.png")} alt="populer-products images">
+                                    </div>
+                                    <h2><a href="#">Category_name</a></h2>
+                                    <button class="btn-cart valide-cart">
+                                        <span class="single_product_addtocart">Découvrir</span>
+                                    </button>
+                                </div>
+                            	</a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#">
+                                <div class="single-populer-products shadow">
+                                    <div class="single-populer-product-img">
+                                        <img src={Routes.static_path(@conn, "/images/slider1.png")} alt="populer-products images">
+                                    </div>
+                                    <h2><a href="#">Category_name</a></h2>
+                                    <button class="btn-cart valide-cart">
+                                        <span class="single_product_addtocart">Découvrir</span>
+                                    </button>
+                                </div>
+                            	</a> 
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#">
+                                <div class="single-populer-products shadow">
+                                    <div class="single-populer-product-img">
+                                        <img src={Routes.static_path(@conn, "/images/slider1.png")} alt="populer-products images">
+                                    </div>
+                                    <h2><a href="#">Category_name</a></h2>
+                                    <button class="btn-cart valide-cart">
+                                        <span class="single_product_addtocart">Découvrir</span>
+                                    </button>
+                                </div>
+                            	</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+      
+                <div class="owl-controls clickable">			
+					<div class="owl-buttons">
+							<a class="owl-prev" href="#myCarousel"  data-slide="prev">
+							</a>
+							<a class="owl-next" href="#myCarousel"  data-slide="next">
+							</a>
+					</div>
+				</div>
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                </ol>                
+            </div><!-- End Carousel --> 
+        </div><!-- End Well -->
+    </div>
+</div>

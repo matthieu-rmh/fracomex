@@ -59,6 +59,11 @@
 	#navbar-menu {
 		background-color: #e8e8e8;
 	  }
+	.mini-slide {
+		background: #f8f9fd;
+		display: block;
+		align-items: center;
+	  }  
 }/*max-width:660px*/
 
 @media screen and (max-width: 640px){
@@ -71,6 +76,7 @@
 	#navbar-menu {
 		background-color: #e8e8e8;
 	  }
+	  
 }/*max-width:580px*/
 
 @media screen and (max-width: 540px){

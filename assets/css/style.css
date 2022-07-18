@@ -1202,15 +1202,56 @@ input[type=email] {
     font-weight: 500;
     left: 2rem;
     position: absolute;
-    padding-left: 40px;
+    padding-left: 60px;
     margin-bottom: 40px;
   }  
   .section-header .title-promo::before {
     position: absolute;
     content: "";
-    width: 25px;
-    height: 1px;
-    background: #616060;
+    width: 45px;
+    height: 2px;
+    background: #919191;
     top: 45%;
     left: 0;
   }
+  .owl-controls .owl-buttons{
+    text-align:center;
+    margin-top:20px;
+}
+.owl-controls .owl-buttons .owl-prev{
+    background: #fff;
+    position: absolute;
+    top: 50%;
+    left: -8px;
+    padding: 0 18px 0 15px;
+    border-radius: 50px;
+    box-shadow: 3px 14px 25px -10px #92b4d0;
+    transition: background 0.5s ease 0s;
+    z-index: 1;
+}
+.owl-controls .owl-buttons .owl-next{
+    background: #fff;
+    position: absolute;
+    top: 50%;
+    right: -8px;
+    padding: 0 15px 0 18px;
+    border-radius: 50px;
+    box-shadow: -3px 14px 25px -10px #92b4d0;
+    transition: background 0.5s ease 0s;
+    z-index: 1;
+}
+.owl-controls .owl-buttons .owl-prev:after,
+.owl-controls .owl-buttons .owl-next:after{
+    content:"\f104";
+    font-family: FontAwesome;
+    color: #333;
+    font-size:30px;
+}
+.owl-controls .owl-buttons .owl-next:after{
+    content:"\f105";
+}
+@media only screen and (max-width:1280px) {
+    .post-slide .post-content{
+        padding: 0px 15px 25px 15px;
+    }
+}  
