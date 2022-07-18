@@ -1273,3 +1273,19 @@ input[type=email] {
         padding: 0px 15px 25px 15px;
     }
 }  
+
+
+.itemfamilies-dropdown-menu{
+    /* background-color: lightgreen !important; */
+    /* height: 270px; */
+    max-height: 270px;
+    overflow-y: auto;
+}
+
+#carousel-promotions-indicators{
+    bottom: -10%; 
+}
+
+#user-icon-dropdown{
+    left: -300%;
+}
