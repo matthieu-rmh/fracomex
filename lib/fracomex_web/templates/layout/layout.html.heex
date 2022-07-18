@@ -86,16 +86,27 @@
 				                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
 				                    <i class="fa fa-bars"></i>
 				                </button>
-				                <a class="navbar-brand" href="index.html">Fraco<span>mex</span>.</a>
+				                <a class="navbar-brand" href={Routes.page_path(@conn, :index)}>Fraco<span>mex</span>.</a>
 
 				            </div>
 				            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
 				                <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
 				                    <li class=" scroll active"><a href={Routes.page_path(@conn, :index)}>Accueil</a></li>
-				                    <li class=""><a href={Routes.product_path(@conn, :index)}>Boutique</a></li>
-									
 				                    <li class="dropdown scroll">
-				                        <a href="#" class="dropdown" data-toggle="dropdown" >
+										<a href={Routes.product_path(@conn, :index)} class="dropdown" data-toggle="dropdown">
+											Boutique
+										</a>
+
+										<ul class="dropdown-menu">
+											<%= for item_family <- Fracomex.Products.list_item_families() do %>
+												 <li class="scroll"><a href="#blog"><%= item_family.caption %></a></li>
+											<% end %>
+										 </ul>
+									</li>
+									
+									<!--
+				                    <li class="dropdown scroll">				                        
+										<a href="#" class="dropdown" data-toggle="dropdown" >
 				                            dropdown
 				                        </a>
 				                        <ul class="dropdown-menu">
@@ -103,8 +114,8 @@
 										   <li class="scroll"><a href="#blog">dropdown2</a></li>
 										   <li class="scroll"><a href="#blog">dropdown3</a></li>
 				                        </ul>
-
 				                    </li>
+									-->
 				                    <li class="scroll"><a href="#blog">blog</a></li>
 				                    <li class="scroll"><a href="#newsletter">contact</a></li>
 				                </ul>
