@@ -88,7 +88,7 @@ defmodule FracomexWeb.UsersController do
         render(conn, "signin.html", changeset: changeset, layout: {FracomexWeb.LayoutView, "layout.html"})
       true ->
         # IO.inspect(conn)
-        redirect(conn, to: "/mon_profil")
+        redirect(conn, to: "/mon-profil")
     end
   end
 
