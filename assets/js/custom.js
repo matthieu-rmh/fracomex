@@ -75,12 +75,12 @@ $(document).ready(function(){
 
     // 3. slide animation support
 
-        $(window).load(function(){
+        $(function(){
         	$(".slide-hero-txt h4,.slide-hero-txt h2,.slide-hero-txt p").removeClass("animated fadeInUp").css({'opacity':'0'});
             $(".slide-hero-txt button").removeClass("animated fadeInDown").css({'opacity':'0'});
         });
 
-        $(window).load(function(){
+        $(function(){
         	$(".slide-hero-txt h4,.slide-hero-txt h2,.slide-hero-txt p").addClass("animated fadeInUp").css({'opacity':'0'});
             $(".slide-hero-txt button").addClass("animated fadeInDown").css({'opacity':'0'});
         });
