@@ -10,27 +10,50 @@
 			<div class="all-product-content">
 				<div class="row">
 						<!--col category start -->					
-					<div class="all-category col-md-3 col-sm-4 p-4">					
-						<div id="collapse-category" class="card p-4">
+					<div class="all-category col-md-3 col-sm-4 p-4">	
+					<div class="section-header mb-4">
+					<h3 class="title"> <span class="lnr lnr-cart"></span> Catégories de produits</h3>
+					</div><!--/.section-header-->			
+						<div id="collapse-category" class="card p-4" style="background: none !important;">
 						<ul class="category">
-							<li class="has-child collapsed" id="li-category"  data-toggle="collapse" data-target="#sub-collapse" aria-expanded="true" aria-controls="collapseOne">
+						<%= for item <- @items do %>
+							<li class="has-child collapsed" id="li-category"  data-toggle="collapse" data-target={"#sub-collapse#{item.id}"} aria-expanded="true" aria-controls="collapseOne">
 								<a class="child mb-0" href="#" >
-									Collapsible Item #1
+									Collapsible Item #<%= item.id %>
 								</a>
-								<div id="sub-collapse" class="collapse" aria-labelledby="li-category" data-parent="#collapse-category">
+								<div id={"sub-collapse#{item.id}"} class="collapse" aria-labelledby="li-category" data-parent="#collapse-category">
 									<ul class="sub-category">
 										<li>
-										<a>Collapsible Item #2</a> 
+										<a>Sub-Collapsible Item #<%= item.id %></a> 
 										</li>
 									</ul>
 								</div>
 							</li>
+							
+							<li class="no-child" id="li-category">
+								<a class="child mb-0" href="#" >
+									Collapsible Item #<%= item.id %>
+								</a>
+							</li>
+							
+						<% end %>	
 						</ul>
 						</div>	
 					</div>	
 									
 					<div class="col-md-9 col-sm-12">
-					
+<div class="row filter">
+<div class="col-md-2 align-self-end col-filter">					
+  <div class="form-group">
+    <select class="form-control" id="exampleFormControlSelect1">
+      <option>Trier par défaut</option>
+      <option>Trier par 2</option>
+      <option>Trier par 3</option>
+      <option>Trier par 4</option>
+    </select>
+  </div>
+</div>   
+</div>  
 					<%= for item <- @items do %>
 						
 						<div class="col-md-3 col-sm-4 content-product">

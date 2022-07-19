@@ -97,7 +97,7 @@
 
 				            </div>
 				            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
-				                <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
+				                <ul class="nav navbar-nav navbar-center" data-in="fadeIn" data-out="fadeOut" style="animation-delay: 0s;">
 				                    <li class={"scroll #{if @conn.request_path=="/", do: "active"}"}><a href={Routes.page_path(@conn, :index)}>Accueil</a></li>
 				                    <li class={"dropdown scroll #{if @conn.request_path=="/product", do: "active"}"}>
 										<a href={Routes.product_path(@conn, :index)} class="dropdown" data-toggle="">

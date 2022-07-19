@@ -1302,15 +1302,22 @@ input[type=email] {
 }
 
 /*sidebar category*/
-.all-category {
+ .all-category {
     left: 10px;
-  }  
+  } 
+  ul.category{ 
+  line-height: 2;
+  width: 100%;
+  }
+  #collapse-category{
+    outline: 2px solid #1995cc;
+    outline-offset: -6px;
+  } 
   #li-category {
-    text-align: center;
+    text-align: start;
   }
   .sub-category {
     margin-left: 40px;
-    margin-top: 10px;
   }  
   .has-child > a:after {
     font-family: "Font Awesome 5 Free";
@@ -1327,7 +1334,6 @@ input[type=email] {
     background: 0 0;
     position: absolute;
     right: 15px;
-    top: 14px;
     transition: content 0.5s ease 0s;
   }
   .has-child.collapsed > a:after {
@@ -1345,5 +1351,11 @@ input[type=email] {
     background: 0 0;
     position: absolute;
     right: 15px;
-    top: 14px;
   }
+  /*filter*/
+.col-filter{
+float: inline-end;
+text-align: end;
+margin: 0 10px 10px;
+margin-bottom: -10px !important;
+}
