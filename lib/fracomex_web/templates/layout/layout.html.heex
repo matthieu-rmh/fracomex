@@ -295,21 +295,19 @@ $("#toggleCurrentPassword").click(function(){
   this.classList.toggle('fa-eye-slash');
 });
 </script>
-<!--script>
-var product_content = document.querySelector(".all-product-content");
-for (var x = 1; x < product_content.length; x++) {
-  
-
-  $(".details-product"+x).hover(function () {
-    $(".product-name").css( { "margin-top" : "150px","transition" : "0.3s" } );
-	  $(".product-price").css( { "margin-top" : "200px","transition" : "0.3s" } );
+<script>
+var details_product = <%= Enum.count(@items) %>
+for (let pas = 0; pas <= details_product; pas++) {
+  $('#product-'+ pas).hover(function () {
+    $("#name-"+ pas).css( { "margin-top" : "150px","transition" : "0.3s", "background-color" : "white", "width" : "100%" } );
+	  $("#price-"+ pas).css( { "margin-top" : "220px","transition" : "0.3s", "background-color" : "white", "width" : "100%" } );
 }, 
 function () {
-    $(".product-name").css( { "margin-top" : "200px","transition" : "0.3s" } );
-	  $(".product-price").css( { "margin-top" : "250px","transition" : "0.3s" } );
+    $("#name-"+ pas).css( { "margin-top" : "200px","transition" : "0.3s", "background" : "none"} );
+	  $("#price-"+ pas).css( { "margin-top" : "280px","transition" : "0.3s", "background" : "none"} );
 });
 }
-</script-->
+</script>
         </footer>
 	<!--footer end-->
   </body>
