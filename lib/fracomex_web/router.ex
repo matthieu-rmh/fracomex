@@ -28,21 +28,21 @@ defmodule FracomexWeb.Router do
     get "/connexion", UsersController, :signin
     get "/inscription", UsersController, :signup
     get "/deconnexion", UsersController, :signout
-    get "/verification_confirmation_mai", UsersController, :check_signup_mail
-    get "/verification_motdepasse_oublie", UsersController, :check_forgotten_password_mail
-    get "/motdepasse_oublie", UsersController, :forgot_password
-    get "/renvoi_verification_mail", UsersController, :resend_confirmation_mail
-    get "/mon_profil", UsersController, :my_account
-    get "/mon_adresse", UsersController, :my_address
+    get "/verification-confirmation-mail", UsersController, :check_signup_mail
+    get "/verification-mdp-oublie", UsersController, :check_forgotten_password_mail
+    get "/mdp-oublie", UsersController, :forgot_password
+    get "/renvoi-verification-mail", UsersController, :resend_confirmation_mail
+    get "/mon-profil", UsersController, :my_account
+    get "/mon-adresse", UsersController, :my_address
 
-    post "/valider_connexion", UsersController, :submit_signin
-    post "/valider_inscription", UsersController, :submit_signup
-    post "/envoi_mail_motdepasse_oublie", UsersController, :submit_forgotten_password
-    post "/renvoi_mail_confirmation", UsersController, :submit_resend_confirmation_mail
+    post "/valider-connexion", UsersController, :submit_signin
+    post "/valider-inscription", UsersController, :submit_signup
+    post "/envoi-mail-mdp-oublie", UsersController, :submit_forgotten_password
+    post "/renvoi-mail-confirmation", UsersController, :submit_resend_confirmation_mail
 
-    put "/modifier_motdepasse/:id", UsersController, :submit_new_password_forgotten
-    put "/modifier_profil/:id", UsersController, :edit_my_account
-    put "/modifier_adresse/:id", UsersController, :edit_my_address
+    put "/modifier-motdepasse/:id", UsersController, :submit_new_password_forgotten
+    put "/modifier-profil/:id", UsersController, :edit_my_account
+    put "/modifier-adresse/:id", UsersController, :edit_my_address
   end
 
   # Other scopes may use custom stacks.
