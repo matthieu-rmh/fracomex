@@ -6,15 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="csrf-token" content={csrf_token_value()}>
     <%= live_title_tag assigns[:page_title] || "Fracomex" %>
-    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/fontawesome.min.css" integrity="sha512-xX2rYBFJSj86W54Fyv1de80DWBq7zYLn2z0I9bIhQG+rxIF6XVJUpdGnsNHWRa6AvP89vtFupEPDP8eZAtu9qA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/linearicons@1.0.2/dist/web-font/style.min.css"/>
-    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
   <body>
 		<header id="home" class="slide-hero">
@@ -213,90 +204,24 @@
 					<i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
 				</div>
 			</div>
-<script>
-  $( document ).ready(function() {
-	$("#search").click(function(){
-	  $("#search-nav").slideToggle("500", "easeInOutCirc");
-	  $(".sb").focus();
-	  $("#search").hide("500", "easeInOutCirc");
-	  $(".top-section").css( { "margin-top" : "170px","transition" : "0.3s" } );
-	});
-	$("#close-search").click(function(){
-	  $("#search-nav").slideToggle("500", "easeInOutCirc");
-	  $(".sb").focus();
-	  $("#search").show("500", "easeInOutCirc");
-	  $(".top-section").css( { "margin-top" : "110px", "transition" : "0.3s" } );  
-	});
-  });
-</script>
-<script>
-function increaseCount(a, b) {
-	var input = b.previousElementSibling;
-	var value = parseInt(input.value, 10);
-	value = isNaN(value) ? 0 : value;
-	value++;
-	input.value = value;
-  }
-  
-  function decreaseCount(a, b) {
-	var input = b.nextElementSibling;
-	var value = parseInt(input.value, 10);
-	if (value > 1) {
-	  value = isNaN(value) ? 0 : value;
-	  value--;
-	  input.value = value;
-	}
-  }
-</script>  
-<script>    
-var togglePassword = document.querySelector("#togglePassword");
-var password = document.querySelector("#password");
-$("#togglePassword").click(function(){
-  // toggle the type attribute
-  var type = password.getAttribute("type") === "password" ? "text" : "password";
-  password.setAttribute("type", type);
-  // toggle the eye icon
-  this.classList.toggle('fa-eye');
-  this.classList.toggle('fa-eye-slash');
-});
-
-var toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
-var confirm_password = document.querySelector("#confirm_password");
-$("#toggleConfirmPassword").click(function(){
-  // toggle the type attribute
-  var type = confirm_password.getAttribute("type") === "password" ? "text" : "password";
-  confirm_password.setAttribute("type", type);
-  // toggle the eye icon
-  this.classList.toggle('fa-eye');
-  this.classList.toggle('fa-eye-slash');
-});
-
-var toggleCurrentPassword = document.querySelector("#toggleCurrentPassword");
-var current_password = document.querySelector("#current_password");
-$("#toggleCurrentPassword").click(function(){
-  // toggle the type attribute
-  var type = current_password.getAttribute("type") === "password" ? "text" : "password";
-  current_password.setAttribute("type", type);
-  // toggle the eye icon
-  this.classList.toggle('fa-eye');
-  this.classList.toggle('fa-eye-slash');
-});
-</script>
-<script>
-var details_product = <%= Enum.count(@items) %>
-for (let pas = 0; pas <= details_product; pas++) {
-  $('#product-'+ pas).hover(function () {
-    $("#name-"+ pas).css( { "margin-top" : "150px","transition" : "0.3s", "background-color" : "white", "width" : "100%" } );
-	  $("#price-"+ pas).css( { "margin-top" : "220px","transition" : "0.3s", "background-color" : "white", "width" : "100%" } );
-}, 
-function () {
-    $("#name-"+ pas).css( { "margin-top" : "200px","transition" : "0.3s", "background" : "none"} );
-	  $("#price-"+ pas).css( { "margin-top" : "280px","transition" : "0.3s", "background" : "none"} );
-});
-}
-</script>
         </footer>
 	<!--footer end-->
   </body>
+  <script>
+    $( document ).ready(function() {
+    $("#search").click(function(){
+      $("#search-nav").slideToggle("500", "easeInOutCirc");
+      $(".sb").focus();
+      $("#search").hide("500", "easeInOutCirc");
+      $(".top-section").css( { "margin-top" : "170px","transition" : "0.3s" } );
+    });
+    $("#close-search").click(function(){
+      $("#search-nav").slideToggle("500", "easeInOutCirc");
+      $(".sb").focus();
+      $("#search").show("500", "easeInOutCirc");
+      $(".top-section").css( { "margin-top" : "110px", "transition" : "0.3s" } );  
+    });
+    });
+  </script>
 </html>
 
