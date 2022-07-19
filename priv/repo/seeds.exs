@@ -70,20 +70,20 @@ items = [
   }
 ]
 
-items_families = [
-  %ItemFamily{
-    item_family_id: "",
-    caption: "Gaine de protection"
-  },
-  %ItemFamily{
-    item_family_id: "",
-    caption: "Conduits"
-  },
-  %ItemFamily{
-    item_family_id: "",
-    caption: "Pinceaux"
-  }
-]
+# items_families = [
+#   %ItemFamily{
+#     item_family_id: "",
+#     caption: "Gaine de protection"
+#   },
+#   %ItemFamily{
+#     item_family_id: "",
+#     caption: "Conduits"
+#   },
+#   %ItemFamily{
+#     item_family_id: "",
+#     caption: "Pinceaux"
+#   }
+# ]
 
 items_sub_families = [
   %ItemSubFamily{

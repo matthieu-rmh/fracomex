@@ -10,6 +10,16 @@ config :fracomex, Fracomex.Repo,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
+config :fracomex, Fracomex.EbpRepo,
+  username: "sa",
+  password: "@ebp78EBP",
+  hostname: "37.59.57.29",
+  database: "FRACOMEX_0895452f-b7c1-4c00-a316-c6a6d0ea4bf4",
+  instance: "EBP_2017",
+  stacktrace: true,
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
