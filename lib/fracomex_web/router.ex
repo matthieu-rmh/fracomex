@@ -18,30 +18,31 @@ defmodule FracomexWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/product", ProductController, :index
+    get "/boutique", ProductController, :index
 
     get "/product-details", SingleProductController, :index
 
-    get "/cart", CartController, :index
+    get "/panier", CartController, :index
 
-    get "/users", UsersController, :index
-    get "/signin", UsersController, :signin
-    get "/signup", UsersController, :signup
-    get "/check_signup_mail", UsersController, :check_signup_mail
-    get "/check_forgotten_password_mail", UsersController, :check_forgotten_password_mail
-    get "/forgot_password", UsersController, :forgot_password
-    get "/resend_confirmation_mail", UsersController, :resend_confirmation_mail
-    get "/my_account", UsersController, :my_account
-    get "/my_address", UsersController, :my_address
+    # get "/users", UsersController, :index
+    get "/connexion", UsersController, :signin
+    get "/inscription", UsersController, :signup
+    get "/deconnexion", UsersController, :signout
+    get "/verification_confirmation_mai", UsersController, :check_signup_mail
+    get "/verification_motdepasse_oublie", UsersController, :check_forgotten_password_mail
+    get "/motdepasse_oublie", UsersController, :forgot_password
+    get "/renvoi_verification_mail", UsersController, :resend_confirmation_mail
+    get "/mon_profil", UsersController, :my_account
+    get "/mon_adresse", UsersController, :my_address
 
-    post "/submit_signin", UsersController, :submit_signin
-    post "/submit_signup", UsersController, :submit_signup
-    post "/submit_forgotten_password", UsersController, :submit_forgotten_password
-    post "/submit_resend_confirmation_mail", UsersController, :submit_resend_confirmation_mail
+    post "/valider_connexion", UsersController, :submit_signin
+    post "/valider_inscription", UsersController, :submit_signup
+    post "/envoi_mail_motdepasse_oublie", UsersController, :submit_forgotten_password
+    post "/renvoi_mail_confirmation", UsersController, :submit_resend_confirmation_mail
 
-    put "/submit_new_password_forgotten/:id", UsersController, :submit_new_password_forgotten
-    put "/edit_my_account/:id", UsersController, :edit_my_account
-    put "/edit_my_address/:id", UsersController, :edit_my_address
+    put "/modifier_motdepasse/:id", UsersController, :submit_new_password_forgotten
+    put "/modifier_profil/:id", UsersController, :edit_my_account
+    put "/modifier_adresse/:id", UsersController, :edit_my_address
   end
 
   # Other scopes may use custom stacks.

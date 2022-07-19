@@ -100,7 +100,7 @@
 										{error, _} = @changeset.errors[:password]
 										{error, "is-invalid"}
 									not is_nil(@changeset.action) and is_nil(@changeset.errors[:password]) ->
-										{"", "is-valid"}
+										{"", ""}
 									true ->
 										{"", ""}
 									end
@@ -123,7 +123,7 @@
 										{error, _} = @changeset.errors[:password_confirmation]
 										{error, "is-invalid"}
 									not is_nil(@changeset.action) and is_nil(@changeset.errors[:password_confirmation]) ->
-										{"", "is-valid"}
+										{"", ""}
 									true ->
 										{"", ""}
 									end
