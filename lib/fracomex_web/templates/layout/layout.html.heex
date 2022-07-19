@@ -214,6 +214,7 @@
 			</div>
 <script>
   $( document ).ready(function() {
+	//search
 	$("#search").click(function(){
 	  $("#search-nav").slideToggle("500", "easeInOutCirc");
 	  $(".sb").focus();
@@ -226,9 +227,17 @@
 	  $("#search").show("500", "easeInOutCirc");
 	  $(".top-section").css( { "margin-top" : "110px", "transition" : "0.3s" } );  
 	});
+	//cart-close
+	$(".cart-close").click(function(){
+		$(this).parents(".single-cart-list").fadeOut();
+	});
+	$(".cart-remove").click(function(){
+		$(".cart-product").fadeOut();
+	});
   });
 </script>
 <script>
+//up $ down count cart
 function increaseCount(a, b) {
 	var input = b.previousElementSibling;
 	var value = parseInt(input.value, 10);
@@ -247,7 +256,8 @@ function increaseCount(a, b) {
 	}
   }
 </script>  
-<script>    
+<script> 
+//password   
 var togglePassword = document.querySelector("#togglePassword");
 var password = document.querySelector("#password");
 $("#togglePassword").click(function(){
@@ -282,6 +292,7 @@ $("#toggleCurrentPassword").click(function(){
 });
 </script>
 <script>
+//margin dynamic
 var details_product = <%= Enum.count(@items) %>
 for (let pas = 0; pas <= details_product; pas++) {
   $('#product-'+ pas).hover(function () {

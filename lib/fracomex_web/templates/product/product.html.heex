@@ -7,14 +7,33 @@
 </section>
 <!--all product start -->
 		<section id="new-arrivals" class="all-product">
-			<div class="container">
-				<div class="section-header">
-				
-				</div><!--/.section-header-->
-				<div class="all-product-content">
-					<div class="row">
+			<div class="all-product-content">
+				<div class="row">
+						<!--col category start -->					
+					<div class="all-category col-md-3 col-sm-4 p-4">					
+						<div id="collapse-category" class="card p-4">
+						<ul class="category">
+							<li class="has-child collapsed" id="li-category"  data-toggle="collapse" data-target="#sub-collapse" aria-expanded="true" aria-controls="collapseOne">
+								<a class="child mb-0" href="#" >
+									Collapsible Item #1
+								</a>
+								<div id="sub-collapse" class="collapse" aria-labelledby="li-category" data-parent="#collapse-category">
+									<ul class="sub-category">
+										<li>
+										<a>Collapsible Item #2</a> 
+										</li>
+									</ul>
+								</div>
+							</li>
+						</ul>
+						</div>	
+					</div>	
+									
+					<div class="col-md-9 col-sm-12">
+					
 					<%= for item <- @items do %>
-						<div class="col-md-3 col-sm-4">
+						
+						<div class="col-md-3 col-sm-4 content-product">
 							<div class="details-product" id="details">
 							<a href={Routes.single_product_path(@conn, :index)}>
 								<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
@@ -48,12 +67,31 @@
 								
 							</a>	
 							</div>
-							
-						</div>
+					</div>		
 					<% end %>
-					</div>
 				</div>
-			</div><!--/.container-->
+				<nav aria-label="pagination" class="text-center">
+				<ul class="pagination">
+					<li class="page-item">
+					<a class="page-link" href="#" aria-label="Previous">
+						<span aria-hidden="true">&laquo;</span>
+						<span class="sr-only">Previous</span>
+					</a>
+					</li>
+					<li class="page-item"><a class="page-link" href="#">1</a></li>
+					<li class="page-item"><a class="page-link" href="#">2</a></li>
+					<li class="page-item"><a class="page-link" href="#">3</a></li>
+					<li class="page-item">
+					<a class="page-link" href="#" aria-label="Next">
+						<span aria-hidden="true">&raquo;</span>
+						<span class="sr-only">Next</span>
+					</a>
+					</li>
+				</ul>
+				</nav>
+			</div>
+		</div>
+	
 		
-		</section><!--/.new-arrivals-->
+	</section><!--/.new-arrivals-->
 		<!--new-arrivals end -->
