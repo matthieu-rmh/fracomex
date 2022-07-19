@@ -83,7 +83,7 @@ defmodule Fracomex.Accounts.User do
     |> validate_required(:password, message: "Entrez mot de passe")
     |> validate_required(:country_id, message: "Sélectionnez un pays")
     |> validate_required(:city_id, message: "Sélectionnez une ville")
-    |> validate_format(:mail_address, ~r<(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])>, message: "Format d'email non valide")
+    |> validate_format(:mail_address, ~r/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, message: "Format d'email non valide")
     |> unique_mail_address()
     # |> validate_format(:phone_number, ~r/^[0-9][A-Za-z0-9 -]*$/, message: "Entrez un numéro")
     |> validate_password_confirmation(attrs)
@@ -114,7 +114,7 @@ defmodule Fracomex.Accounts.User do
     |> validate_required(:mail_address, message: "Entrez votre adresse email")
     |> validate_format(:mail_address, ~r<(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])>, message: "Format d'email non valide")
     |> check_if_mail_address_exist()
-    |>check_if_account_is_not_already_valid()
+    |> check_if_account_is_not_already_valid()
     |> apply_action(:resend_confirmation_mail)
   end
 
@@ -258,7 +258,7 @@ defmodule Fracomex.Accounts.User do
       mail_address in list_mail_addresses ->
         add_error(changeset, :mail_address, "Adresse email déjà prise")
       true ->
-        changeset
+        changeset |> validate_format(:mail_address, ~r/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, message: "Format d'email non valide")
     end
   end
 

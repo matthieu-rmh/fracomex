@@ -1289,3 +1289,8 @@ input[type=email] {
 #user-icon-dropdown{
     left: -300%;
 }
+
+#shop-banner{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}

@@ -2,7 +2,7 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="#">Mes commandes</a></li>
-        <li class="breadcrumb-item active" aria-current="page"><a href={Routes.users_path(@conn, :my_address)} style={if (@conn.request_path=="/my_address" or @conn.request_path=="/edit_my_address/#{@user.id}"), do: selected_link, else: ""}>Mon adresse</a></li>
-        <li class="breadcrumb-item"><a href={Routes.users_path(@conn, :my_account)} style={if (@conn.request_path=="/my_account" or @conn.request_path=="/edit_my_account/#{@user.id}"), do: selected_link, else: ""}>Mon profil</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><a href={Routes.users_path(@conn, :my_address)} style={if (@conn.request_path=="/mon_adresse" or @conn.request_path=="/modifier_adresse/#{@user.id}"), do: selected_link, else: ""}>Mon adresse</a></li>
+        <li class="breadcrumb-item"><a href={Routes.users_path(@conn, :my_account)} style={if (@conn.request_path=="/mon_profil" or @conn.request_path=="/modifier_profil/#{@user.id}"), do: selected_link, else: ""}>Mon profil</a></li>
     </ol>
 </nav>

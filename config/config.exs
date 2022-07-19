@@ -12,7 +12,7 @@ config :fracomex,
 
 # Configures the endpoint
 config :fracomex, FracomexWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "162.19.74.21"],
   render_errors: [view: FracomexWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Fracomex.PubSub,
   live_view: [signing_salt: "vQgynYPm"]

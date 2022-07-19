@@ -49,7 +49,7 @@ defmodule FracomexWeb.UsersController do
   def my_account(conn, _params) do
     cond do
       is_nil(get_session(conn, :user_id)) ->
-        redirect(conn, to: "/signin")
+        redirect(conn, to: "/connexion")
       true ->
         user_id = get_session(conn, :user_id)
         user = Accounts.get_user!(user_id)
@@ -63,7 +63,7 @@ defmodule FracomexWeb.UsersController do
 
     cond do
       is_nil(get_session(conn, :user_id)) ->
-        redirect(conn, to: "/signin")
+        redirect(conn, to: "/connexion")
       true ->
         user_id = get_session(conn, :user_id)
         user = Accounts.get_user_with_city!(user_id)
@@ -76,9 +76,9 @@ defmodule FracomexWeb.UsersController do
 
   end
 
-  def index(conn, _params) do
-    render(conn, "signin.html", layout: {FracomexWeb.LayoutView, "layout.html"})
-  end
+  # def index(conn, _params) do
+  #   render(conn, "signin.html", layout: {FracomexWeb.LayoutView, "layout.html"})
+  # end
 
   # Page de connexion
   def signin(conn, _params) do
@@ -88,7 +88,7 @@ defmodule FracomexWeb.UsersController do
         render(conn, "signin.html", changeset: changeset, layout: {FracomexWeb.LayoutView, "layout.html"})
       true ->
         # IO.inspect(conn)
-        redirect(conn, to: "/my_account")
+        redirect(conn, to: "/mon_profil")
     end
   end
 
@@ -104,6 +104,12 @@ defmodule FracomexWeb.UsersController do
                 |> Enum.map(fn city -> [key: city.name, value: city.id] end)
 
     render(conn, "signup.html", changeset: changeset, countries: countries, cities: cities, layout: {FracomexWeb.LayoutView, "layout.html"})
+  end
+
+  def signout(conn, _params) do
+    conn
+    |> delete_session(:user_id)
+    |> redirect(to: "/")
   end
 
   # Validation de formulaire d'inscription avec envoi de mail de confirmation
@@ -139,7 +145,7 @@ defmodule FracomexWeb.UsersController do
         id = Accounts.get_user_by_mail_address!(user_params["mail_address"]).id
         conn
         |> put_session(:user_id, id)
-        |>redirect(to: "/product")
+        |>redirect(to: "/boutique")
     end
   end
 
