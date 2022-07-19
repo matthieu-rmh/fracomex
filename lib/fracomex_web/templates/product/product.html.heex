@@ -17,6 +17,7 @@
 						<div id="collapse-category" class="card p-4" style="background: none !important;">
 						<ul class="category">
 						<%= for item <- @items do %>
+							<!--/has sub-category-->	
 							<li class="has-child collapsed" id="li-category"  data-toggle="collapse" data-target={"#sub-collapse#{item.id}"} aria-expanded="true" aria-controls="collapseOne">
 								<a class="child mb-0" href="#" >
 									Collapsible Item #<%= item.id %>
@@ -24,12 +25,12 @@
 								<div id={"sub-collapse#{item.id}"} class="collapse" aria-labelledby="li-category" data-parent="#collapse-category">
 									<ul class="sub-category">
 										<li>
-										<a>Sub-Collapsible Item #<%= item.id %></a> 
+										<a href="#">Sub-Collapsible Item #<%= item.id %></a> 
 										</li>
 									</ul>
 								</div>
 							</li>
-							
+							<!--/has not sub-category-->
 							<li class="no-child" id="li-category">
 								<a class="child mb-0" href="#" >
 									Collapsible Item #<%= item.id %>
@@ -42,18 +43,18 @@
 					</div>	
 									
 					<div class="col-md-9 col-sm-12">
-<div class="row filter">
-<div class="col-md-2 align-self-end col-filter">					
-  <div class="form-group">
-    <select class="form-control" id="exampleFormControlSelect1">
-      <option>Trier par défaut</option>
-      <option>Trier par 2</option>
-      <option>Trier par 3</option>
-      <option>Trier par 4</option>
-    </select>
-  </div>
-</div>   
-</div>  
+						<div class="row filter">
+							<div class="col-md-2 align-self-end col-filter">					
+							<div class="form-group">
+								<select class="form-control" id="exampleFormControlSelect1">
+								<option>Trier par défaut</option>
+								<option>Trier par 2</option>
+								<option>Trier par 3</option>
+								<option>Trier par 4</option>
+								</select>
+							</div>
+							</div>   
+						</div>  
 					<%= for item <- @items do %>
 						
 						<div class="col-md-3 col-sm-4 content-product">
