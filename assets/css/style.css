@@ -715,6 +715,7 @@ ul.cart-list > li.total {
     align-items: center;
     justify-content:center;
     overflow:hidden;
+    cursor: pointer;
 }
 .single-product-bg img{
     width:auto;
