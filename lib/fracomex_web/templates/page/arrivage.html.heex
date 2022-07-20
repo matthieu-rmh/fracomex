@@ -9,7 +9,7 @@
 					<%= for item <- @items do %>
 						<div class="col-md-3 col-sm-4">
 							<div class={"details-product-#{item.id}"} id="details">
-							<a href={Routes.single_product_path(@conn, :index, item.caption)} class={"product-#{item.id}"} >
+							<a href={Routes.product_path(@conn, :product_details, item.caption)} class={"product-#{item.id}"} >
 								<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
 									<img src={Routes.static_path(@conn, "#{item.item_image}")} alt={item.item_image}>
 									<div class="single-product-bg-overlay"></div>
