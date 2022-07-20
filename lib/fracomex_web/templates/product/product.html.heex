@@ -6,10 +6,10 @@
             </div>
 </section>
 <!--all product start -->
-		<section id="new-arrivals" class="all-product">
-			<div class="all-product-content">
-				<div class="row">
-						<!--col category start -->					
+	<section id="new-arrivals" class="all-product">
+		<div class="all-product-content">
+			<div class="row">
+				<!--col category start -->					
 					<div class="all-category col-md-3 col-sm-4 p-4">	
 					<div class="section-header mb-4">
 					<h3 class="title"> <span class="lnr lnr-cart"></span> Catégories de produits</h3>
@@ -19,20 +19,20 @@
 						<%= for item <- @items do %>
 							<!--/has sub-category-->	
 							<li class="has-child collapsed" id="li-category"  data-toggle="collapse" data-target={"#sub-collapse#{item.id}"} aria-expanded="true" aria-controls="collapseOne">
-								<a class="child mb-0" href="#" >
+								<a class="child mb-0" href="##" >
 									Collapsible Item #<%= item.id %>
 								</a>
 								<div id={"sub-collapse#{item.id}"} class="collapse" aria-labelledby="li-category" data-parent="#collapse-category">
 									<ul class="sub-category">
 										<li>
-										<a href="#">Sub-Collapsible Item #<%= item.id %></a> 
+										<a href="*">Sub-Collapsible Item #<%= item.id %></a> 
 										</li>
 									</ul>
 								</div>
 							</li>
 							<!--/has not sub-category-->
 							<li class="no-child" id="li-category">
-								<a class="child mb-0" href="#" >
+								<a class="child mb-0" href="##" >
 									Collapsible Item #<%= item.id %>
 								</a>
 							</li>
@@ -56,7 +56,7 @@
 							</div>   
 						</div>  
 					<%= for item <- @items do %>
-						
+					<div class="product-grid">	
 						<div class="col-md-3 col-sm-4 content-product">
 							<div class="details-product" id="details">
 							<a href={Routes.single_product_path(@conn, :index)}>
@@ -67,14 +67,14 @@
 										<p hidden>news</p>
 										<p>Arrivage</p>
 									</div>
-								<!--product_title-->
-								<div class="product-name" id={"name-#{item.id}"}>	
-								<a class="a-product-name" href="#"><%= item.caption %></a>
-								</div>
-								<!--product_price-->
-								<div class="product-price" id={"price-#{item.id}"}>
-								<p class="p-product-price"><%= item.sale_price_vat_excluded %> €</p>
-								</div>
+									<!--product_title-->
+									<div class="product-name" id={"name-#{item.id}"}>	
+									<a class="a-product-name" href="#"><%= item.caption %></a>
+									</div>
+									<!--product_price-->
+									<div class="product-price" id={"price-#{item.id}"}>
+									<p class="p-product-price"><%= item.sale_price_vat_excluded %> €</p>
+									</div>
 									<div class="new-arrival-cart">
 										<p class="add-to-cart">
 											<a href="#">
@@ -91,6 +91,7 @@
 								
 							</a>	
 							</div>
+						</div>	
 					</div>		
 					<% end %>
 				</div>

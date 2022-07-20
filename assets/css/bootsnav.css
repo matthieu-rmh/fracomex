@@ -761,17 +761,27 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
     }
     
     nav.navbar.bootsnav.menu-center ul.nav.navbar-center{
-        float:none;
+        float:initial;
         margin: 0 auto;
         display: table;
         table-layout: fixed;
     }
     .navbar-center{
-        float:none;
-        margin: 0 auto;
-        display: table !important;
-        table-layout: fixed !important;
+        float:initial;
+        margin: 0 auto !important;
+        display: flex !important;
+        justify-content: center;
+        position: relative !important;
     }
+    @media (min-width: 1024px){
+    .navbar-center {
+      float: initial;
+      margin: 0 auto !important;
+      display: flex !important;
+      position: relative !important;
+      margin-left: -43px !important;
+    }
+}
     nav.navbar.bootsnav.menu-center .navbar-header,
     nav.navbar.bootsnav.menu-center .attr-nav{
         position: absolute;

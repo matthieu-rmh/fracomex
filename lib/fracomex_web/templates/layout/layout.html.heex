@@ -97,9 +97,9 @@
 
 				            </div>
 				            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
-				                <ul class="nav navbar-nav navbar-center" data-in="fadeIn" data-out="fadeOut" style="animation-delay: 0s;">
+				                <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp" style="animation-delay: 0.5s;">
 				                    <li class={"scroll #{if @conn.request_path=="/", do: "active"}"}><a href={Routes.page_path(@conn, :index)}>Accueil</a></li>
-				                    <li class={"dropdown scroll #{if @conn.request_path=="/product", do: "active"}"}>
+				                    <li class={"dropdown scroll #{if @conn.request_path=="/boutique", do: "active"}"}>
 										<a href={Routes.product_path(@conn, :index)} class="dropdown" data-toggle="">
 											Boutique
 										</a>
@@ -129,7 +129,7 @@
 				                    </li>
 									-->
 				                    <!--  <li class="scroll"><a href="#blog">blog</a></li> -->
-				                    <li class="scroll"><a href="">contact</a></li>
+				                    <li class={"scroll #{if @conn.request_path=="/contact", do: "active"}"}><a href="#">contact</a></li>
 				                </ul>
 				            </div>
 				        </div>
