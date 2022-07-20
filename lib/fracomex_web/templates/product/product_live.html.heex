@@ -16,12 +16,12 @@
 			<%= for item <- @items do %>
 				<div class="col-md-3 col-sm-4">
 					<div class="details-product" id="details">
-						<a
-							href={Routes.single_product_path(@socket, :index, item.caption)} 
-							data-phx-link="redirect" 
-							data-phx-link-state="push" 
-						>
-							<div class="single-product-bg shadow">
+						<div class="single-product-bg shadow">
+							<div 
+								phx-value-id={item.id}
+								phx-value-caption={item.caption}
+								phx-click="show-product-details"
+							>
 								<img src={Routes.static_path(@socket, "#{item.item_image}")} alt={item.caption}>
 								<div class="single-product-bg-overlay"></div>
 								<div hidden class="sale bg-1">
@@ -39,8 +39,8 @@
 								<div class="new-arrival-cart">
 									<p class="add-to-cart">
 										<a href="#">
-										<span class="lnr lnr-cart"></span>
-										<span class="addtocart">Ajouter au panier</span>
+											<span class="lnr lnr-cart"></span>
+											<span class="addtocart">Ajouter au panier</span>
 										</a>
 									</p>
 									<!--p class="arrival-review pull-right">
@@ -49,8 +49,7 @@
 									</p-->
 								</div>
 							</div>
-							
-						</a>	
+						</div>
 					</div>
 					
 				</div>
