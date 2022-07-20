@@ -1,0 +1,61 @@
+<section class="top-section p-4">
+	<div class="container px-4 px-lg-5 my-5">
+		<div class="text-center">
+			<h1 class="">Page_Title</h1>
+		</div>
+	</div>
+</section>
+<!--new-arrivals start -->
+<section id="product-single" class="product-single">
+	<div class="container">
+		<div class="section-header">
+		
+		</div><!--/.section-header-->
+		<div class="new-arrivals-content">
+			<div class="row">
+				<div class="col-md-6 col-sm-8">
+					<div class="single-product">
+						<div class="single-product-bg">
+
+							<%= if not is_nil(@item_get_by_id) do %>
+								<img src={@item_get_by_id.item_image} alt="product_img">
+							<% end %>
+
+							<div hidden class="sale bg-1">
+								<p>Promotions</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-8">
+					<div class="details">
+						<%= if not is_nil(@item_get_by_id) do %>
+							<h2 class="details-product-name"><%= @item_get_by_id.caption %> </h2>
+							<p>Catégorie : Product_category</p>
+							<h3 class="details-product-price"><%= @item_get_by_id.sale_price_vat_excluded %> €</h3>
+							<div class="row">
+								<div class="col-md-2 col-sm-4">
+									<div class="counter">
+										<span class="down" onClick='decreaseCount(event, this)'>-</span>
+											<input type="text" value="1">
+										<span class="up" onClick='increaseCount(event, this)'>+</span>
+									</div>
+								</div>
+							</div>
+						<% end %>
+					</div>
+					<div 
+						phx-click="show-cart-product"
+						class="button-cart product-add-cart" 
+					>	
+						<span class="lnr lnr-cart"></span>
+						<span class="single_product_addtocart">Ajouter au panier</span>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div><!--/.container-->
+
+</section><!--/.new-arrivals-->
+<!--new-arrivals end -->
