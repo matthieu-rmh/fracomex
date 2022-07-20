@@ -6,8 +6,7 @@ defmodule Fracomex.Products do
   import Ecto.Query, warn: false
   alias Fracomex.Repo
 
-  alias Fracomex.Products.Item
-
+  alias Fracomex.Products.{Item, ItemFamily, ItemSubFamily}
   @doc """
   Returns the list of items.
 
@@ -102,7 +101,7 @@ defmodule Fracomex.Products do
     Item.changeset(item, attrs)
   end
 
-  alias Fracomex.Products.ItemFamily
+
 
   @doc """
   Returns the list of item_families.
@@ -115,6 +114,12 @@ defmodule Fracomex.Products do
   """
   def list_item_families do
     Repo.all(ItemFamily)
+  end
+
+  def list_item_family_ids do
+    query = from item_family in ItemFamily,
+            select: item_family.item_family_id
+    Repo.all(query)
   end
 
   @doc """
@@ -133,6 +138,12 @@ defmodule Fracomex.Products do
   """
   def get_item_family!(id), do: Repo.get!(ItemFamily, id)
 
+  def get_item_family_caption!(id) do
+    query = from item_family in ItemFamily,
+            where: item_family.item_family_id == ^id,
+            select: item_family.caption
+    Repo.one(query)
+  end
   @doc """
   Creates a item_family.
 
@@ -149,6 +160,10 @@ defmodule Fracomex.Products do
     %ItemFamily{}
     |> ItemFamily.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def insert_item_families(list) do
+    Repo.insert_all(ItemFamily, list)
   end
 
   @doc """
@@ -185,6 +200,12 @@ defmodule Fracomex.Products do
     Repo.delete(item_family)
   end
 
+  def delete_item_families(ids) do
+    query = from item_family in ItemFamily,
+            where: item_family.item_family_id in ^ids
+    Repo.delete_all(query)
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking item_family changes.
 
@@ -198,7 +219,7 @@ defmodule Fracomex.Products do
     ItemFamily.changeset(item_family, attrs)
   end
 
-  alias Fracomex.Products.ItemSubFamily
+
 
   @doc """
   Returns the list of item_sub_families.
