@@ -1,11 +1,12 @@
 defmodule Fracomex.Products.ItemFamily do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Fracomex.Products.ItemSubFamily
 
   @primary_key {:item_family_id, :string, autogenerate: false}
   schema "item_families" do
     field :caption, :string
-
+    has_many :sub_families, ItemSubFamily
   end
 
   @doc false

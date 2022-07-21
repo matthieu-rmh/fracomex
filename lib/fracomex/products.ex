@@ -138,6 +138,18 @@ defmodule Fracomex.Products do
   """
   def get_item_family!(id), do: Repo.get!(ItemFamily, id)
 
+  def get_item_family_with_its_subs!(id) do
+      sub_query = from sub in ItemSubFamily,
+                  where: sub.item_family_id==^id
+      IO.inspect sub_query
+      query = from family in ItemFamily,
+              where: family.item_family_id == ^id,
+              preload: [sub_families: ^sub_query]
+      IO.inspect query
+
+      # Repo.one(query)
+    end
+
   def get_item_family_caption!(id) do
     query = from item_family in ItemFamily,
             where: item_family.item_family_id == ^id,
@@ -234,6 +246,12 @@ defmodule Fracomex.Products do
     Repo.all(ItemSubFamily)
   end
 
+  def list_item_sub_family_ids do
+    query = from item_sub_family in ItemSubFamily,
+            select: item_sub_family.item_sub_family_id
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single item_sub_family.
 
@@ -268,6 +286,10 @@ defmodule Fracomex.Products do
     |> Repo.insert()
   end
 
+  def insert_item_sub_families(list) do
+    Repo.insert_all(ItemSubFamily, list)
+  end
+
   @doc """
   Updates a item_sub_family.
 
@@ -300,6 +322,12 @@ defmodule Fracomex.Products do
   """
   def delete_item_sub_family(%ItemSubFamily{} = item_sub_family) do
     Repo.delete(item_sub_family)
+  end
+
+  def delete_item_sub_families(ids) do
+    query = from item_sub_family in ItemSubFamily,
+            where: item_sub_family.item_sub_family_id in ^ids
+    Repo.delete_all(query)
   end
 
   @doc """
