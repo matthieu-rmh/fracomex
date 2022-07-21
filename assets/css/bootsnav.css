@@ -761,25 +761,25 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
     }
     
     nav.navbar.bootsnav.menu-center ul.nav.navbar-center{
-        float:initial;
+        float:none;
         margin: 0 auto;
         display: table;
         table-layout: fixed;
     }
-    .navbar-center{
-        float:initial;
-        margin: 0 auto !important;
-        display: flex !important;
-        justify-content: center;
-        position: relative !important;
-    }
+   /* .navbar-center{
+        float:none;
+        margin: 0 auto;
+        display: table !important;
+        table-layout: fixed !important;
+    }*/
     @media (min-width: 1024px){
     .navbar-center {
-      float: initial;
-      margin: 0 auto !important;
-      display: flex !important;
-      position: relative !important;
-      margin-left: -43px !important;
+        float: inherit !important;
+        margin: 0 auto !important;
+        display: table !important;
+        table-layout: fixed !important;
+        position: relative !important;
+        margin-left: 400px !important;
     }
 }
     nav.navbar.bootsnav.menu-center .navbar-header,

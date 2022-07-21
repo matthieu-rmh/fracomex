@@ -97,7 +97,7 @@
 
 				            </div>
 				            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
-				                <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp" style="animation-delay: 0.5s;">
+				                <ul class="nav navbar-nav navbar-center" data-in="fadeIn" data-out="fadeOut" style="animation-delay: 0.5s;">
 				                    <li class={"scroll #{if @conn.request_path=="/", do: "active"}"}><a href={Routes.page_path(@conn, :index)}>Accueil</a></li>
 				                    <li class={"dropdown scroll #{if @conn.request_path=="/boutique", do: "active"}"}>
 										<a href={Routes.product_path(@conn, :index)} class="dropdown" data-toggle="">
@@ -108,6 +108,11 @@
 											<%= for item_family <- Fracomex.Products.list_item_families() do %>
 												 <li class="scroll"><a href="#blog"><%= item_family.caption %></a></li>
 											<% end %>
+											<li class="scroll"><a href="#blog">Catégorie</a></li>
+											<li class="scroll"><a href="#blog">Catégorie</a></li>
+											<li class="scroll"><a href="#blog">Catégorie</a></li>
+											<li class="scroll"><a href="#blog">Catégorie</a></li>
+
 										 </ul>
 									</li>
 									
@@ -124,7 +129,7 @@
 				                    </li>
 									-->
 				                    <!--  <li class="scroll"><a href="#blog">blog</a></li> -->
-				                    <li class={"scroll #{if @conn.request_path=="/contact", do: "active"}"}><a href="#">contact</a></li>
+				                    <li class={"scroll #{if @conn.request_path=="/contact", do: "active"}"}><a href={Routes.page_path(@conn, :contact)}>contact</a></li>
 				                </ul>
 				            </div>
 				        </div>
@@ -134,6 +139,52 @@
 
 			</div>
 		</header>
+	<!-- full nav category-->	
+	<div class="navigation">
+      <input type="checkbox" class="navigation__checkbox" id="nav-toggle">
+      <label for="nav-toggle" class="navigation__button" title="Tous les produits">
+        <!--span class="navigation__icon" aria-label="toggle navigation menu"></span-->
+		<span class="full lnr lnr-store"></span>
+      </label>
+      <div class="navigation__background"></div>
+
+      <nav class="navigation__nav" role="navigation">
+        <ul class="navigation__list">
+          <li class="navigation__item">
+            <a href="#" class="navigation__link"><span>01</span>categ1</a>
+          </li>
+          <li class="navigation__item">
+            <a href="#" class="navigation__link"><span>02</span>categ2</a>
+          </li>
+          <li class="navigation__item">
+            <a href="#" class="navigation__link"><span>03</span>categ3</a>
+          </li>
+          <li class="navigation__item">
+            <a href="#" class="navigation__link"><span>04</span>categ4</a>
+          </li>
+          <li class="navigation__item">
+            <a href="#" class="navigation__link"><span>05</span>categ5</a>
+          </li>
+		  <li class="navigation__item">
+            <a href="#" class="navigation__link"><span>01</span>categ1</a>
+          </li>
+          <li class="navigation__item">
+            <a href="#" class="navigation__link"><span>02</span>categ2</a>
+          </li>
+          <li class="navigation__item">
+            <a href="#" class="navigation__link"><span>03</span>categ3</a>
+          </li>
+          <li class="navigation__item">
+            <a href="#" class="navigation__link"><span>04</span>categ4</a>
+          </li>
+          <li class="navigation__item">
+            <a href="#" class="navigation__link"><span>05</span>categ5</a>
+          </li>
+		  
+    </ul>
+  </nav>
+</div>
+	
     <%= @inner_content %>
 	<!--prefooter start -->
 		<section id="prefooter"  class="prefooter">
@@ -148,8 +199,8 @@
 								</div>
 								<div class="hm-foot-menu">
 									<ul>
-										<li><a href="#">A propos de nous</a></li>
-										<li><a href="#">Contactez-nous</a></li>
+										<li><a href="/contact">A propos de nous</a></li>
+										<li><a href="/contact">Contactez-nous</a></li>
 									</ul>
 								</div>
 							</div>
@@ -286,9 +337,11 @@ $("#toggleCurrentPassword").click(function(){
   this.classList.toggle('fa-eye-slash');
 });
 </script>
+
 <script>
 //margin dynamic
-var details_product = <%= Enum.count(@items) %>
+
+var details_product = <%= Enum.count(Fracomex.Products.list_items()) %>
 for (let pas = 0; pas <= details_product; pas++) {
   $('#product-'+ pas).hover(function () {
     $("#name-"+ pas).css( { "margin-top" : "150px","transition" : "0.3s", "background-color" : "white", "width" : "100%" } );

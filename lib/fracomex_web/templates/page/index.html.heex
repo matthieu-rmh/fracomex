@@ -122,7 +122,67 @@
 					</div><!-- /.item .active-->
 				</div><!-- /.carousel-inner-->
 
-			</div><!--/#header-carousel-->
+</div><!--/#header-carousel-->
+<!--categ start -->
+<section id="categ" class="categ" style="position: relative; top: -10rem;margin-bottom: -10rem;">
+			<div class="container">
+				<div class="section-header mb-4">
+                <h2 class="title-promo">NOS PRODUITS</h2>
+                </div><!--/.section-header-->
+				<div class="categ-content">
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="single-categ animated fadeInLeft">
+								<div class="single-categ-img">
+									<img src={Routes.static_path(@conn, "/images/slider1.png")} alt="categ image">
+									<div class="single-categ-img-overlay"></div>
+								</div>
+								<div class="single-categ-txt">
+									<h2 class="mb-2">Category_name</h2>
+									<h3>Total number cat</h3>
+									<p>
+										Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.... 
+									</p>
+								</div>
+							</div>
+							
+						</div>
+						<div class="col-sm-4">
+							<div class="single-categ animated fadeInUp">
+								<div class="single-categ-img">
+									<img src={Routes.static_path(@conn, "/images/slider2.png")} alt="categ image">
+									<div class="single-categ-img-overlay"></div>
+								</div>
+								<div class="single-categ-txt">
+									<h2 class="mb-2">Category_name</h2>
+									<h3>Total number cat</h3>
+									<p>
+										Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.... 
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div class="single-categ animated fadeInRight">
+								<div class="single-categ-img">
+									<img src={Routes.static_path(@conn, "/images/slider3.png")} alt="categ image">
+									<div class="single-categ-img-overlay"></div>
+								</div>
+								<div class="single-categ-txt">
+									<h2 class="mb-2">Category_name</h2>
+									<h3>Total number cat</h3>
+									<p>
+										Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.... 
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!--/.container-->
+			
+</section><!--/.categ-->
+		<!--categ end -->			
 <%= render "arrivage.html", Map.put(assigns, :action, Routes.page_path(@conn, :index)) %>
 <section id="promo" class="categ">
 <div class="p-4">
@@ -322,63 +382,3 @@
     </div>
 </div>
 </section>
-<!--categ start -->
-		<section id="categ" class="categ" style="position: relative; top: -10rem;">
-			<div class="container">
-				<div class="section-header mb-4">
-                <h2 class="title-promo">NOS PRODUITS</h2>
-                </div><!--/.section-header-->
-				<div class="categ-content">
-					<div class="row">
-						<div class="col-sm-4">
-							<div class="single-categ animated fadeInUp">
-								<div class="single-categ-img">
-									<img src={Routes.static_path(@conn, "/images/slider1.png")} alt="categ image">
-									<div class="single-categ-img-overlay"></div>
-								</div>
-								<div class="single-categ-txt">
-									<h2 class="mb-2">Category_name</h2>
-									<h3>Total number cat</h3>
-									<p>
-										Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.... 
-									</p>
-								</div>
-							</div>
-							
-						</div>
-						<div class="col-sm-4">
-							<div class="single-categ animated fadeInUp">
-								<div class="single-categ-img">
-									<img src={Routes.static_path(@conn, "/images/slider2.png")} alt="categ image">
-									<div class="single-categ-img-overlay"></div>
-								</div>
-								<div class="single-categ-txt">
-									<h2 class="mb-2">Category_name</h2>
-									<h3>Total number cat</h3>
-									<p>
-										Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.... 
-									</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="single-categ animated fadeInUp">
-								<div class="single-categ-img">
-									<img src={Routes.static_path(@conn, "/images/slider3.png")} alt="categ image">
-									<div class="single-categ-img-overlay"></div>
-								</div>
-								<div class="single-categ-txt">
-									<h2 class="mb-2">Category_name</h2>
-									<h3>Total number cat</h3>
-									<p>
-										Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.... 
-									</p>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div><!--/.container-->
-			
-		</section><!--/.categ-->
-		<!--categ end -->
