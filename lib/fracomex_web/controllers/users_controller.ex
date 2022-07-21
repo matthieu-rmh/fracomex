@@ -2,7 +2,7 @@ defmodule FracomexWeb.UsersController do
   use FracomexWeb, :controller
   alias FracomexWeb.Router.Helpers, as: Routes
   alias Fracomex.Accounts
-  alias Fracomex.Accounts.{User, Country, City}
+  alias Fracomex.Accounts.User
   alias Fracomex.Token
   alias Fracomex.UserEmail
 
