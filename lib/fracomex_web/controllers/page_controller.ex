@@ -9,8 +9,8 @@ defmodule FracomexWeb.PageController do
       "index.html",
       layout: {FracomexWeb.LayoutView, "layout.html"},
       items: Products.list_items(),
-      item_families: Products.list_item_families(),
-      item_sub_families: Products.list_item_sub_families()
+      item_families: Products.list_families(),
+      item_sub_families: Products.list_sub_families()
     )
     # render(conn, "arrivage.html")
   end

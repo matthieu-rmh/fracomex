@@ -1,6 +1,6 @@
 defmodule Fracomex.SyncLogic do
   alias Fracomex.{EbpRepo, Products}
-  alias Fracomex.Products.{ItemFamily, ItemSubFamily}
+  alias Fracomex.Products.{Family, SubFamily}
 
   ###########  ITEM SUBFAMILY SYNC LOGICS ###########
 
@@ -8,7 +8,8 @@ defmodule Fracomex.SyncLogic do
   def sync_item_sub_families do
     start = NaiveDateTime.local_now()
     IO.puts "ITEMSUBFAMILY SYNC STARTING"
-    insert_missing_item_sub_families()
+    # SUBFAMILY INSERTIONS NO LONGER NEEDER CAUSE DONE AT PARENT INSERTION AT LINE
+    # insert_missing_item_sub_families()
     update_item_sub_families_diffs()
     delete_item_sub_families()
     IO.puts "ITEMSUBFAMILY SYNC STOPPING"
@@ -19,7 +20,7 @@ defmodule Fracomex.SyncLogic do
   # SUPPRESSION DES SOUS-FAMILLES N'EXISTANT PLUS SUR EBP OU AYANT UNE NOUVELLE FAMILLE NON EXISTANTE SUR POSTGRES
   def delete_item_sub_families() do
     get_item_sub_family_ids_to_be_deleted()
-    |> Products.delete_item_sub_families()
+    |> Products.delete_sub_families()
   end
 
   # SELECTION DES IDS DES SOUS-FAMILLES N'EXISTANT PLUS SUR EBP OU AYANT UNE NOUVELLE FAMILLE NON EXISTANTE SUR POSTGRES
@@ -63,9 +64,9 @@ defmodule Fracomex.SyncLogic do
       ebp_caption = result.rows |> Enum.at(0) |> Enum.at(0)
       ebp_item_family_id = result.rows |> Enum.at(0) |> Enum.at(1)
 
-      item_sub_family = Products.get_item_sub_family!(id)
+      item_sub_family = Products.get_sub_family!(id)
 
-      ItemSubFamily.update_changeset(item_sub_family, %{"caption" => ebp_caption, "item_family_id" => ebp_item_family_id})
+      SubFamily.update_changeset(item_sub_family, %{"caption" => ebp_caption, "family_id" => ebp_item_family_id})
 
     end
   end
@@ -80,7 +81,7 @@ defmodule Fracomex.SyncLogic do
   #  INSERTION DES SOUS-FAMILLES MANQUANTES
   def insert_missing_item_sub_families() do
     select_missing_item_subfamilies()
-    |> Products.insert_item_sub_families
+    |> Products.insert_sub_families
   end
 
   # SELECTION DE TOUTES LES SOUS FAMILLES, FILLES DES FAMILLES VENANT D'EBP
@@ -91,7 +92,7 @@ defmodule Fracomex.SyncLogic do
 
     case EbpRepo.query("select Id, Caption, ItemFamilyId from ItemSubFamily where Id in #{readable_ids}") do
       {:ok, result} ->
-        result.rows |> Enum.map(fn row -> %{item_sub_family_id: Enum.at(row, 0), caption: Enum.at(row, 1), item_family_id: Enum.at(row, 2)} end)
+        result.rows |> Enum.map(fn row -> %{id: Enum.at(row, 0), caption: Enum.at(row, 1), family_id: Enum.at(row, 2)} end)
 
       _ ->
         []
@@ -106,7 +107,7 @@ defmodule Fracomex.SyncLogic do
 
   # SELECTION DE TOUS LES ID'S DES SOUS FAMILLES DANS POSTGRES
   def select_all_item_sub_family_ids_from_postgres do
-    Products.list_item_sub_family_ids()
+    Products.list_sub_family_ids()
   end
 
   # SELECTION DE TOUS LES IDS DES SOUS-FAMILLES VENANT D'EBP
@@ -138,7 +139,7 @@ defmodule Fracomex.SyncLogic do
   # SUPPRESSION DES FAMILLES N'EXISTANT PLUS SUR EBP OU NON PUBLIÉES
   def delete_item_families() do
     select_all_item_family_ids_to_be_deleted()
-    |> Products.delete_item_families()
+    |> Products.delete_families()
   end
 
   # SELECTION DE TOUS LES ID'S DE FAMILLES QUI NE SONT PLUS SUR EBP OU NON PUBLIÉES
@@ -171,8 +172,8 @@ defmodule Fracomex.SyncLogic do
       {:ok, result} = EbpRepo.query("SELECT Caption from ItemFamily WHERE Id='#{id}'")
 
       ebp_caption = result.rows |> Enum.at(0) |> Enum.at(0)
-      item_family = Products.get_item_family!(id)
-      ItemFamily.update_changeset(item_family, %{"caption" => ebp_caption})
+      item_family = Products.get_family!(id)
+      Family.update_changeset(item_family, %{"caption" => ebp_caption})
 
     end
   end
@@ -187,7 +188,8 @@ defmodule Fracomex.SyncLogic do
   ### INSERTION DES FAMILLES MANQUANTES
   def insert_missing_item_families() do
     select_item_families_to_be_inserted()
-    |> Products.insert_item_families
+    # |> Products.insert_families
+    |> Enum.each(fn family -> Fracomex.Repo.insert(family) end)
   end
 
   # SELECTION DES FAMILLES A INSÉRER
@@ -197,8 +199,17 @@ defmodule Fracomex.SyncLogic do
 
     case EbpRepo.query("select Id, Caption from ItemFamily where AllowPublishOnWeb=1 and Id in #{readable_ids}") do
       {:ok, result} ->
-        result.rows |> Enum.map(fn row -> %{item_family_id: Enum.at(row, 0), caption: Enum.at(row, 1)} end)
+        result.rows |> Enum.map(fn row ->
+          id = Enum.at(row, 0)
+          caption = Enum.at(row, 1)
 
+          {:ok, sub_family_result} = EbpRepo.query("select Id, Caption, ItemFamilyId from ItemSubFamily where ItemFamilyId='#{id}'")
+
+          sub_families = sub_family_result.rows
+          |> Enum.map(fn row -> %SubFamily{id: Enum.at(row, 0), caption: Enum.at(row, 1), family_id: Enum.at(row, 2)} end )
+
+          %Family{id: id, caption: caption, sub_families: sub_families}
+        end)
       _ ->
         []
     end
@@ -220,7 +231,7 @@ defmodule Fracomex.SyncLogic do
 
   # SELECTION DE TOUS LES ID'S DE FAMILLE VENANT DE LA BASE POSTGRES DU SITE
   def select_all_item_family_ids_from_postgres do
-    Products.list_item_family_ids()
+    Products.list_family_ids()
   end
 
   # SELECTION DE TOUS LES ID'S DE FAMILLE VENANT DE LA BASE EBP

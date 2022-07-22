@@ -105,7 +105,7 @@
 										</a>
 
 										<ul class="dropdown-menu itemfamilies-dropdown-menu s-cate">
-											<%= for item_family <- Fracomex.Products.list_item_families() do %>
+											<%= for item_family <- Fracomex.Products.list_families() do %>
 												 <li class="scroll"><a href="#blog"><%= item_family.caption %></a></li>
 											<% end %>
 											<li class="scroll"><a href="#blog">Catégorie</a></li>
