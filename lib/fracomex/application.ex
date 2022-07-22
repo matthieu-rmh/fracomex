@@ -21,7 +21,7 @@ defmodule Fracomex.Application do
       # Start a worker by calling: Fracomex.Worker.start_link(arg)
       # {Fracomex.Worker, arg}
       # ItemFamily Sync Worker
-      Fracomex.ItemFamilySyncWorker
+      # Fracomex.ItemFamilySyncWorker
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

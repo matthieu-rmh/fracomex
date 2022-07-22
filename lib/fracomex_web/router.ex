@@ -22,7 +22,7 @@ defmodule FracomexWeb.Router do
     live "/boutique", Live.ProductLive, :index
 
     # get "/product-details", SingleProductController, :index
-    live "/boutique/:nom_produit", Live.ProductLive, :product_details
+    live "/boutique/:nom_produit/:id_produit", Live.ProductLive, :product_details
 
     # get "/panier", CartController, :index
     live "/panier", Live.CartLive, :index

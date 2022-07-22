@@ -36,7 +36,13 @@
 				                    <li class="dropdown">
 				                        <a href={Routes.cart_path(@conn, :index)} class="dropdown-toggle" data-toggle="dropdown">
 				                            <span class="lnr lnr-cart"></span>
-											<span class="badge badge-bg-1">2</span>
+											<span class="badge badge-bg-1">
+												<%= if not is_nil(@cart) do %>
+													<%= Enum.count(@cart) %>
+												<% else %>
+													0
+												<% end %>
+											</span>
 				                        </a>
 				                        <ul class="dropdown-menu cart-list s-cate">
 				                            <li class="single-cart-list">

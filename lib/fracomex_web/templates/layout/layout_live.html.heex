@@ -1,115 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="csrf-token" content={csrf_token_value()}>
-    <%= live_title_tag assigns[:page_title] || "Fracomex" %>
-  </head>
-  <body>
-		<header id="home" class="slide-hero">
-			<div class="top-area">
-				<div class="header-area">
-				    <nav class="navbar navbar-default bootsnav  navbar-sticky"  data-minus-value-desktop="70" data-minus-value-mobile="55" data-speed="1000">
-				        <form class="s" id="search-nav">
+
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="csrf-token" content={csrf_token_value()}>
+	<%= live_title_tag assigns[:page_title] || "Fracomex" %>
+</head>
+
+<body>
+	<header id="home" class="slide-hero">
+		<div class="top-area">
+			<div class="header-area">
+				<nav class="navbar navbar-default bootsnav  navbar-sticky" data-minus-value-desktop="70"
+					data-minus-value-mobile="55" data-speed="1000">
+					<form class="s" id="search-nav">
 						<input type="search" class="sb" name="q" autocomplete="off" placeholder="Recherche produits" />
 						<button type="submit" class="sbtn lnr lnr-magnifier"></button>
-						<i class="sbtn lnr lnr-cross" id="close-search"></i> 
-						</form> 
-						<div class="container">            
-				            <div class="attr-nav">
-				                <ul>
-				                	<li class="search">
-				                		<a id="search" href=""><span class="lnr lnr-magnifier"></span></a>
-				                	</li>
-				                	<li class="nav-setting dropdown">
-				                		<a href={Routes.users_path(@socket, :signin)}><span class="lnr lnr-user"></span></a>
-										<%= if not is_nil(@user_id) do %>
+						<i class="sbtn lnr lnr-cross" id="close-search"></i>
+					</form>
+					<div class="container">
+						<div class="attr-nav">
+							<ul>
+								<li class="search">
+									<a id="search" href=""><span class="lnr lnr-magnifier"></span></a>
+								</li>
+								<li class="nav-setting dropdown">
+									<a href={Routes.users_path(@socket, :signin)}><span class="lnr lnr-user"></span></a>
+									<%= if not is_nil(@user_id) do %>
 										<ul class="dropdown-menu s-cate" id="user-icon-dropdown">
-											<li class="scroll"><a href={Routes.users_path(@socket, :my_account)}><span class="lnr lnr-user"></span> Mon profil</a></li>
-											<li class="scroll"><a href={Routes.users_path(@socket, :my_address)}><span class="lnr lnr-map-marker"></span> Mon adresse</a></li>
-											<li class="scroll"><a href={Routes.users_path(@socket, :signout)} style="color: red; opacity: 0.75;"><span class="lnr lnr-exit"></span> Se désocketecter</a></li>
-										 </ul>
-										 <% end %>
-				                	</li>
-				                    <li class="dropdown">
-				                        <a href={Routes.cart_path(@socket, :index)} class="dropdown-toggle" data-toggle="dropdown">
-				                            <span class="lnr lnr-cart"></span>
-											<span class="badge badge-bg-1">2</span>
-				                        </a>
-				                        <ul class="dropdown-menu cart-list s-cate">
-				                            <li class="single-cart-list">
-				                                <a href="#" class="photo"><img src="" class="cart-thumb" alt="image" /></a>
-				                                <div class="cart-list-txt">
-				                                	<h6><a href="#">arm <br> chair</a></h6>
-				                                	<p>1 x - <span class="price">$180.00</span></p>
-				                                </div>
-				                                <div class="cart-close">
-				                                	<span class="lnr lnr-cross"></span>
-				                                </div>
-				                            </li>
-				                            <li class="single-cart-list">
-				                                <a href="#" class="photo"><img src="" class="cart-thumb" alt="image" /></a>
-				                                <div class="cart-list-txt">
-				                                	<h6><a href="#">single <br> armchair</a></h6>
-				                                	<p>1 x - <span class="price">$180.00</span></p>
-				                                </div>
-				                                <div class="cart-close">
-				                                	<span class="lnr lnr-cross"></span>
-				                                </div>
-				                            </li>
-				                            <li class="single-cart-list">
-				                                <a href="#" class="photo"><img src="" class="cart-thumb" alt="image" /></a>
-				                                <div class="cart-list-txt">
-				                                	<h6><a href="#">wooden arn <br> chair</a></h6>
-				                                	<p>1 x - <span class="price">$180.00</span></p>
-				                                </div>
-				                                <div class="cart-close">
-				                                	<span class="lnr lnr-cross"></span>
-				                                </div>
-				                            </li>
-				                            <li class="total">
-				                                <h4>Total: $0.00</h4>
-				                            </li>
-											<button class="btn-cart valide-cart" onclick="window.location.href='#'">
-									            <span class="single_product_addtocart">Valider panier</span>
-											</button>
-				                        </ul>
-
-				                    </li>
-				                </ul>
-				            </div>
-				            <div class="navbar-header">
-				                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
-				                    <i class="fa fa-bars"></i>
-				                </button>
-				                <a class="navbar-brand" href={Routes.page_path(@socket, :index)}>Fraco<span>mex</span>.</a>
-
-				            </div>
-				            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
-				                <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
-				                    <li class={"scroll #{if Routes.page_path(@socket, :index), do: "de"}"}>
-										<a href={Routes.page_path(@socket, :index)}>Accueil</a>
-									</li>
-				                    <li class={"dropdown scroll #{if Routes.product_path(@socket, :index) == "/boutique", do: "active"}"}>
-										<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :index)} class="dropdown" data-toggle="">
-											Boutique
-										</a>
-
-										<ul class="dropdown-menu itemfamilies-dropdown-menu s-cate">
-											<%= for item_family <- Fracomex.Products.list_item_families() do %>
-												 <li class="scroll"><a href="#blog"><%= item_family.caption %></a></li>
+											<li class="scroll"><a href={Routes.users_path(@socket, :my_account)}><span
+														class="lnr lnr-user"></span> Mon profil</a></li>
+											<li class="scroll"><a href={Routes.users_path(@socket, :my_address)}><span
+														class="lnr lnr-map-marker"></span> Mon adresse</a></li>
+											<li class="scroll"><a href={Routes.users_path(@socket, :signout)}
+													style="color: red; opacity: 0.75;"><span
+														class="lnr lnr-exit"></span> Se désocketecter</a></li>
+										</ul>
+										<% end %>
+								</li>
+								<li class="dropdown">
+									<a data-phx-link="redirect" data-phx-link-state="push"
+										href={Routes.cart_path(@socket, :index)}>
+										<span class="lnr lnr-cart"></span>
+										<span class="badge badge-bg-1">
+											<%= if not is_nil(@cart) do %>
+												<%= Enum.count(@cart) %>
+											<% else %>
+												0
 											<% end %>
-											<li class="scroll"><a href="#blog">Catégorie</a></li>
-											<li class="scroll"><a href="#blog">Catégorie</a></li>
-											<li class="scroll"><a href="#blog">Catégorie</a></li>
-											<li class="scroll"><a href="#blog">Catégorie</a></li>
+										</span>
+									</a>
+									<ul class="dropdown-menu cart-list s-cate">
+										<li class="single-cart-list">
+											<a href="#" class="photo"><img src="" class="cart-thumb" alt="image" /></a>
+											<div class="cart-list-txt">
+												<h6><a href="#">arm <br> chair</a></h6>
+												<p>1 x - <span class="price">$180.00</span></p>
+											</div>
+											<div class="cart-close">
+												<span class="lnr lnr-cross"></span>
+											</div>
+										</li>
+										<li class="single-cart-list">
+											<a href="#" class="photo"><img src="" class="cart-thumb" alt="image" /></a>
+											<div class="cart-list-txt">
+												<h6><a href="#">single <br> armchair</a></h6>
+												<p>1 x - <span class="price">$180.00</span></p>
+											</div>
+											<div class="cart-close">
+												<span class="lnr lnr-cross"></span>
+											</div>
+										</li>
+										<li class="single-cart-list">
+											<a href="#" class="photo"><img src="" class="cart-thumb" alt="image" /></a>
+											<div class="cart-list-txt">
+												<h6><a href="#">wooden arn <br> chair</a></h6>
+												<p>1 x - <span class="price">$180.00</span></p>
+											</div>
+											<div class="cart-close">
+												<span class="lnr lnr-cross"></span>
+											</div>
+										</li>
+										<li class="total">
+											<h4>Total: $0.00</h4>
+										</li>
+										<button class="btn-cart valide-cart" onclick="window.location.href='#'">
+											<span class="single_product_addtocart">Valider panier</span>
+										</button>
+									</ul>
 
-										 </ul>
-									</li>
-									
-									<!--
+								</li>
+							</ul>
+						</div>
+						<div class="navbar-header">
+							<button type="button" class="navbar-toggle" data-toggle="collapse"
+								data-target="#navbar-menu">
+								<i class="fa fa-bars"></i>
+							</button>
+							<a class="navbar-brand" href={Routes.page_path(@socket, :index)}>Fraco<span>mex</span>.</a>
+
+						</div>
+						<div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
+							<ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
+								<li class={"scroll #{if Routes.page_path(@socket, :index), do: "de" }"}>
+									<a href={Routes.page_path(@socket, :index)}>Accueil</a>
+								</li>
+								<li class={"dropdown scroll #{if Routes.product_path(@socket, :index)=="/boutique" ,
+									do: "active" }"}>
+									<a data-phx-link="redirect" data-phx-link-state="push"
+										href={Routes.product_path(@socket, :index)} class="dropdown" data-toggle="">
+										Boutique
+									</a>
+
+									<ul class="dropdown-menu itemfamilies-dropdown-menu s-cate">
+										<%= for item_family <- Fracomex.Products.list_item_families() do %>
+											<li class="scroll"><a href="#blog">
+													<%= item_family.caption %>
+												</a></li>
+											<% end %>
+												<li class="scroll"><a href="#blog">Catégorie</a></li>
+												<li class="scroll"><a href="#blog">Catégorie</a></li>
+												<li class="scroll"><a href="#blog">Catégorie</a></li>
+												<li class="scroll"><a href="#blog">Catégorie</a></li>
+
+									</ul>
+								</li>
+
+								<!--
 				                    <li class="dropdown scroll">				                        
 										<a href="#" class="dropdown" data-toggle="dropdown" >
 				                            dropdown
@@ -121,20 +140,22 @@
 				                        </ul>
 				                    </li>
 									-->
-				                    <!--  <li class="scroll"><a href="#blog">blog</a></li> -->
-				                    <li class="scroll"><a href="#newsletter">contact</a></li>
-				                </ul>
-				            </div>
-				        </div>
-				    </nav>
-				</div>
-			    <div class="clearfix"></div>
-
+								<!--  <li class="scroll"><a href="#blog">blog</a></li> -->
+								<li class="scroll"><a href="#newsletter">contact</a></li>
+							</ul>
+						</div>
+					</div>
+				</nav>
 			</div>
-		</header>
-    <%= @inner_content %>
-	<!--prefooter start -->
-		<section id="prefooter"  class="prefooter">
+			<div class="clearfix"></div>
+
+		</div>
+	</header>
+	
+	<%= @inner_content %>
+
+		<!--prefooter start -->
+		<section id="prefooter" class="prefooter">
 			<div class="container">
 				<div class="hm-footer-details">
 					<div class="row">
@@ -142,7 +163,7 @@
 							<div class="hm-footer-widget">
 								<div class="hm-foot-title">
 									<h4>Informations</h4>
-									
+
 								</div>
 								<div class="hm-foot-menu">
 									<ul>
@@ -173,9 +194,9 @@
 									<h4>Contact</h4>
 								</div>
 								<div class="hm-foot-menu">
-										<p>Adresse:</p>
-										<p>Tél:</p>
-										<p>E-mail:</p>							
+									<p>Adresse:</p>
+									<p>Tél:</p>
+									<p>E-mail:</p>
 								</div>
 							</div>
 						</div>
@@ -183,9 +204,9 @@
 				</div>
 			</div>
 		</section>
-	<!--/prefooter end-->
-    <!--footer start-->
-		<footer id="footer"  class="footer">
+		<!--/prefooter end-->
+		<!--footer start-->
+		<footer id="footer" class="footer">
 			<div class="container">
 				<div class="hm-footer-copyright text-center">
 					<!--div class="footer-social">
@@ -203,17 +224,18 @@
 			<!--/.scroll-Top-->
 			<div id="scroll-Top">
 				<div class="return-to-top">
-					<i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+					<i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title=""
+						data-original-title="Back to Top" aria-hidden="true"></i>
 				</div>
 			</div>
-        </footer>
-	
-	<!--footer end-->
-  </body>
+		</footer>
 
-  <div id="cus" phx-hook="Custom"></div>
-  <div id="boot" phx-hook="Bootsnav"></div>
-  <div id="sear" phx-hook="SearchButton"></div>
-  <div id="boo" phx-hook="Bootstrap"></div>
+		<!--footer end-->
+</body>
+
+<div id="cus" phx-hook="Custom"></div>
+<div id="boot" phx-hook="Bootsnav"></div>
+<div id="sear" phx-hook="SearchButton"></div>
+<div id="boo" phx-hook="Bootstrap"></div>
+
 </html>
-
