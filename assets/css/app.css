@@ -6,6 +6,7 @@
 @import "./owl.carousel.min.css";
 @import "./style.css";
 @import "./responsive.css";
+@import "./button.css";
 /* Alerts and form errors used by phx.new */
 .alert {
   padding: 15px;

@@ -107,9 +107,9 @@ for item <- items do
   Fracomex.Repo.insert!(item)
 end
 
-for item_family <- items_families do
-  Fracomex.Repo.insert!(item_family)
-end
+# for item_family <- items_families do
+#   Fracomex.Repo.insert!(item_family)
+# end
 
 for item_sub_family <- items_sub_families do
   Fracomex.Repo.insert!(item_sub_family)

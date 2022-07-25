@@ -731,6 +731,7 @@ ul.cart-list > li.total {
     align-items: center;
     justify-content:center;
     overflow:hidden;
+    cursor: pointer;
 }
 .single-product-bg img{
     width:auto;
@@ -788,7 +789,8 @@ ul.cart-list > li.total {
 .sale.bg-1{background: #d8924c;}
 .sale.bg-2{background: #47d93c;}
 .product-name {
-    margin-top: 210px;
+
+    margin-top: 200px;
     position: absolute;
     display: block;
     text-align: center;
@@ -802,6 +804,7 @@ ul.cart-list > li.total {
     -webkit-box-orient: vertical;
     color: #000 !important;
   }    
+
 .a-product-name:hover {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -818,7 +821,8 @@ ul.cart-list > li.total {
     font-weight: bold;
   }
 .p-product-price {
-    color: #0072cd !important;
+
+    color: #000 !important;
   }  
 
 .new-arrival-cart {
