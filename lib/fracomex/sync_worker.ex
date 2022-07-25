@@ -1,4 +1,4 @@
-defmodule Fracomex.ItemFamilySyncWorker do
+defmodule Fracomex.SyncWorker do
   use GenServer
   alias Fracomex.SyncLogic
 
@@ -12,8 +12,8 @@ defmodule Fracomex.ItemFamilySyncWorker do
   end
 
   defp recurrent_sync(_state) do
-    SyncLogic.sync_item_families()
-    Process.send_after(self(), :redo_sync,  10 * 1000)
+    SyncLogic.synchronization()
+    Process.send_after(self(), :redo_sync,  20 * 1000)
   end
 
   def handle_info(:redo_sync, state) do

@@ -17,11 +17,11 @@ defmodule Fracomex.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Fracomex.PubSub},
       # Start the Endpoint (http/https)
-      FracomexWeb.Endpoint
+      FracomexWeb.Endpoint,
       # Start a worker by calling: Fracomex.Worker.start_link(arg)
       # {Fracomex.Worker, arg}
       # ItemFamily Sync Worker
-      # Fracomex.ItemFamilySyncWorker
+      Fracomex.SyncWorker
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

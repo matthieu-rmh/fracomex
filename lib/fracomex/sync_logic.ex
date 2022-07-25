@@ -1,10 +1,164 @@
 defmodule Fracomex.SyncLogic do
   alias Fracomex.{EbpRepo, Products}
-  alias Fracomex.Products.{Family, SubFamily}
+  alias Fracomex.Products.{Family, SubFamily, Item}
   import Mogrify
 
-  ###########  ITEM SYNC LOGICS ###########
 
+  ### SYNC FONTION PRINCIPALE ###
+  def synchronization do
+    start = NaiveDateTime.local_now()
+    IO.puts "SYNC STARTING"
+
+    sync_item_families()
+    sync_item_sub_families()
+    sync_items()
+
+    IO.puts "SYNC STOPPING"
+    ending = NaiveDateTime.local_now()
+
+    IO.inspect(NaiveDateTime.diff(ending, start, :millisecond))
+
+  end
+
+  ###########  ITEM SYNC LOGICS ###########
+  # SYNCHRONISATION DES ARTICLES
+  def sync_items() do
+    # start = NaiveDateTime.local_now()
+    # IO.puts "ITEM SYNC STARTING"
+    insert_missing_items()
+    update_items_diffs()
+    delete_items()
+    # IO.puts "ITEM SYNC STOPPING"
+    # ending = NaiveDateTime.local_now()
+    # IO.inspect(NaiveDateTime.diff(ending, start, :millisecond))
+  end
+
+  # SUPPRESSION DES ARTICLES N'EXISTANT PLUS SUR EBP OU AYANT UNE NOUVELLE FAMILLE/SOUS-FAMILLE NON EXISTANTE SUR POSTGRES
+  def delete_items() do
+    get_item_ids_to_be_deleted()
+    |> Products.delete_sub_families()
+  end
+
+  # SELECTION DES IDS ARTICLES N'EXISTANT PLUS SUR EBP OU AYANT UNE NOUVELLE FAMILLE/SOUS-FAMILLE NON EXISTANTE SUR POSTGRES
+  def get_item_ids_to_be_deleted do
+    select_item_ids_from_postgres() |> Enum.filter(fn id ->
+      id not in select_item_ids_from_ebp()
+    end)
+  end
+
+  # MISE A JOUR DES DIFFÉRENCES POUR LES ARTICLES
+  def update_items_diffs() do
+    update_items_diff_without_image()
+    update_items_diff_with_image()
+  end
+
+  # MISE A JOUR DES DIFFÉRENCES POUR LES ARTICLES AVEC IMAGE
+  def update_items_diff_with_image() do
+    Enum.each(select_valid_changesets_with_images(), fn changeset ->
+      Fracomex.Repo.update(changeset)
+    end)
+  end
+
+  # SELECTION DES DIFFRÉRENCES VALIDES DES PRODUITS AVEC IMAGES
+  def select_valid_changesets_with_images do
+    check_items_diffs_with_images()
+    |> Enum.filter(fn changeset ->
+      changeset.valid? and changeset.changes != %{}
+    end)
+  end
+
+  # VÉRIFICATION DES DIFFÉRENCES ENTRE LES ARTICLES POSTGRES ET EBP AVEC L'IMAGE
+  def check_items_diffs_with_images do
+    ids = get_item_ids_already_inserted()
+
+    for id <- ids do
+      {:ok, result} = EbpRepo.query("SELECT ImageVersion
+      from Item WHERE Id='#{id}'")
+
+      ebp_image_version = result.rows |> Enum.at(0) |> Enum.at(0)
+
+      item = Products.get_item!(id)
+
+      ebp_image = cond do
+        ebp_image_version != item.image_version ->
+          {:ok, subresult} = EbpRepo.query("SELECT ItemImage
+           from Item WHERE Id='#{id}'")
+
+
+          id = item.id
+          image = subresult.rowd |> Enum.at(0) |> Enum.at(0)
+          get_image_file(id, image)
+        true ->
+          item.image
+      end
+
+      map_changes = %{"image_version" => ebp_image_version, "image" => ebp_image}
+
+      Item.update_changeset_with_image(item, map_changes)
+
+    end
+  end
+
+  # MISE A JOUR DES DIFFÉRENCES POUR LES ARTICLES SANS IMAGE
+  def update_items_diff_without_image() do
+    Enum.each(select_valid_changesets_without_images(), fn changeset ->
+      Fracomex.Repo.update(changeset)
+    end)
+  end
+
+  # SELECTION DES DIFFRÉRENCES VALIDES DES PRODUITS SANS IMAGES
+  def select_valid_changesets_without_images do
+    check_items_diffs_without_images()
+    |> Enum.filter(fn changeset ->
+      changeset.valid? and changeset.changes != %{}
+    end)
+  end
+
+  # VÉRIFICATION DES DIFFÉRENCES ENTRE LES ARTICLES POSTGRES ET EBP SANS L'IMAGE
+  def check_items_diffs_without_images do
+    ids = get_item_ids_already_inserted()
+
+    for id <- ids do
+      {:ok, result} = EbpRepo.query("SELECT Caption, SalePriceVatExcluded, RealStock, FamilyId, SubFamilyId
+      from Item WHERE Id='#{id}'")
+
+      ebp_caption = result.rows |> Enum.at(0) |> Enum.at(0)
+      ebp_sale_price_vat_excluded = result.rows |> Enum.at(0) |> Enum.at(1)
+      ebp_real_stock = result.rows |> Enum.at(0) |> Enum.at(2)
+      ebp_stock_status = cond do
+        Decimal.to_integer(ebp_real_stock) > 0 ->
+          true
+        true ->
+          false
+
+      end
+      ebp_family_id = result.rows |> Enum.at(0) |> Enum.at(3)
+      ebp_sub_family_id = result.rows |> Enum.at(0) |> Enum.at(4)
+
+      item = Products.get_item!(id)
+
+      map_changes = %{
+        "caption" => ebp_caption,
+        "sale_price_vat_excluded" => ebp_sale_price_vat_excluded,
+        "real_stock" => ebp_real_stock,
+        "stock_status" => ebp_stock_status,
+        "family_id" => ebp_family_id,
+        "sub_family_id" => ebp_sub_family_id,
+      }
+
+      Item.update_changeset_without_image(item, map_changes)
+
+    end
+  end
+
+  # SELECTION DES ID'S DE PRODUITS DÉJÀ EXISTANTS SUR POSTGRES
+  def get_item_ids_already_inserted do
+    Enum.filter(select_item_ids_from_ebp(), fn ebp_id ->
+      ebp_id in select_item_ids_from_postgres()
+    end)
+  end
+
+  # INSERTION DE TOUS LES PRODUITS MANQUANTS
   def insert_missing_items() do
     select_items_to_be_inserted()
     |> Products.insert_items()
@@ -108,15 +262,15 @@ defmodule Fracomex.SyncLogic do
 
   # SYNCHRONISATION DES SOUS-FAMILLES D'ARTICLES
   def sync_item_sub_families do
-    start = NaiveDateTime.local_now()
-    IO.puts "ITEMSUBFAMILY SYNC STARTING"
+    # start = NaiveDateTime.local_now()
+    # IO.puts "ITEMSUBFAMILY SYNC STARTING"
     # SUBFAMILY INSERTIONS NO LONGER NEEDER CAUSE DONE AT PARENT INSERTION AT LINE
     # insert_missing_item_sub_families()
     update_item_sub_families_diffs()
     delete_item_sub_families()
-    IO.puts "ITEMSUBFAMILY SYNC STOPPING"
-    ending = NaiveDateTime.local_now()
-    IO.inspect(NaiveDateTime.diff(ending, start, :millisecond))
+    # IO.puts "ITEMSUBFAMILY SYNC STOPPING"
+    # ending = NaiveDateTime.local_now()
+    # IO.inspect(NaiveDateTime.diff(ending, start, :millisecond))
   end
 
   # SUPPRESSION DES SOUS-FAMILLES N'EXISTANT PLUS SUR EBP OU AYANT UNE NOUVELLE FAMILLE NON EXISTANTE SUR POSTGRES
@@ -228,14 +382,14 @@ defmodule Fracomex.SyncLogic do
 
   # SYNCHRONISATION DES FAMILLES D'ARTICLES
   def sync_item_families do
-    start = NaiveDateTime.local_now()
-    IO.puts "ITEMFAMILY SYNC STARTING"
+    # start = NaiveDateTime.local_now()
+    # IO.puts "ITEMFAMILY SYNC STARTING"
     insert_missing_item_families()
     update_item_families_diffs()
     delete_item_families()
-    IO.puts "ITEMFAMILY SYNC STOPPING"
-    ending = NaiveDateTime.local_now()
-    IO.inspect(NaiveDateTime.diff(ending, start, :millisecond))
+    # IO.puts "ITEMFAMILY SYNC STOPPING"
+    # ending = NaiveDateTime.local_now()
+    # IO.inspect(NaiveDateTime.diff(ending, start, :millisecond))
   end
 
   # SUPPRESSION DES FAMILLES N'EXISTANT PLUS SUR EBP OU NON PUBLIÉES
