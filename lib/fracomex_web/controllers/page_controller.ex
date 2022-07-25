@@ -9,8 +9,8 @@ defmodule FracomexWeb.PageController do
       "index.html",
       layout: {FracomexWeb.LayoutView, "layout.html"},
       items: Products.list_items(),
-      item_families: Products.list_families(),
-      item_sub_families: Products.list_sub_families(),
+      families: Products.list_families(),
+      sub_families: Products.list_sub_families(),
       cart: Plug.Conn.get_session(conn, :cart)
     )
 
