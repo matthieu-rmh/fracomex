@@ -20,6 +20,12 @@ defmodule Fracomex.Products do
     Repo.all(Item)
   end
 
+  def list_item_ids do
+    query = from i in Item,
+            select: i.id
+    Repo.all(query)
+  end
+
   @doc """
   Gets a single item.
 
@@ -52,6 +58,10 @@ defmodule Fracomex.Products do
     %Item{}
     |> Item.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def insert_items(list) do
+    Repo.insert_all(Item, list)
   end
 
   @doc """

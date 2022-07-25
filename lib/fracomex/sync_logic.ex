@@ -1,6 +1,108 @@
 defmodule Fracomex.SyncLogic do
   alias Fracomex.{EbpRepo, Products}
   alias Fracomex.Products.{Family, SubFamily}
+  import Mogrify
+
+  ###########  ITEM SYNC LOGICS ###########
+
+  def insert_missing_items() do
+    select_items_to_be_inserted()
+    |> Products.insert_items()
+  end
+
+  # SELECTION DES ARTICLES A INSÉRER
+  def select_items_to_be_inserted do
+    ids = get_item_ids_to_be_inserted()
+    readable_ids = ids_list_to_sql_readable(ids)
+
+    case EbpRepo.query("SELECT Id, Caption, SalePriceVatExcluded, ItemImage, ImageVersion, RealStock, FamilyId, SubFamilyId
+    FROM Item where Id in #{readable_ids}") do
+      {:ok, result} ->
+        result.rows |> Enum.map(fn row ->
+          id = Enum.at(row, 0)
+          caption = Enum.at(row, 1)
+          sale_price_vat_excluded = Enum.at(row, 2)
+          image = Enum.at(row, 3)
+          image_version = Enum.at(row, 4)
+          real_stock = Enum.at(row, 5)
+          family_id = Enum.at(row, 6)
+          sub_family_id = Enum.at(row, 7)
+
+          image_file = get_image_file(id, image)
+
+          stock_status = cond do
+            Decimal.to_integer(real_stock) > 0 ->
+              true
+            true ->
+              false
+          end
+
+          %{id: id, caption: caption, sale_price_vat_excluded: sale_price_vat_excluded, stock_status: stock_status,
+            image: image_file, image_version: image_version, real_stock: real_stock, family_id: family_id, sub_family_id: sub_family_id}
+        end)
+      _ ->
+        []
+    end
+
+  end
+
+  def get_image_file(id, image) do
+    cond do
+      not is_nil(image) ->
+      File.write(Path.expand("priv/static/images/big-items/#{id}.jpg"), image, [:binary])
+
+      open(Path.expand("priv/static/images/big-items/#{id}.jpg"))
+      |> quality(20)
+      |> save(path: Path.expand("priv/static/images/small-items/#{id}.jpg"))
+
+      open(Path.expand("priv/static/images/big-items/#{id}.jpg"))
+      |> quality(50)
+      |> save()
+
+      "#{id}.jpg"
+
+      true ->
+        "empty.png"
+    end
+  end
+
+
+  # TROUVER LES ID'S D'ARTICLES MANQUANTS SUR POSTGRES
+  def get_item_ids_to_be_inserted do
+    Enum.filter(select_item_ids_from_ebp(), fn id ->
+                            id not in select_item_ids_from_postgres()
+                          end)
+  end
+
+  # SELECTION DE TOUS LES ID'S D'ARTICLE DE LA BASE LOCALE POSTGRES
+  def select_item_ids_from_postgres do
+    Products.list_item_ids()
+  end
+
+  # SELECTION DE TOUS LES ID'S D'ARTICLE VENANT D'EBP
+  def select_item_ids_from_ebp do
+    # IO.puts "item ids ebp"
+    family_ids = Products.list_family_ids |> ids_list_to_sql_readable
+    # IO.inspect family_ids
+    sub_family_ids = Products.list_sub_family_ids |> ids_list_to_sql_readable
+    # IO.inspect sub_family_ids
+
+    test_query = "SELECT Id
+    FROM Item
+    WHERE (
+        (FamilyId in #{family_ids} OR FamilyId IS NULL)
+        AND
+        (SubFamilyId in #{sub_family_ids} OR SubFamilyId IS NULL)
+        )
+    AND AllowPublishOnWeb=1"
+
+    {:ok, result} = EbpRepo.query(test_query)
+
+    Enum.map(result.rows, fn row ->
+      Enum.at(row, 0)
+    end)
+
+  end
 
   ###########  ITEM SUBFAMILY SYNC LOGICS ###########
 

@@ -32,3 +32,9 @@ fracomex-*.tar
 npm-debug.log
 /assets/node_modules/
 
+/priv/static/images/big-items/*
+/priv/static/images/small-items/*
+
+!/priv/static/images/big-items/.gitkeep
+!/priv/static/images/small-items/.gitkeep
+
