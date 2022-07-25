@@ -93,7 +93,9 @@
 				                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
 				                    <i class="fa fa-bars"></i>
 				                </button>
-				                <a class="navbar-brand" href={Routes.page_path(@conn, :index)}>Fraco<span>mex</span>.</a>
+				                <a class="navbar-brand" href={Routes.page_path(@conn, :index)}>
+								<img src={Routes.static_path(@conn, "/images/fracomex.jpg")}>
+								</a>
 
 				            </div>
 				            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
@@ -124,7 +126,7 @@
 				                    </li>
 									-->
 				                    <!--  <li class="scroll"><a href="#blog">blog</a></li> -->
-				                    <li class="scroll"><a href="#newsletter">contact</a></li>
+				                    <li class={"scroll #{if @conn.request_path=="/contact", do: "active"}"}><a href={Routes.page_path(@conn, :contact)}>contact</a></li>
 				                </ul>
 				            </div>
 				        </div>

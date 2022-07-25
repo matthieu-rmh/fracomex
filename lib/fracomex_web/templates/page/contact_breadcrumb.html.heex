@@ -1,0 +1,6 @@
+<% selected_link = "pointer-events: none;font-weight: lighter;" %>
+    <ul class="breadcrumb-link">
+        <li class="breadcrumb-item-link"><a href="/">Accueil / </a> </li>
+        <li class="breadcrumb-item-link" aria-current="page"> <a href={Routes.page_path(@conn, :contact)} style={if (@conn.request_path=="/contact" or @conn.request_path=="/contact"), do: selected_link, else: ""}> Contact</a></li>
+        <!--li class="breadcrumb-item"><a href={Routes.users_path(@conn, :my_account)} style={if (@conn.request_path=="/mon-profil" or @conn.request_path=="/modifier-profil/#{@user.id}"), do: selected_link, else: ""}>Mon profil</a></li-->
+    </ul>

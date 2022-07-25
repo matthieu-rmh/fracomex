@@ -14,5 +14,12 @@ defmodule FracomexWeb.PageController do
     )
     # render(conn, "arrivage.html")
   end
-
+  #contact page
+  def contact(conn, _params) do
+    render(
+      conn,
+      "contact.html",
+      layout: {FracomexWeb.LayoutView, "layout.html"},
+    )
+  end
 end
