@@ -18,11 +18,14 @@ defmodule FracomexWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    get "/boutique", ProductController, :index
+    # get "/boutique", ProductController, :index
+    live "/boutique", Live.ProductLive, :index
 
-    get "/product-details", SingleProductController, :index
+    # get "/product-details", SingleProductController, :index
+    live "/boutique/:nom_produit", Live.ProductLive, :product_details
 
-    get "/panier", CartController, :index
+    # get "/panier", CartController, :index
+    live "/panier", Live.CartLive, :index
 
     # get "/users", UsersController, :index
     get "/connexion", UsersController, :signin

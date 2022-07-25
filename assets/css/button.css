@@ -1,0 +1,30 @@
+.button-cart.product-add-cart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem 0 0 2rem;
+  padding: 1.5rem;
+  background: #25abdb;
+  color: #fff;
+  width: 22rem;
+  transition: 0.2s linear;
+}
+
+.button-cart.product-add-cart:hover {
+  cursor: pointer;
+  outline: 1px solid#25abdb;
+  background: transparent;
+  color: #25abdb;
+}
+
+.button-cart.product-add-cart > span.lnr{
+    padding-right: 1rem;
+    font-size: 2rem;
+  }
+
+@media (max-width: 768px) {
+  .button-cart.product-add-cart {
+    display: inline block;
+    width: auto;
+  }
+}

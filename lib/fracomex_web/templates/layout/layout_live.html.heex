@@ -24,17 +24,17 @@
 				                		<a id="search" href=""><span class="lnr lnr-magnifier"></span></a>
 				                	</li>
 				                	<li class="nav-setting dropdown">
-				                		<a href={Routes.users_path(@conn, :signin)} class="dropdown-toggle" data-toggle="dropdown"><span class="lnr lnr-user"></span></a>
-										<%= if not is_nil(Plug.Conn.get_session(@conn, :user_id)) do %>
+				                		<a href={Routes.users_path(@socket, :signin)}><span class="lnr lnr-user"></span></a>
+										<%= if not is_nil(@user_id) do %>
 										<ul class="dropdown-menu s-cate" id="user-icon-dropdown">
-											<li class="scroll"><a href={Routes.users_path(@conn, :my_account)}><span class="lnr lnr-user"></span> Mon profil</a></li>
-											<li class="scroll"><a href={Routes.users_path(@conn, :my_address)}><span class="lnr lnr-map-marker"></span> Mon adresse</a></li>
-											<li class="scroll"><a href={Routes.users_path(@conn, :signout)} style="color: red; opacity: 0.75;"><span class="lnr lnr-exit"></span> Se déconnecter</a></li>
+											<li class="scroll"><a href={Routes.users_path(@socket, :my_account)}><span class="lnr lnr-user"></span> Mon profil</a></li>
+											<li class="scroll"><a href={Routes.users_path(@socket, :my_address)}><span class="lnr lnr-map-marker"></span> Mon adresse</a></li>
+											<li class="scroll"><a href={Routes.users_path(@socket, :signout)} style="color: red; opacity: 0.75;"><span class="lnr lnr-exit"></span> Se désocketecter</a></li>
 										 </ul>
 										 <% end %>
 				                	</li>
 				                    <li class="dropdown">
-				                        <a href={Routes.cart_path(@conn, :index)} class="dropdown-toggle" data-toggle="dropdown">
+				                        <a href={Routes.cart_path(@socket, :index)} class="dropdown-toggle" data-toggle="dropdown">
 				                            <span class="lnr lnr-cart"></span>
 											<span class="badge badge-bg-1">2</span>
 				                        </a>
@@ -84,21 +84,28 @@
 				                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
 				                    <i class="fa fa-bars"></i>
 				                </button>
-				                <a class="navbar-brand" href={Routes.page_path(@conn, :index)}>Fraco<span>mex</span>.</a>
+				                <a class="navbar-brand" href={Routes.page_path(@socket, :index)}>Fraco<span>mex</span>.</a>
 
 				            </div>
 				            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
 				                <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
-				                    <li class={"scroll #{if @conn.request_path=="/", do: "active"}"}><a href={Routes.page_path(@conn, :index)}>Accueil</a></li>
-				                    <li class={"dropdown scroll #{if @conn.request_path=="/product", do: "active"}"}>
-										<a href={Routes.product_path(@conn, :index)} class="dropdown" data-toggle="">
+				                    <li class={"scroll #{if Routes.page_path(@socket, :index), do: "de"}"}>
+										<a href={Routes.page_path(@socket, :index)}>Accueil</a>
+									</li>
+				                    <li class={"dropdown scroll #{if Routes.product_path(@socket, :index) == "/boutique", do: "active"}"}>
+										<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :index)} class="dropdown" data-toggle="">
 											Boutique
 										</a>
 
 										<ul class="dropdown-menu itemfamilies-dropdown-menu s-cate">
-											<%= for item_family <- Fracomex.Products.list_families() do %>
+											<%= for item_family <- Fracomex.Products.list_item_families() do %>
 												 <li class="scroll"><a href="#blog"><%= item_family.caption %></a></li>
 											<% end %>
+											<li class="scroll"><a href="#blog">Catégorie</a></li>
+											<li class="scroll"><a href="#blog">Catégorie</a></li>
+											<li class="scroll"><a href="#blog">Catégorie</a></li>
+											<li class="scroll"><a href="#blog">Catégorie</a></li>
+
 										 </ul>
 									</li>
 									
@@ -152,8 +159,8 @@
 								</div>
 								<div class="hm-foot-menu">
 									<ul>
-										<li><a href={Routes.product_path(@conn, :index)}>Nos produits</a></li>
-										<li><a href={Routes.product_path(@conn, :index)}>Boutique</a></li>
+										<li><a href={Routes.product_path(@socket, :index)}>Nos produits</a></li>
+										<li><a href={Routes.product_path(@socket, :index)}>Boutique</a></li>
 									</ul>
 								</div>
 							</div>
@@ -200,23 +207,13 @@
 				</div>
 			</div>
         </footer>
+	
 	<!--footer end-->
   </body>
-  <script>
-    $( document ).ready(function() {
-    $("#search").click(function(){
-      $("#search-nav").slideToggle("500", "easeInOutCirc");
-      $(".sb").focus();
-      $("#search").hide("500", "easeInOutCirc");
-      $(".top-section").css( { "margin-top" : "170px","transition" : "0.3s" } );
-    });
-    $("#close-search").click(function(){
-      $("#search-nav").slideToggle("500", "easeInOutCirc");
-      $(".sb").focus();
-      $("#search").show("500", "easeInOutCirc");
-      $(".top-section").css( { "margin-top" : "110px", "transition" : "0.3s" } );  
-    });
-    });
-  </script>
+
+  <div id="cus" phx-hook="Custom"></div>
+  <div id="boot" phx-hook="Bootsnav"></div>
+  <div id="sear" phx-hook="SearchButton"></div>
+  <div id="boo" phx-hook="Bootstrap"></div>
 </html>
 

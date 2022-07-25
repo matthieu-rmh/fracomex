@@ -6,25 +6,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="csrf-token" content={csrf_token_value()}>
     <%= live_title_tag assigns[:page_title] || "#{Fracomex.Utilities.get_page_title_tag(@conn.request_path, Plug.Conn.get_session(@conn, :user_id))}", suffix: " · Fracomex Mayotte" %>
+
+    <!-- CSS Link -->
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/fontawesome.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/linearicons@1.0.2/dist/web-font/style.min.css"/>
+
+    <!-- JS Link -->
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   </head>
   <body>
-    <!--header>
-      <section class="container">
-        <nav>
-          <ul>
-            <li><a href="https://hexdocs.pm/phoenix/overview.html">Get Started</a></li>
-            <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-              <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home) %></li>
-            <% end %>
-          </ul>
-        </nav>
-        <a href="https://phoenixframework.org/" class="phx-logo">
-          <img src={Routes.static_path(@conn, "/images/phoenix.png")} alt="Phoenix Framework Logo"/>
-        </a>
-      </section>
-    </header-->
     <%= @inner_content %>
   </body>
+  
+  <script>
+  function increaseCount(a, b) {
+    var input = b.previousElementSibling;
+    var value = parseInt(input.value, 10);
+    value = isNaN(value) ? 0 : value;
+    value++;
+    input.value = value;
+    }
+    
+    function decreaseCount(a, b) {
+    var input = b.nextElementSibling;
+    var value = parseInt(input.value, 10);
+    if (value > 1) {
+      value = isNaN(value) ? 0 : value;
+      value--;
+      input.value = value;
+    }
+    }
+  </script>  
+  <script>    
+  var togglePassword = document.querySelector("#togglePassword");
+  var password = document.querySelector("#password");
+  $("#togglePassword").click(function(){
+    // toggle the type attribute
+    var type = password.getAttribute("type") === "password" ? "text" : "password";
+    password.setAttribute("type", type);
+    // toggle the eye icon
+    this.classList.toggle('fa-eye');
+    this.classList.toggle('fa-eye-slash');
+  });
+  
+  var toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
+  var confirm_password = document.querySelector("#confirm_password");
+  $("#toggleConfirmPassword").click(function(){
+    // toggle the type attribute
+    var type = confirm_password.getAttribute("type") === "password" ? "text" : "password";
+    confirm_password.setAttribute("type", type);
+    // toggle the eye icon
+    this.classList.toggle('fa-eye');
+    this.classList.toggle('fa-eye-slash');
+  });
+  
+  var toggleCurrentPassword = document.querySelector("#toggleCurrentPassword");
+  var current_password = document.querySelector("#current_password");
+  $("#toggleCurrentPassword").click(function(){
+    // toggle the type attribute
+    var type = current_password.getAttribute("type") === "password" ? "text" : "password";
+    current_password.setAttribute("type", type);
+    // toggle the eye icon
+    this.classList.toggle('fa-eye');
+    this.classList.toggle('fa-eye-slash');
+  });
+  </script>
+
+  <script>
+    var details_product = <%= Enum.count(Fracomex.Products.list_items()) %>
+
+    for (let pas = 0; pas <= details_product; pas++) {
+      $('#product-'+ pas).hover(function () {
+          $("#name-"+ pas).css( { "margin-top" : "150px","transition" : "0.3s", "background-color" : "white", "width" : "100%" } );
+          $("#price-"+ pas).css( { "margin-top" : "220px","transition" : "0.3s", "background-color" : "white", "width" : "100%" } );
+      }, 
+
+      function () {
+          $("#name-"+ pas).css( { "margin-top" : "200px","transition" : "0.3s", "background" : "none"} );
+          $("#price-"+ pas).css( { "margin-top" : "280px","transition" : "0.3s", "background" : "none"} );
+      });
+    }
+    </script>
+
 </html>

@@ -1,0 +1,62 @@
+<section class="top-section p-4">
+	<div class="container px-4 px-lg-5 my-5" id="shop-banner">
+		<div class="text-center">
+			<h1 class="">Boutique</h1>
+		</div>
+	</div>
+</section>
+<!--all product start -->
+<section id="new-arrivals" class="all-product">
+	<div class="container">
+		<div class="section-header">
+		
+		</div><!--/.section-header-->
+		<div class="all-product-content">
+			<div class="row">
+			<%= for item <- @items do %>
+				<div class="col-md-3 col-sm-4">
+					<div class="details-product" id="details">
+						<div class="single-product-bg shadow">
+							<div 
+								phx-value-id={item.id}
+								phx-value-caption={item.caption}
+								phx-click="show-product-details"
+							>
+								<img src={Routes.static_path(@socket, "#{item.item_image}")} alt={item.caption}>
+								<div class="single-product-bg-overlay"></div>
+								<div hidden class="sale bg-1">
+									<p hidden>news</p>
+									<p>Arrivage</p>
+								</div>
+								<!--product_title-->
+								<div class="product-name">	
+									<a class="a-product-name" href="#"><%= item.caption %></a>
+								</div>
+								<!--product_price-->
+								<div class="product-price">
+									<h4 class="p-product-price"><%= item.sale_price_vat_excluded %> €</h4>
+								</div>
+								<div class="new-arrival-cart">
+									<p class="add-to-cart">
+										<a href="#">
+											<span class="lnr lnr-cart"></span>
+											<span class="addtocart">Ajouter au panier</span>
+										</a>
+									</p>
+									<!--p class="arrival-review pull-right">
+										<span class="lnr lnr-heart"></span>
+										<span class="lnr lnr-frame-expand" title="Zoom"></span>
+									</p-->
+								</div>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			<% end %>
+			</div>
+		</div>
+	</div><!--/.container-->
+
+</section><!--/.new-arrivals-->
+<!--new-arrivals end -->
