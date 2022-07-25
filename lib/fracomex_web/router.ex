@@ -18,6 +18,7 @@ defmodule FracomexWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    get "/contact", PageController, :contact
     get "/boutique", ProductController, :index
 
     get "/product-details", SingleProductController, :index
