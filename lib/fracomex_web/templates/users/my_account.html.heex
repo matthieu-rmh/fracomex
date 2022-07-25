@@ -1,0 +1,137 @@
+<div class="container" style="margin-top: 15rem; margin-bottom: 10rem;">
+    <div class="row">
+		<div class="col-md-12">	
+			<%= FracomexWeb.UsersView.render("my_account_breadcrumb.html", conn: @conn, user: @user) %>
+			<div class="card shadow signin">		
+				<h2 class="text-center mt-4">Mon profil</h2>
+				<p class="text-center mt-4"><span class="lnr lnr-envelope"></span> <%= @user.mail_address %></p>
+				<div class="valid-feedback text-center" style={if @edit_succesful, do: "display: block;", else: "display: none;"}>Profil mis à jour!</div>
+				<div class="card-body">
+					<%= form_for @changeset, Routes.users_path(@conn, :edit_my_account, @user.id), [method: :put], fn f -> %>
+						<div class="row mb-2 p-4">
+							<div class="col-md-6">
+								<label for="name">Nom</label>	
+								<% 
+								{name_error, name_validity} = cond do
+									not is_nil(@changeset.action) and @changeset.errors[:name] ->
+										{error, _} = @changeset.errors[:name]
+										{error, "is-invalid"}
+									not is_nil(@changeset.action) and is_nil(@changeset.errors[:name]) ->
+										{"", ""}
+									true ->
+										{"", ""}
+									end
+								%>	
+								<%= text_input f, :name, value: @user.name, class: "form-control #{name_validity}" %>
+								<div class="invalid-feedback">
+									<%= name_error %>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<label for="firstname">Prénom</label>
+								<% 
+								{firstname_error, firstname_validity} = cond do
+									not is_nil(@changeset.action) and @changeset.errors[:firstname] ->
+										{error, _} = @changeset.errors[:firstname]
+										{error, "is-invalid"}
+									not is_nil(@changeset.action) and is_nil(@changeset.errors[:firstname]) ->
+										{"", ""}
+									true ->
+										{"", ""}
+									end
+								%>		
+								<%= text_input f, :firstname, value: @user.firstname, class: "form-control #{firstname_validity}" %>
+								<div class="invalid-feedback">
+									<%= firstname_error %>
+								</div>
+							</div>
+						</div>
+						<p>
+							<a class="text-primary pl-4" data-toggle="collapse" href="#editpassword" aria-expanded="false" aria-controls="editpassword">Changer mot de passe</a> 
+						</p>
+						<div class="row edit p-4">
+							<div class="col-md-12 text-center">
+								<div class={if @there_is_password_error, do: "collapse in ", else: "collapse"} id="editpassword">
+									<div class="row">
+										<div class="col-md-4">
+											<label for="current_password">Mot de passe actuel</label>	
+											<% 
+											{current_password_error, current_password_validity} = cond do
+												not is_nil(@changeset.action) and @changeset.errors[:current_password] ->
+													{error, _} = @changeset.errors[:current_password]
+													{error, "is-invalid"}
+												not is_nil(@changeset.action) and is_nil(@changeset.errors[:current_password]) ->
+													{"", ""}
+												true ->
+													{"", ""}
+												end
+											%>	
+											<div class="input-group">
+												<%= password_input f, :current_password, id: "current_password", class: "form-control #{current_password_validity}" %>
+													<div class="input-group-append">
+														<span class="input-group-text"><i class="far fa-eye p-2" id="toggleCurrentPassword" style="cursor: pointer"></i></span>
+													</div>
+													<div class="invalid-feedback">
+														<%= current_password_error %>
+													</div>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<label for="password">Nouveau mot de passe</label>	
+											<% 
+											{password_error, password_validity} = cond do
+												not is_nil(@changeset.action) and @changeset.errors[:password] ->
+													{error, _} = @changeset.errors[:password]
+													{error, "is-invalid"}
+												not is_nil(@changeset.action) and is_nil(@changeset.errors[:password]) ->
+													{"", ""}
+												true ->
+													{"", ""}
+												end
+											%>	
+											<div class="input-group">
+													<%= password_input f, :password, id: "password", class: "form-control #{password_validity}" %>
+													<div class="input-group-append">
+														<span class="input-group-text"><i class="far fa-eye p-2" id="togglePassword" style="cursor: pointer"></i></span>
+													</div>
+													<div class="invalid-feedback">
+														<%= password_error %>
+													</div>
+											</div>
+										</div>
+										<div class="col-md-4">
+											<label for="password_confirmation">Confirmer le mot de passe </label>	
+											<% 
+											{password_confirmation_error, password_confirmation_validity} = cond do
+												not is_nil(@changeset.action) and @changeset.errors[:password_confirmation] ->
+													{error, _} = @changeset.errors[:password_confirmation]
+													{error, "is-invalid"}
+												not is_nil(@changeset.action) and is_nil(@changeset.errors[:password_confirmation]) ->
+													{"", ""}
+												true ->
+													{"", ""}
+												end
+											%>	
+											<div class="input-group">
+													<%= password_input f, :password_confirmation, id: "confirm_password", class: "form-control #{password_confirmation_validity}" %>
+													<div class="input-group-append">
+														<span class="input-group-text"><i class="far fa-eye p-2" id="toggleConfirmPassword" style="cursor: pointer"></i></span>
+													</div>
+													<div class="invalid-feedback">
+														<%= password_confirmation_error %>
+													</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>  
+						<div class="row mb-4 text-center">
+							<%= submit "Enregistrer", class: "btn-cart product-add-cart single_product_addtocart"%>
+						</div>
+					<% end %>
+				</div>
+			</div> 
+		</div>   
+	</div>
+</div>

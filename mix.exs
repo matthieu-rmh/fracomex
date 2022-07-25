@@ -51,6 +51,7 @@ defmodule Fracomex.MixProject do
       {:jason, "~> 1.2"},
       {:tds, "~> 2.3"},
       {:pbkdf2_elixir, "~> 2.0"},
+      {:mogrify, "~> 0.9.2"},
       {:plug_cowboy, "~> 2.5"}
     ]
   end

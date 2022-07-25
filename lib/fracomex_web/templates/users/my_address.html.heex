@@ -1,0 +1,71 @@
+<% 
+	street_string = cond do
+		is_nil (@user.street) ->
+			"(Adresse 1 non renseignée)"
+		true ->
+			@user.street
+	end
+	city_string = String.upcase(@user.city.name)
+	zipcode_string = @user.city.zipcode
+
+	edit_success_feedback = cond do
+		@edit_succesful ->	"block"
+		true -> "none"
+	end
+ %>
+<div class="container" style="margin-top: 15rem; margin-bottom: 10rem;">
+    <div class="row">
+		<div class="col-md-12">	
+			<%= FracomexWeb.UsersView.render("my_account_breadcrumb.html", conn: @conn, user: @user) %>
+			<div class="card shadow signin">		
+				<h2 class="text-center mt-4">Mon adresse</h2>
+				<div class="valid-feedback text-center" style={"display: #{edit_success_feedback};"}>Adresse mis à jour!</div>
+				<div class="card-body">
+					<div class="row mb-2 p-4">
+						<div class="col-md-12">
+							<h3 class="text-center mt-4">Adresse de facturation</h3>
+							<p class="text-center mt-4">
+							<span class="lnr lnr-map-marker"></span>
+							<%= "#{street_string} #{city_string} #{zipcode_string}" %>
+									  <a class="text-primary" data-toggle="collapse" href="#editAddress" aria-expanded="false" aria-controls="editAddress"> | <span class="lnr lnr-pencil"></span> Modifier</a>
+							</p>
+						</div>
+					</div>
+
+					<div class={"collapse #{if @there_is_error, do: "in"}"} id="editAddress">
+						<%= form_for @changeset, Routes.users_path(@conn, :edit_my_address, @user.id), [method: :put], fn f -> %>
+							<div class="row mb-2 p-4">
+								<div class="col-md-6">
+									<label for="street">Adresse 1 / Nom de rue (obligatoire)</label>
+									<% 
+									{street_error, street_validity} = cond do
+										not is_nil(@changeset.action) and @changeset.errors[:street] ->
+											{error, _} = @changeset.errors[:street]
+											{error, "is-invalid"}
+										not is_nil(@changeset.action) and is_nil(@changeset.errors[:street]) ->
+											{"", "is-valid"}
+										true ->
+											{"", ""}
+										end
+									%>	
+									<%= text_input f, :street, id: "street", class: "form-control #{street_validity}", value: @user.street %>
+									<div class="invalid-feedback">
+										<%= street_error %>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<label for="city_id">Ville / Commune</label>
+									<%= select f, :city_id, @cities, class: "form-select", selected: @user.city_id %>
+								</div>
+							</div>
+							<div class="row text-center">
+								<%= submit "Modifier adresse", class: "btn-cart product-add-cart single_product_addtocart" %>
+							</div>
+						<% end %>
+					</div>
+
+				</div>
+			</div> 
+		</div>   
+	</div>
+</div>

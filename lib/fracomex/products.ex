@@ -6,8 +6,7 @@ defmodule Fracomex.Products do
   import Ecto.Query, warn: false
   alias Fracomex.Repo
 
-  alias Fracomex.Products.Item
-
+  alias Fracomex.Products.{Item, Family, SubFamily}
   @doc """
   Returns the list of items.
 
@@ -19,6 +18,12 @@ defmodule Fracomex.Products do
   """
   def list_items do
     Repo.all(Item)
+  end
+
+  def list_item_ids do
+    query = from i in Item,
+            select: i.id
+    Repo.all(query)
   end
 
   @doc """
@@ -55,6 +60,10 @@ defmodule Fracomex.Products do
     |> Repo.insert()
   end
 
+  def insert_items(list) do
+    Repo.insert_all(Item, list)
+  end
+
   @doc """
   Updates a item.
 
@@ -89,6 +98,12 @@ defmodule Fracomex.Products do
     Repo.delete(item)
   end
 
+  def delete_items(ids) do
+    query = from item in Item,
+            where: item.id in ^ids
+    Repo.delete_all(query)
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking item changes.
 
@@ -102,7 +117,7 @@ defmodule Fracomex.Products do
     Item.changeset(item, attrs)
   end
 
-  alias Fracomex.Products.ItemFamily
+
 
   @doc """
   Returns the list of item_families.
@@ -113,8 +128,14 @@ defmodule Fracomex.Products do
       [%ItemFamily{}, ...]
 
   """
-  def list_item_families do
-    Repo.all(ItemFamily)
+  def list_families do
+    Repo.all(Family)
+  end
+
+  def list_family_ids do
+    query = from family in Family,
+            select: family.id
+    Repo.all(query)
   end
 
   @doc """
@@ -131,8 +152,22 @@ defmodule Fracomex.Products do
       ** (Ecto.NoResultsError)
 
   """
-  def get_item_family!(id), do: Repo.get!(ItemFamily, id)
+  def get_family!(id), do: Repo.get!(Family, id)
 
+  def get_family_with_its_subs!(id) do
+      query = from family in Family,
+              where: family.id == ^id,
+              preload: [:sub_families]
+
+      Repo.one(query)
+  end
+
+  def _family_caption!(id) do
+    query = from family in Family,
+            where: family.id == ^id,
+            select: family.caption
+    Repo.one(query)
+  end
   @doc """
   Creates a item_family.
 
@@ -145,10 +180,14 @@ defmodule Fracomex.Products do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_item_family(attrs \\ %{}) do
-    %ItemFamily{}
-    |> ItemFamily.changeset(attrs)
+  def create_family(attrs \\ %{}) do
+    %Family{}
+    |> Family.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def insert_families(list) do
+    Repo.insert_all(Family, list)
   end
 
   @doc """
@@ -163,9 +202,9 @@ defmodule Fracomex.Products do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_item_family(%ItemFamily{} = item_family, attrs) do
+  def update_family(%Family{} = item_family, attrs) do
     item_family
-    |> ItemFamily.changeset(attrs)
+    |> Family.changeset(attrs)
     |> Repo.update()
   end
 
@@ -181,8 +220,14 @@ defmodule Fracomex.Products do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_item_family(%ItemFamily{} = item_family) do
-    Repo.delete(item_family)
+  def delete_family(%Family{} = family) do
+    Repo.delete(family)
+  end
+
+  def delete_families(ids) do
+    query = from family in Family,
+            where: family.id in ^ids
+    Repo.delete_all(query)
   end
 
   @doc """
@@ -194,11 +239,11 @@ defmodule Fracomex.Products do
       %Ecto.Changeset{data: %ItemFamily{}}
 
   """
-  def change_item_family(%ItemFamily{} = item_family, attrs \\ %{}) do
-    ItemFamily.changeset(item_family, attrs)
+  def change_family(%Family{} = family, attrs \\ %{}) do
+    Family.changeset(family, attrs)
   end
 
-  alias Fracomex.Products.ItemSubFamily
+
 
   @doc """
   Returns the list of item_sub_families.
@@ -209,8 +254,14 @@ defmodule Fracomex.Products do
       [%ItemSubFamily{}, ...]
 
   """
-  def list_item_sub_families do
-    Repo.all(ItemSubFamily)
+  def list_sub_families do
+    Repo.all(SubFamily)
+  end
+
+  def list_sub_family_ids do
+    query = from sub_family in SubFamily,
+            select: sub_family.id
+    Repo.all(query)
   end
 
   @doc """
@@ -227,7 +278,7 @@ defmodule Fracomex.Products do
       ** (Ecto.NoResultsError)
 
   """
-  def get_item_sub_family!(id), do: Repo.get!(ItemSubFamily, id)
+  def get_sub_family!(id), do: Repo.get!(SubFamily, id)
 
   @doc """
   Creates a item_sub_family.
@@ -241,10 +292,14 @@ defmodule Fracomex.Products do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_item_sub_family(attrs \\ %{}) do
-    %ItemSubFamily{}
-    |> ItemSubFamily.changeset(attrs)
+  def create_sub_family(attrs \\ %{}) do
+    %SubFamily{}
+    |> SubFamily.changeset(attrs)
     |> Repo.insert()
+  end
+
+  def insert_sub_families(list) do
+    Repo.insert_all(SubFamily, list)
   end
 
   @doc """
@@ -259,9 +314,9 @@ defmodule Fracomex.Products do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_item_sub_family(%ItemSubFamily{} = item_sub_family, attrs) do
-    item_sub_family
-    |> ItemSubFamily.changeset(attrs)
+  def update_item_sub_family(%SubFamily{} = sub_family, attrs) do
+    sub_family
+    |> SubFamily.changeset(attrs)
     |> Repo.update()
   end
 
@@ -277,8 +332,14 @@ defmodule Fracomex.Products do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_item_sub_family(%ItemSubFamily{} = item_sub_family) do
-    Repo.delete(item_sub_family)
+  def delete_sub_family(%SubFamily{} = sub_family) do
+    Repo.delete(sub_family)
+  end
+
+  def delete_sub_families(ids) do
+    query = from sub_family in SubFamily,
+            where: sub_family.id in ^ids
+    Repo.delete_all(query)
   end
 
   @doc """
@@ -290,7 +351,7 @@ defmodule Fracomex.Products do
       %Ecto.Changeset{data: %ItemSubFamily{}}
 
   """
-  def change_item_sub_family(%ItemSubFamily{} = item_sub_family, attrs \\ %{}) do
-    ItemSubFamily.changeset(item_sub_family, attrs)
+  def change_item_sub_family(%SubFamily{} = sub_family, attrs \\ %{}) do
+    SubFamily.changeset(sub_family, attrs)
   end
 end

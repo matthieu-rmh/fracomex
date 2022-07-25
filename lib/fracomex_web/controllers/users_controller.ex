@@ -2,18 +2,94 @@ defmodule FracomexWeb.UsersController do
   use FracomexWeb, :controller
   alias FracomexWeb.Router.Helpers, as: Routes
   alias Fracomex.Accounts
-  alias Fracomex.Accounts.{User, Country, City}
+  alias Fracomex.Accounts.User
   alias Fracomex.Token
   alias Fracomex.UserEmail
 
-  def index(conn, _params) do
-    render(conn, "signin.html", layout: {FracomexWeb.LayoutView, "layout.html"})
+  # VALIDATION DU FORMULAIRE DE VALIDATION DE MODIFICATION DE L'ADRESSE
+  def edit_my_address(conn, %{"id" => id, "user" => user_params}) do
+    # IO.inspect(user_params)
+    user = Accounts.get_user_with_city!(id)
+    changeset = Accounts.change_user(%User{})
+    cities = Accounts.list_cities
+      |> Enum.sort_by(&(&1.name))
+      |> Enum.map(fn city -> [key: city.name, value: city.id] end)
+
+    case Accounts.edit_oneself_address(user, user_params) do
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "my_address.html", user: user, cities: cities, changeset: changeset, edit_succesful: false, there_is_error: true, layout: {FracomexWeb.LayoutView, "layout.html"})
+      {:ok, user} ->
+        user_with_city = Accounts.get_user_with_city!(user.id)
+        render(conn, "my_address.html", user: user_with_city, cities: cities, changeset: changeset, edit_succesful: true, there_is_error: false, layout: {FracomexWeb.LayoutView, "layout.html"})
+    end
   end
+
+  # VALIDATION DU FORMULAIRE DE MODIFICATION DU PROFIL PAR L'UTILISATEUR
+  def edit_my_account(conn, %{"id" => id, "user" => user_params}) do
+    changeset = Accounts.change_user(%User{})
+    user = Accounts.get_user!(id)
+
+    # IO.inspect Accounts.edit_oneself(user, user_params)
+
+    case Accounts.edit_oneself(user, user_params) do
+      {:error, %Ecto.Changeset{} = changeset} ->
+        there_is_password_error = cond do
+          is_nil(changeset.errors[:password]) and is_nil(changeset.errors[:current_password]) and is_nil(changeset.errors[:password_confirmation]) ->
+            false
+          true ->
+            true
+        end
+        render(conn, "my_account.html", user: user, changeset: changeset, there_is_password_error: there_is_password_error, edit_succesful: false, layout: {FracomexWeb.LayoutView, "layout.html"})
+      {:ok, user} ->
+        render(conn, "my_account.html", user: user, changeset: changeset, there_is_password_error: false, edit_succesful: true, layout: {FracomexWeb.LayoutView, "layout.html"})
+    end
+
+  end
+  #page mon compte
+  def my_account(conn, _params) do
+    cond do
+      is_nil(get_session(conn, :user_id)) ->
+        redirect(conn, to: "/connexion")
+      true ->
+        user_id = get_session(conn, :user_id)
+        user = Accounts.get_user!(user_id)
+        changeset = Accounts.change_user(%User{})
+        render(conn, "my_account.html", user: user, changeset: changeset, there_is_password_error: false, edit_succesful: false, layout: {FracomexWeb.LayoutView, "layout.html"})
+    end
+  end
+
+  #page adresse
+  def my_address(conn, _params) do
+
+    cond do
+      is_nil(get_session(conn, :user_id)) ->
+        redirect(conn, to: "/connexion")
+      true ->
+        user_id = get_session(conn, :user_id)
+        user = Accounts.get_user_with_city!(user_id)
+        changeset = Accounts.change_user(%User{})
+        cities = Accounts.list_cities
+          |> Enum.sort_by(&(&1.name))
+          |> Enum.map(fn city -> [key: city.name, value: city.id] end)
+        render(conn, "my_address.html", user: user, cities: cities,changeset: changeset, edit_succesful: false, there_is_error: false, layout: {FracomexWeb.LayoutView, "layout.html"})
+    end
+
+  end
+
+  # def index(conn, _params) do
+  #   render(conn, "signin.html", layout: {FracomexWeb.LayoutView, "layout.html"})
+  # end
 
   # Page de connexion
   def signin(conn, _params) do
     changeset = Accounts.change_user(%User{})
-    render(conn, "signin.html", changeset: changeset, layout: {FracomexWeb.LayoutView, "layout.html"})
+    cond do
+      is_nil(get_session(conn, :user_id)) ->
+        render(conn, "signin.html", changeset: changeset, layout: {FracomexWeb.LayoutView, "layout.html"})
+      true ->
+        # IO.inspect(conn)
+        redirect(conn, to: "/mon-profil")
+    end
   end
 
   # Page d'inscription
@@ -28,6 +104,12 @@ defmodule FracomexWeb.UsersController do
                 |> Enum.map(fn city -> [key: city.name, value: city.id] end)
 
     render(conn, "signup.html", changeset: changeset, countries: countries, cities: cities, layout: {FracomexWeb.LayoutView, "layout.html"})
+  end
+
+  def signout(conn, _params) do
+    conn
+    |> delete_session(:user_id)
+    |> redirect(to: "/")
   end
 
   # Validation de formulaire d'inscription avec envoi de mail de confirmation
@@ -63,7 +145,7 @@ defmodule FracomexWeb.UsersController do
         id = Accounts.get_user_by_mail_address!(user_params["mail_address"]).id
         conn
         |> put_session(:user_id, id)
-        |>redirect(to: "/product")
+        |>redirect(to: "/boutique")
     end
   end
 

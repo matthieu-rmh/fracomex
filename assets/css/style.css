@@ -1186,3 +1186,93 @@ input[type=email] {
     0%   {bottom:0px;}
     100%  {bottom:7px;}
 }
+
+
+/*mini slide*/
+.mini-slide {
+    background: #f8f9fd;
+    display: flex;
+    align-items: center;
+    height: 400px;
+}
+.mini-slide .item {text-align: center;}
+
+  .section-header h2 {
+    font-size: 30px;
+    font-weight: 500;
+    left: 2rem;
+    position: absolute;
+    padding-left: 60px;
+    margin-bottom: 40px;
+  }  
+  .section-header .title-promo::before {
+    position: absolute;
+    content: "";
+    width: 45px;
+    height: 2px;
+    background: #919191;
+    top: 45%;
+    left: 0;
+  }
+  .owl-controls .owl-buttons{
+    text-align:center;
+    margin-top:20px;
+}
+.owl-controls .owl-buttons .owl-prev{
+    background: #fff;
+    position: absolute;
+    top: 50%;
+    left: -8px;
+    padding: 0 18px 0 15px;
+    border-radius: 50px;
+    box-shadow: 3px 14px 25px -10px #92b4d0;
+    transition: background 0.5s ease 0s;
+    z-index: 1;
+}
+.owl-controls .owl-buttons .owl-next{
+    background: #fff;
+    position: absolute;
+    top: 50%;
+    right: -8px;
+    padding: 0 15px 0 18px;
+    border-radius: 50px;
+    box-shadow: -3px 14px 25px -10px #92b4d0;
+    transition: background 0.5s ease 0s;
+    z-index: 1;
+}
+.owl-controls .owl-buttons .owl-prev:after,
+.owl-controls .owl-buttons .owl-next:after{
+    content:"\f104";
+    font-family: FontAwesome;
+    color: #333;
+    font-size:30px;
+}
+.owl-controls .owl-buttons .owl-next:after{
+    content:"\f105";
+}
+@media only screen and (max-width:1280px) {
+    .post-slide .post-content{
+        padding: 0px 15px 25px 15px;
+    }
+}  
+
+
+.itemfamilies-dropdown-menu{
+    /* background-color: lightgreen !important; */
+    /* height: 270px; */
+    max-height: 270px;
+    overflow-y: auto;
+}
+
+#carousel-promotions-indicators{
+    bottom: -10%; 
+}
+
+#user-icon-dropdown{
+    left: -300%;
+}
+
+#shop-banner{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}

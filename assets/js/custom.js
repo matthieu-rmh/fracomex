@@ -20,13 +20,18 @@ $(document).ready(function(){
 	// 2. owl carousel
 	
 		
-			$('#client').owlCarousel({
-				items:5,
+			$('#content-mini-slide').owlCarousel({
 				loop:true,
 				smartSpeed: 1000,
 				autoplay:true,
 				dots:false,
 				autoplayHoverPause:true,
+				itemsDesktop:[1199,3],
+				itemsDesktopSmall:[980,2],
+				itemsMobile : [600,1],
+				navigation:true,
+				navigationText:["",""],
+				pagination:true,
 				responsive:{
 						0:{
 							items:2
