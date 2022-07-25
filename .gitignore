@@ -35,6 +35,6 @@ npm-debug.log
 /priv/static/images/big-items/*
 /priv/static/images/small-items/*
 
-!/priv/static/images/big-items/.gitkeep
-!/priv/static/images/small-items/.gitkeep
+!/priv/static/images/big-items/empty.png
+!/priv/static/images/small-items/empty.png
 
