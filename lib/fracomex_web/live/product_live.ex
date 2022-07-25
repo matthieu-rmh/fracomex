@@ -10,8 +10,8 @@ defmodule FracomexWeb.Live.ProductLive do
       |> put_session_assigns(session)
       |> assign(
         items: Products.list_items(),
-        item_families: Products.list_item_families(),
-        item_sub_families: Products.list_item_sub_families(),
+        families: Products.list_families(),
+        sub_families: Products.list_sub_families(),
         item_get_by_id: session["item_get_by_id"]
       )
 

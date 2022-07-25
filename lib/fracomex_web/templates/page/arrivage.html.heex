@@ -11,7 +11,7 @@
 							<div class={"details-product-#{item.id}"} id="details">
 							<a href={Routes.product_path(@conn, :product_details, item.caption)} class={"product-#{item.id}"} >
 								<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
-									<img src={Routes.static_path(@conn, "#{item.item_image}")} alt={item.item_image}>
+									<img src={Routes.static_path(@conn, "#{item.image}")} alt={item.image}>
 									<div class="single-product-bg-overlay"></div>
 									<div class="sale bg-1" hidden>
 										<p hidden><%= Enum.count(@items) %> news</p>
