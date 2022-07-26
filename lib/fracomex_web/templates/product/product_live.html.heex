@@ -22,7 +22,7 @@
 								phx-value-caption={item.caption}
 								phx-click="show-product-details"
 							>
-								<img src={Routes.static_path(@socket, "#{item.image}")} alt={item.caption}>
+								<img src={Routes.static_path(@socket, "/images/small-items/#{item.image}")} alt={item.caption}>
 								<div class="single-product-bg-overlay"></div>
 								<div hidden class="sale bg-1">
 									<p hidden>news</p>
