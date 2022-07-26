@@ -5,6 +5,8 @@ defmodule FracomexWeb.Endpoint do
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
+    store: PhoenixLiveSession,
+    pub_sub: Fracomex.PubSub,
     store: :cookie,
     key: "_fracomex_key",
     signing_salt: "uNDYoouB"
