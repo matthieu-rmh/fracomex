@@ -562,6 +562,7 @@ ul.cart-list > li.total {
     margin-top: 25px;
 }
 .remove-cart p {
+    cursor: pointer;
     margin-top: 25px;
 }
 .update{
