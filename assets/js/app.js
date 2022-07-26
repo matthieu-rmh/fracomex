@@ -1,10 +1,11 @@
 // We import the CSS which is extracted to its own file by esbuild.
 // Remove this line if you add a your own CSS build pipeline (e.g postcss).
 import "../css/app.css"
-import "./bootsnav.js"
-import "./jquery.js"
-import "./owl.carousel.min.js"
-import "./custom.js"
+import "../js/bootstrap.min.js"
+import "../js/bootsnav.js"
+import "../js/jQuery-2.1.4.min.js"
+import "../js/owl.carousel.min.js"
+import "../js/custom.js"
 
 //import "../js/modern.min.js"
 //import "../js/jqueryeasing.min.js"
@@ -612,15 +613,15 @@ Hooks.Bootsnav = {
                     $(".wrap-sticky").height(getHeight);
                     
                     // Windown on scroll
-                    // var getOffset = $(".wrap-sticky").offset().top;
-                    // $(window).on("scroll", function(){  
-                    //     var scrollTop = $(window).scrollTop();
-                    //     if(scrollTop > getOffset){
-                    //         getNav.addClass("sticked");
-                    //     }else {
-                    //         getNav.removeClass("sticked");
-                    //     }
-                    // });
+                    var getOffset = $(".wrap-sticky").offset().top;
+                    $(window).on("scroll", function(){  
+                        var scrollTop = $(window).scrollTop();
+                        if(scrollTop > getOffset){
+                            getNav.addClass("sticked");
+                        }else {
+                            getNav.removeClass("sticked");
+                        }
+                    });
                 }   
             },
             
