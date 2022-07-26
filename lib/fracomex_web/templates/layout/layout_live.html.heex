@@ -36,7 +36,7 @@
 														class="lnr lnr-map-marker"></span> Mon adresse</a></li>
 											<li class="scroll"><a href={Routes.users_path(@socket, :signout)}
 													style="color: red; opacity: 0.75;"><span
-														class="lnr lnr-exit"></span> Se désocketecter</a></li>
+														class="lnr lnr-exit"></span> Se déconnecter</a></li>
 										</ul>
 										<% end %>
 								</li>
@@ -52,31 +52,6 @@
 											<% end %>
 										</span>
 									</a>
-									<ul class="dropdown-menu cart-list s-cate">
-										<%= if not is_nil(@cart) do %>
-											<%= for i <- 0..Enum.count(@cart) - 1  do %>
-												<li class="single-cart-list">
-													<a href="#" class="photo"><img src={Fracomex.Products.get_item!(Enum.at(@cart, i).product_id).image} class="cart-thumb" alt="image" /></a>
-													<div class="cart-list-txt">
-														<h6><a href="#"><%= Fracomex.Products.get_item!(Enum.at(@cart, i).product_id).caption %></a></h6>
-														<p><%= Enum.at(@cart, i).quantity %> x <span class="price"><%= Fracomex.Products.get_item!(Enum.at(@cart, i).product_id).sale_price_vat_excluded %> €</span></p>
-													</div>
-													<div class="cart-close">
-														<span class="lnr lnr-cross"></span>
-													</div>
-												</li>
-											<% end %>
-										<% else %>
-											
-										<% end %>
-										<li class="total">
-											<h4>Total: <%= @sum_cart %> €</h4>
-										</li>
-										<button class="btn-cart valide-cart" onclick="window.location.href='#'">
-											<span class="single_product_addtocart">Valider panier</span>
-										</button>
-									</ul>
-
 								</li>
 							</ul>
 						</div>
