@@ -47,6 +47,7 @@ defmodule FracomexWeb.Live.CartLive do
 
       # Mettre à jour la session avec le nouveau panier
       PhoenixLiveSession.put_session(socket, "cart", new_cart)
+      PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(new_cart))
 
       {:noreply,
         socket
@@ -75,6 +76,7 @@ defmodule FracomexWeb.Live.CartLive do
 
     # Mettre à jour la session avec le nouveau panier
     PhoenixLiveSession.put_session(socket, "cart", new_cart)
+    PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(new_cart))
 
     {:noreply,
       socket
