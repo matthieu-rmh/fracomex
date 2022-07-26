@@ -77,17 +77,13 @@
 			<li
 				class="list-group-item d-flex justify-content-between align-items-center border-0 p-2">
 				Sous-total :
-				<span> $53.98</span>
+				<span><%= @sum_cart %> €</span>
 			</li>
 			<li
 				class="list-group-item d-flex justify-content-between align-items-center border-0 p-2 mb-3">
 				<div>
 					<strong>Total :</strong>
-					<%= if not is_nil(@cart) do %>
-						<%= for product_id <- 0..Enum.count(@cart) - 1 do %>
-							<span><strong> <%= Enum.at(@cart, product_id).product_id %> </strong></span>
-						<% end %>
-					<% end %>
+					<span><%= @sum_cart %> €</span>
 				</div>
 						
 			</li>

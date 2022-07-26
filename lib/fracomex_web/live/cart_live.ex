@@ -12,7 +12,8 @@ defmodule FracomexWeb.Live.CartLive do
         items: Products.list_items(),
         families: Products.list_families(),
         sub_families: Products.list_sub_families(),
-        cart: session["cart"]
+        cart: session["cart"],
+        sum_cart: sum_cart(session["cart"])
       )
 
     {:ok, socket, layout: {FracomexWeb.LayoutView, "layout_live.html"}}
@@ -47,7 +48,11 @@ defmodule FracomexWeb.Live.CartLive do
       # Mettre à jour la session avec le nouveau panier
       PhoenixLiveSession.put_session(socket, "cart", new_cart)
 
-      {:noreply, socket |> assign(cart: new_cart)}
+      {:noreply,
+        socket
+        |> assign(cart: new_cart)
+        |> assign(sum_cart: sum_cart(new_cart))
+      }
     else
       {:noreply, socket}
     end
@@ -71,7 +76,22 @@ defmodule FracomexWeb.Live.CartLive do
     # Mettre à jour la session avec le nouveau panier
     PhoenixLiveSession.put_session(socket, "cart", new_cart)
 
-    {:noreply, socket |> assign(cart: new_cart)}
+    {:noreply,
+      socket
+      |> assign(cart: new_cart)
+      |> assign(sum_cart: sum_cart(new_cart))
+    }
+  end
+
+  # Calculer la somme totale du panier
+  def sum_cart(cart) do
+    if is_nil(cart) do
+      0
+    else
+      cart
+      |> Enum.map(fn cart -> cart.quantity * Decimal.to_float Products.get_item!(cart.product_id).sale_price_vat_excluded end)
+      |> Enum.sum()
+    end
   end
 
   def render(assigns) do
