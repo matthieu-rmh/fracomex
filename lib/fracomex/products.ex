@@ -98,6 +98,12 @@ defmodule Fracomex.Products do
     Repo.delete(item)
   end
 
+  def delete_items(ids) do
+    query = from item in Item,
+            where: item.id in ^ids
+    Repo.delete_all(query)
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking item changes.
 
