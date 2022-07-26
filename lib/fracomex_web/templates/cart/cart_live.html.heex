@@ -14,7 +14,9 @@
 					</tr>
 				</thead>
 				<tbody style="overflow: scroll;">
-					<%= if not is_nil(@cart) do %>
+					<%= if is_nil(@cart) or @cart == [] do %>
+						
+					<% else %>
 						<%= for i <- 0..Enum.count(@cart) - 1  do %>
 							<tr class="cart-product">
 								<td class="img-cart" style="margin-top: -8px;">
@@ -52,11 +54,11 @@
 									<p><%= Float.round((Enum.at(@cart, i).quantity) * (Decimal.to_float Fracomex.Products.get_item!(Enum.at(@cart, i).product_id).sale_price_vat_excluded), 2) %>€</p>
 								</td>
 									
-								<td class="remove-cart"><p><i class="lnr lnr-cross cart-remove"></i></p></td>
+								<td class="remove-cart" phx-click="remove-item-from-cart" phx-value-id={Enum.at(@cart, i).product_id}>
+									<p><i class="lnr lnr-cross cart-remove"></i></p>
+								</td>
 							</tr>
 						<% end %>
-					<% else %>
-						
 					<% end %>
 					
 				</tbody>

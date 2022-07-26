@@ -85,6 +85,25 @@ defmodule FracomexWeb.Live.CartLive do
     }
   end
 
+  def handle_event("remove-item-from-cart", params, socket) do
+    id = params["id"]
+
+    # Retrouver la position de l'item dans le panier
+    index = Enum.find_index(socket.assigns.cart, fn cart -> cart.product_id == "#{id}" end)
+
+    new_cart = List.delete_at(socket.assigns.cart, index)
+
+    PhoenixLiveSession.put_session(socket, "cart", new_cart)
+    PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(new_cart))
+
+    {:noreply,
+      socket
+      |> assign(cart: new_cart)
+      |> assign(sum_cart: sum_cart(new_cart))
+      |> redirect(to: Routes.cart_path(socket, :index))
+    }
+  end
+
   # Calculer la somme totale du panier
   def sum_cart(cart) do
     if is_nil(cart) do
