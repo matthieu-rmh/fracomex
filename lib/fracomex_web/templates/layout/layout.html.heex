@@ -6,15 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="csrf-token" content={csrf_token_value()}>
     <%= live_title_tag assigns[:page_title] || "Fracomex" %>
-    <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/fontawesome.min.css" integrity="sha512-xX2rYBFJSj86W54Fyv1de80DWBq7zYLn2z0I9bIhQG+rxIF6XVJUpdGnsNHWRa6AvP89vtFupEPDP8eZAtu9qA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/linearicons@1.0.2/dist/web-font/style.min.css"/>
-    <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js" integrity="sha512-0QbL0ph8Tc8g5bLhfVzSqxe9GERORsKhIn1IrpxDAgUsbBGz/V7iSav2zzW325XGd1OMLdL4UiqRJj702IeqnQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   </head>
   <body>
 		<header id="home" class="slide-hero">
@@ -45,7 +36,13 @@
 				                    <li class="dropdown">
 				                        <a href={Routes.cart_path(@conn, :index)} class="dropdown-toggle" data-toggle="dropdown">
 				                            <span class="lnr lnr-cart"></span>
-											<span class="badge badge-bg-1">2</span>
+											<span class="badge badge-bg-1">
+												<%= if not is_nil(@cart) do %>
+													<%= Enum.count(@cart) %>
+												<% else %>
+													0
+												<% end %>
+											</span>
 				                        </a>
 				                        <ul class="dropdown-menu cart-list s-cate">
 				                            <li class="single-cart-list">
@@ -107,8 +104,8 @@
 										</a>
 
 										<ul class="dropdown-menu itemfamilies-dropdown-menu s-cate">
-											<%= for item_family <- Fracomex.Products.list_families() do %>
-												 <li class="scroll"><a href="#blog"><%= item_family.caption %></a></li>
+											<%= for family <- Fracomex.Products.list_families() do %>
+												 <li class="scroll"><a href="#blog"><%= family.caption %></a></li>
 											<% end %>
 										 </ul>
 									</li>
@@ -307,5 +304,21 @@ function () {
         </footer>
 	<!--footer end-->
   </body>
+  <script>
+    $( document ).ready(function() {
+    $("#search").click(function(){
+      $("#search-nav").slideToggle("500", "easeInOutCirc");
+      $(".sb").focus();
+      $("#search").hide("500", "easeInOutCirc");
+      $(".top-section").css( { "margin-top" : "170px","transition" : "0.3s" } );
+    });
+    $("#close-search").click(function(){
+      $("#search-nav").slideToggle("500", "easeInOutCirc");
+      $(".sb").focus();
+      $("#search").show("500", "easeInOutCirc");
+      $(".top-section").css( { "margin-top" : "110px", "transition" : "0.3s" } );  
+    });
+    });
+  </script>
 </html>
 

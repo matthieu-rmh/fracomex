@@ -8,21 +8,21 @@
 					<div class="row">
 					<%= for item <- @items do %>
 						<div class="col-md-3 col-sm-4">
-							<div class="details-product" id="details">
-							<a href={Routes.single_product_path(@conn, :index)}>
-								<div class="single-product-bg shadow">
-									<img src={Routes.static_path(@conn, "#{item.item_image}")} alt={item.item_image}>
+							<div class={"details-product-#{item.id}"} id="details">
+							<a href={Routes.product_path(@conn, :product_details, item.caption, item.id)} class={"product-#{item.id}"} >
+								<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
+									<img src={Routes.static_path(@conn, "#{item.image}")} alt={item.image}>
 									<div class="single-product-bg-overlay"></div>
 									<div class="sale bg-1" hidden>
 										<p hidden><%= Enum.count(@items) %> news</p>
 										<p>Arrivage</p>
 									</div>
 									<!--product_title-->
-								<div class="product-name">	
+								<div class="product-name" id={"name-#{item.id}"}>	
 								<a class="a-product-name" href="#"><%= item.caption %></a>
 								</div>
 								<!--product_price-->
-								<div class="product-price">
+								<div class="product-price" id={"price-#{item.id}"}>
 								<p class="p-product-price"><%= item.sale_price_vat_excluded %> €</p>
 								</div>
 									<div class="new-arrival-cart">
@@ -38,7 +38,6 @@
 										</p-->
 									</div>
 								</div>
-								
 							</a>	
 							</div>
 							

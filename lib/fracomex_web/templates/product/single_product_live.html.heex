@@ -1,0 +1,88 @@
+<section class="top-section p-4">
+	<div class="container px-4 px-lg-5 my-5">
+		<div class="text-center">
+			<h1 class="">Page_Title</h1>
+		</div>
+	</div>
+</section>
+<!--new-arrivals start -->
+<section id="product-single" class="product-single">
+	<main class="container">
+		<p class="alert alert-info" role="alert"
+		phx-click="lv:clear-flash"
+		phx-value-key="info"><%= live_flash(@flash, :info) %></p>
+	
+		<p class="alert alert-danger" role="alert"
+			phx-click="lv:clear-flash"
+			phx-value-key="error"><%= live_flash(@flash, :error) %></p>
+	</main>
+	<div class="container">
+		<div class="section-header">
+		</div><!--/.section-header-->
+		<div class="new-arrivals-content">
+			<div class="row">
+				<div class="col-md-6 col-sm-8">
+					<div class="single-product">
+						<div class="single-product-bg">
+
+							<%= if not is_nil(@item_get_by_id) do %>
+								<img src={@item_get_by_id.image} alt="product_img">
+							<% end %>
+
+							<div hidden class="sale bg-1">
+								<p>Promotions</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-8">
+					<form phx-submit="add-product-to-cart">
+						<input type="hidden" name="item_id" value={@item_get_by_id.id}>
+						<div class="details">
+							<%= if not is_nil(@item_get_by_id) do %>
+								<h2 class="details-product-name"><%= @item_get_by_id.caption %> </h2>
+								<p>Catégorie : Product_category</p>
+								<h3 class="details-product-price"><%= @item_get_by_id.sale_price_vat_excluded %> €</h3>
+								<div class="row">
+									<div class="col-md-2 col-sm-4">
+										<div class="counter">
+											<span 
+												class="down" 
+												phx-click="dec-button" 
+												phx-value-item_id={@item_get_by_id.id}
+												phx-value-quantity={@quantity} 
+												style={"#{if @quantity < 1, do: "opacity: 0; cursor: auto;", else: "opacity: 1"}"}>-
+											</span>
+												<input type="text" value={@quantity} name="quantity">
+											<span 
+												class="up" 
+												phx-click="inc-button" 
+												phx-value-item_id={@item_get_by_id.id}
+												phx-value-quantity={@quantity}>+
+											</span>
+										</div>
+									</div>
+								</div>
+							<% end %>
+						</div>
+						<!-- 
+							phx-click="add-product-to-cart"
+							phx-value-item_id = {@item_get_by_id.id}
+						-->
+						<button 
+							type="submit"
+							class="button-cart product-add-cart" 
+							style={"#{if @quantity < 1, do: "opacity: 0; cursor: auto;", else: "opacity: 1"}"}
+						>	
+							<span class="lnr lnr-cart"></span>
+							<span class="single_product_addtocart">Ajouter au panier</span>
+						</button>
+					</form>
+				</div>
+				
+			</div>
+		</div>
+	</div><!--/.container-->
+
+</section><!--/.new-arrivals-->
+<!--new-arrivals end -->
