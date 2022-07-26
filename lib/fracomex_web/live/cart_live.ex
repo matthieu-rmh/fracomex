@@ -15,12 +15,6 @@ defmodule FracomexWeb.Live.CartLive do
         cart: session["cart"]
       )
 
-    # IO.puts("**** IREO SESSION ****")
-    # IO.inspect(session)
-
-    # IO.puts("**** IREO CART @ SOCKET ****")
-    # IO.inspect(socket.assigns.cart)
-
     {:ok, socket, layout: {FracomexWeb.LayoutView, "layout_live.html"}}
   end
 
@@ -40,36 +34,44 @@ defmodule FracomexWeb.Live.CartLive do
     if quantity > 0 do
       item_id = params["item_id"]
 
+      # Retrouver la position de l'item dans le panier
       index = Enum.find_index(socket.assigns.cart, fn cart -> cart.product_id == "#{item_id}" end)
 
-      new_cart = List.update_at(socket.assigns.cart, index, fn cart -> %{product_id: item_id, quantity: cart.quantity - 1} end)
+      # Assigner une nouvelle valeur à la quantité à partir de la position
+      # Et mettre à jour le panier dans la session à partir de la nouvelle valeur
+      new_cart =
+        List.update_at(socket.assigns.cart, index, fn cart ->
+          %{product_id: item_id, quantity: cart.quantity - 1}
+        end)
 
+      # Mettre à jour la session avec le nouveau panier
       PhoenixLiveSession.put_session(socket, "cart", new_cart)
 
-      {:noreply,
-       socket
-       |> assign(cart: new_cart)
-      }
+      {:noreply, socket |> assign(cart: new_cart)}
     else
-      {:noreply,
-        socket
-      }
+      {:noreply, socket}
     end
   end
 
   def handle_event("inc-button", params, socket) do
     item_id = params["item_id"]
 
+    # Retrouver la position de l'item dans le panier
     index = Enum.find_index(socket.assigns.cart, fn cart -> cart.product_id == "#{item_id}" end)
 
-    new_cart = List.update_at(socket.assigns.cart, index, fn cart -> %{product_id: item_id, quantity: cart.quantity + 1} end)
+    # Assigner une nouvelle valeur à la quantité à partir de la position
+    # Et mettre à jour le panier dans la session à partir de la nouvelle valeur
+    new_cart =
+      List.update_at(socket.assigns.cart, index,
+                      fn cart ->
+                        %{product_id: item_id, quantity: cart.quantity + 1}
+                      end
+                    )
 
+    # Mettre à jour la session avec le nouveau panier
     PhoenixLiveSession.put_session(socket, "cart", new_cart)
 
-    {:noreply,
-    socket
-     |> assign(cart: new_cart)
-    }
+    {:noreply, socket |> assign(cart: new_cart)}
   end
 
   def render(assigns) do
