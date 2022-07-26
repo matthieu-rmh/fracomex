@@ -142,7 +142,7 @@
 			<div class="container">
 				<div class="hm-footer-details">
 					<div class="row">
-						<div class=" col-md-3 col-sm-6 col-xs-12">
+						<div class=" col-md-4 col-sm-6 col-xs-12">
 							<div class="hm-footer-widget">
 								<div class="hm-foot-title">
 									<h4>Informations</h4>
@@ -156,7 +156,7 @@
 								</div>
 							</div>
 						</div>
-						<div class=" col-md-3 col-sm-6 col-xs-12">
+						<div class=" col-md-4 col-sm-6 col-xs-12">
 							<div class="hm-footer-widget">
 								<div class="hm-foot-title">
 									<h4>Navigation</h4>
@@ -169,9 +169,8 @@
 								</div>
 							</div>
 						</div>
-						<div class=" col-md-3 col-sm-6 col-xs-12">
-						</div>
-						<div class=" col-md-3 col-sm-6 col-xs-12">
+				
+						<div class=" col-md-4 col-sm-6 col-xs-12">
 							<div class="hm-footer-widget">
 								<div class="hm-foot-title">
 									<h4>Contact</h4>
@@ -212,6 +211,7 @@
 			</div>
 <script>
   $( document ).ready(function() {
+	//search
 	$("#search").click(function(){
 	  $("#search-nav").slideToggle("500", "easeInOutCirc");
 	  $(".sb").focus();
@@ -224,9 +224,17 @@
 	  $("#search").show("500", "easeInOutCirc");
 	  $(".top-section").css( { "margin-top" : "110px", "transition" : "0.3s" } );  
 	});
+	//cart-close
+	$(".cart-close").click(function(){
+		$(this).parents(".single-cart-list").fadeOut();
+	});
+	$(".cart-remove").click(function(){
+		$(".cart-product").fadeOut();
+	});
   });
 </script>
 <script>
+//up $ down count cart
 function increaseCount(a, b) {
 	var input = b.previousElementSibling;
 	var value = parseInt(input.value, 10);
@@ -245,7 +253,8 @@ function increaseCount(a, b) {
 	}
   }
 </script>  
-<script>    
+<script> 
+//password   
 var togglePassword = document.querySelector("#togglePassword");
 var password = document.querySelector("#password");
 $("#togglePassword").click(function(){
@@ -279,21 +288,22 @@ $("#toggleCurrentPassword").click(function(){
   this.classList.toggle('fa-eye-slash');
 });
 </script>
-<!--script>
-var product_content = document.querySelector(".all-product-content");
-for (var x = 1; x < product_content.length; x++) {
-  
 
-  $(".details-product"+x).hover(function () {
-    $(".product-name").css( { "margin-top" : "150px","transition" : "0.3s" } );
-	  $(".product-price").css( { "margin-top" : "200px","transition" : "0.3s" } );
+<script>
+//margin dynamic
+
+var details_product = <%= Enum.count(Fracomex.Products.list_items()) %>
+for (let pas = 0; pas <= details_product; pas++) {
+  $('#product-'+ pas).hover(function () {
+    $("#name-"+ pas).css( { "margin-top" : "150px","transition" : "0.3s", "background-color" : "white", "width" : "100%" } );
+	  $("#price-"+ pas).css( { "margin-top" : "220px","transition" : "0.3s", "background-color" : "white", "width" : "100%" } );
 }, 
 function () {
-    $(".product-name").css( { "margin-top" : "200px","transition" : "0.3s" } );
-	  $(".product-price").css( { "margin-top" : "250px","transition" : "0.3s" } );
+    $("#name-"+ pas).css( { "margin-top" : "210px","transition" : "0.3s", "background" : "none"} );
+	  $("#price-"+ pas).css( { "margin-top" : "280px","transition" : "0.3s", "background" : "none"} );
 });
 }
-</script-->
+</script>
         </footer>
 	<!--footer end-->
   </body>
