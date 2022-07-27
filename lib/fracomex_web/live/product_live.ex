@@ -118,16 +118,31 @@ defmodule FracomexWeb.Live.ProductLive do
     quantity = String.to_integer(params["quantity"])
 
     if quantity > 0 do
-      {:noreply, socket |> assign(quantity: quantity - 1)}
+      {:noreply,
+        socket
+        |> assign(quantity: quantity - 1)
+        |> clear_flash()
+      }
     else
-      {:noreply, socket}
+      {:noreply, socket |> clear_flash()}
     end
   end
 
   def handle_event("inc-button", params, socket) do
+    id = params["item_id"]
     quantity = String.to_integer(params["quantity"])
+    caption = Products.get_item!(id).caption
 
-    {:noreply, socket |> assign(quantity: quantity + 1)}
+    real_stock =
+      Products.get_item!(id).real_stock
+      |> Decimal.to_float()
+      |> trunc()
+
+    if quantity >= real_stock do
+      {:noreply, socket |> put_flash(:error, "Il reste que #{real_stock} quantité pour #{caption}.")}
+    else
+      {:noreply, socket |> assign(quantity: quantity + 1)}
+    end
   end
 
   def put_session_assigns(socket, session) do
