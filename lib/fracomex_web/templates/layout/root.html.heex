@@ -38,7 +38,7 @@
 <script>  
     //category
 	$('.all').click(function() {
-  $(".sidepanel").show(); 		
+  $(".sidepanel").addClass("animated slideInLeft").show(); 		
   var spWidth = $('.sidepanel').width();
   var spMarginLeft = parseInt($('.sidepanel').css('margin-left'),10);
   var w = (spMarginLeft >= 0 ) ? spWidth * -1 : 0;
@@ -69,6 +69,16 @@ $(document).ready(function(){
 	$('.sub').click(function(){
 		var tab_id = $(this).attr('data-tab');
     $('.content-sub').slideToggle().hide();
+		$('.sub').removeClass('current');
+		$('.tab-content').removeClass('current').addClass("animated slideInLeft");
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})
+
+  $('.close-ul').click(function(){
+		var tab_id = $(this).attr('data-tab');
+    $('.content-sub').addClass("animated slideInLeft").show();
 		$('.sub').removeClass('current');
 		$('.tab-content').removeClass('current');
 
@@ -141,27 +151,33 @@ $("#toggleCurrentPassword").click(function(){
       $("#search-nav").slideToggle("500", "easeInOutCirc");
       $(".sb").focus();
       $("#search").hide("500", "easeInOutCirc");
+      $("#header-carousel").css( { "margin-top" : "120px","transition" : "0.3s" } );
       $(".top-section").css( { "margin-top" : "170px","transition" : "0.3s" } );
+      $(".sidepanel").css( { "margin-top" : "25px", "transition" : "0.3s" } );  
     });
     $("#close-search").click(function(){
       $("#search-nav").slideToggle("500", "easeInOutCirc");
       $(".sb").focus();
       $("#search").show("500", "easeInOutCirc");
-      $(".top-section").css( { "margin-top" : "110px", "transition" : "0.3s" } );  
+      $("#header-carousel").css( { "margin-top" : "80px","transition" : "0.3s" } );
+      $(".top-section").css( { "margin-top" : "110px", "transition" : "0.3s" } );
+      $(".sidepanel").css( { "margin-top" : "-35px", "transition" : "0.3s" } );  
     });
     });
+    
 </script>
 <script>
 //margin dynamic
-var details_product = <%= Enum.count(Fracomex.Products.list_items()) %>
-for (var pas = 0; pas <= details_product; pas++) {
-  $('#product-'+ pas).hover(function () {
-    $("#name-"+ pas).css({ "margin-top" : "150px","transition" : "0.3s", "background-color" : "white", "width" : "100%" });
-	  $("#price-"+ pas).css({ "margin-top" : "220px","transition" : "0.3s", "background-color" : "white", "width" : "100%" });
+let details_product = <%= Enum.count(Fracomex.Products.list_items()) %>
+for (let pas = 0; pas <= details_product; pas++) {
+  $("#product-"+pas).hover(function () {
+     
+    $("#name-"+pas).css({ "margin-top" : "150px","transition" : "0.3s", "background-color" : "white", "width" : "100%" });
+	  $("#price-"+pas).css({ "margin-top" : "220px","transition" : "0.3s", "background-color" : "white", "width" : "100%" });
 }, 
 function () {
-    $("#name-"+ pas).css({ "margin-top" : "210px","transition" : "0.3s", "background" : "none"});
-	  $("#price-"+ pas).css({ "margin-top" : "280px","transition" : "0.3s", "background" : "none"});
+    $("#name-"+pas).css({ "margin-top" : "210px","transition" : "0.3s", "background" : "none"});
+	  $("#price-"+pas).css({ "margin-top" : "280px","transition" : "0.3s", "background" : "none"});
 });
 }
 </script>

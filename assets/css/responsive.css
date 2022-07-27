@@ -43,7 +43,21 @@
 }/*max-width:991px*/
 
 @media screen and (max-width:768px){
-    
+    .sidepanel {
+		position: fixed;
+		height: 100vh;
+		background-color: #070707;
+		width: 100%;
+		min-width: 100px;
+		margin-left: -600px;
+		z-index: 2;
+		font-size: 1.5em;
+		line-height: 1.5em;
+		color: #f1f1f2;
+		text-align: center;
+		opacity: 0.9;
+		margin-top: 8px;
+	  }
 }/*max-width:768px*/
 
 @media screen and (max-width:767px){

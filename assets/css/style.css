@@ -871,64 +871,21 @@ p.arrival-review span {margin-right: 15px;}
 .product-single{
     padding: 10px 0 40px 0;
 }
-/*-------------------------------------
-        6. collection
---------------------------------------*/
-#sofa-collection {
-    position: relative;
-    z-index: -1;
-}
-.sofa-collection{
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 600px;
-    background-position: center;
-    background-size: cover;
-}
-/* .sofa-collection.collectionbg1{background: url(../images/collection/sofa-collection-banner.jpg)no-repeat;}
-.sofa-collection.collectionbg2{background: url(../images/collection/table-banner.jpg)no-repeat;} */
 
-.sofa-collection:before,.sofa-collection:after {
+
+/*--------------------------------
+product banner
+-----------------------------*/
+.banner_2_background {
     position: absolute;
-    content: "";
     top: 0;
     left: 0;
+    width: 100%;
     height: 100%;
-    width: 33.4%;
-    background: rgba(51,59,62,.95);
-}
-.sofa-collection:after {
-    background: rgba(106,119,129,.3);
-    left: auto;
-    right: 0;
-    width: 66.6%;
-}
-.sofa-collection-txt {
-    position: relative;
-    max-width: 596px;
-    z-index: 1;
-}
-.sofa-collection-txt h2 {
-    font-size: 30px;
-    color: #fff;
-    font-weight: 700;
-}
-.sofa-collection-txt h4 {
-    font-size: 16px;
-    color: #fff;
-    font-weight: 700;
-}
-.sofa-collection-txt h4 span{color: #25abdb;}
-.sofa-collection-txt p {
-    font-size: 16px;
-    color: #fff;
-    font-weight: 500;
-    margin: 25px 0 10px;
-}
-.sofa-collection-price { margin-bottom: 3px;}
-
-.btn-cart.product-add-cart.sofa-collection-btn{height: 50px;line-height: 50px;}
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+  }
 
 /*-------------------------------------
         7. Features
@@ -960,6 +917,10 @@ span.feature-review {margin-left: 10px;}
 /*-------------------------------------       
         8.  categ
 --------------------------------------*/
+#promo {
+    margin-top: -18rem;
+    position: relative;
+  }
 .categ {padding:80px 0;}
 
 /*.single-categ*/
@@ -1572,8 +1533,6 @@ margin-bottom: -10px !important;
       transform: rotate(-135deg);
   }
   
-  
-  
   /*-----------------------*/
   #by {
     font-family: 'Arima Madurai', cursive;
@@ -1583,12 +1542,12 @@ margin-bottom: -10px !important;
     top: 22%;
     right: 2.5%; 
   }
-  
+  /*sidepanel*/
   .sidepanel {
     position:fixed;
     height:100vh;
     background-color:#070707;
-    width:20%;
+    width:22%;
     min-width:100px;
     margin-left: -400px;
     z-index:2;
@@ -1596,7 +1555,8 @@ margin-bottom: -10px !important;
     line-height:1.5em;
     color:#f1f1f2;
     text-align:center;
-    opacity: 0.8;
+    opacity: 0.9;
+    margin-top: -35px;
   }
   .sidepanel:before {
     content:'';
@@ -1613,16 +1573,32 @@ margin-bottom: -10px !important;
     margin-left: 10px;
     margin-top: 20px;
   }
+  .sidepanel .tab-content ul{
+    margin-top: 10px;
+  }
   .sidepanel ul li {
     padding: 10px;
   }
-  .sidepanel i {
+  .sidepanel li a {
+    color: #fff;
+    font-size: 18px;
+  }
+  .sidepanel i.close-side {
     display: block;
     position: absolute;
     color: #e41201;
     top: 0;
     right: 0;
     margin: 10px;
+  }
+  .sidepanel .return {
+    display: block;
+    position: absolute;
+    color: #e41201;
+    top: 0;
+    left: 0;
+    margin: 10px;
+    margin-top: 5px;
   }
   .line {
     height:1px;
@@ -1642,4 +1618,8 @@ margin-bottom: -10px !important;
 .tab-content.current{
 	display: inherit;
 }
-  
+
+/*text banner*/
+#text-banner{
+    margin: 10rem;
+}
