@@ -21,15 +21,15 @@
 							<tr class="cart-product">
 								<td class="img-cart" style="margin-top: -8px;">
 									<p hidden><%  %>.news</p>
-									<img src={Fracomex.Products.get_item!(Enum.at(@cart, i).product_id).image} width="80px" height="80px">
+									<img src={"/images/small-items/#{Fracomex.Utilities.product_in_cart(@cart, i).image}"} width="80px" height="80px">
 								</td>
 
 								<td class="title-cart" width="30%">
-									<p><%= Fracomex.Products.get_item!(Enum.at(@cart, i).product_id).caption %></p>
+									<p><%= Fracomex.Utilities.product_in_cart(@cart, i).caption %></p>
 								</td>
 
 								<td class="price-cart">
-									<p><%= Decimal.to_float Fracomex.Products.get_item!(Enum.at(@cart, i).product_id).sale_price_vat_excluded %>€</p>
+								    <p><%= Fracomex.Utilities.price_to_float(Enum.at(@cart, i).product_id) %> €</p>
 								</td>
 								<td class="quantity-cart">
 									<div class="counter">
@@ -51,7 +51,7 @@
 									</div>
 								</td>
 								<td class="price-cart">
-									<p><%= Float.round((Enum.at(@cart, i).quantity) * (Decimal.to_float Fracomex.Products.get_item!(Enum.at(@cart, i).product_id).sale_price_vat_excluded), 2) %>€</p>
+									<p><%= Float.round((Enum.at(@cart, i).quantity) * Fracomex.Utilities.price_to_float(Enum.at(@cart, i).product_id)) %>€</p>
 								</td>
 									
 								<td class="remove-cart" phx-click="remove-item-from-cart" phx-value-id={Enum.at(@cart, i).product_id}>
