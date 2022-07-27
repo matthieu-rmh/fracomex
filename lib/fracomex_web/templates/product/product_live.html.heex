@@ -61,7 +61,7 @@
 							<div class="details-product" id="details">
 							<a href={Routes.product_path(@socket, :product_details, "#{item.caption}", "#{item.id}")}>
 								<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
-									<img src={Routes.static_path(@socket, "/#{item.image}")} alt={item.caption}>
+									<img src={Routes.static_path(@socket, "/images/small-items/#{item.image}")} alt={item.caption}>
 									<div class="single-product-bg-overlay"></div>
 									<div hidden class="sale bg-1">
 										<p hidden>news</p>
