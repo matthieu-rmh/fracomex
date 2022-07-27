@@ -35,9 +35,17 @@ nav.navbar.bootsnav{
     background-color: #fff;
     border: none;
     border-bottom: solid 1px #e0e0e0;
-    z-index: 9;
+    z-index: 1;
 }
-
+.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked {
+    margin-top: 0px;
+  }
+.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full {
+    margin-top: -10px;
+}
+.navbar {
+    margin-top: -10px;
+  }
 nav.navbar.bootsnav ul.nav > li > a{
     color: #6f6f6f;
     background-color: transparent;
@@ -181,7 +189,10 @@ nav.bootsnav.navbar-full .navbar-collapse ul.nav > li > a{
     font-size: 24px;
     padding: 10px 15px;
 }
-
+#header-carousel {
+    margin-top: 8rem;
+    margin-bottom: 8rem;
+  }
 li.close-full-menu > a{
     padding-top: 0px;
     padding-bottom: 0px;
@@ -348,8 +359,8 @@ ul.cart-list > li.total > span{
   
   #search-nav{
     display:none;
-    background:#1995cc;
-    padding:10px 10px;
+    background:#e41201;
+    padding: 5px 10px;
     text-align:center;
     position:relative;
     transition:background-color 500ms linear;

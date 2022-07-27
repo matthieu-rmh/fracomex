@@ -20,7 +20,6 @@ defmodule FracomexWeb.Router do
     get "/", PageController, :index
 
     get "/contact", PageController, :contact
-
     # get "/boutique", ProductController, :index
     live "/boutique", Live.ProductLive, :index
 

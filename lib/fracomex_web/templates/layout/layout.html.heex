@@ -59,6 +59,7 @@
 				            </div>
 				            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
 				                <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
+									<!--
 				                    <li class={"scroll #{if @conn.request_path=="/", do: "active"}"}><a href={Routes.page_path(@conn, :index)}>Accueil</a></li>
 				                    <li class={"dropdown scroll #{if @conn.request_path=="/product", do: "active"}"}>
 										<a href={Routes.product_path(@conn, :index)} class="dropdown" data-toggle="">
@@ -72,7 +73,7 @@
 										 </ul>
 									</li>
 									
-									<!--
+									
 				                    <li class="dropdown scroll">				                        
 										<a href="#" class="dropdown" data-toggle="dropdown" >
 				                            dropdown
@@ -83,13 +84,40 @@
 										   <li class="scroll"><a href="#blog">dropdown3</a></li>
 				                        </ul>
 				                    </li>
-									-->
-				                    <!--  <li class="scroll"><a href="#blog">blog</a></li> -->
-				                    <li class={"scroll #{if @conn.request_path=="/contact", do: "active"}"}><a href={Routes.page_path(@conn, :contact)}>contact</a></li>
-				                </ul>
+									
+				                    
+				                    <li class={"scroll #{if @conn.request_path=="/contact", do: "active"}"}><a href={Routes.page_path(@conn, :contact)}>contact</a></li> -->
+				                <li class="scroll"><a href="##" class="all">Nos produits</a></li>
+								<li class="scroll"><a href="##">categ2</a></li>
+								<li class="scroll"><a href="##">categ3</a></li>
+								<li class="scroll"><a href="##">categ4</a></li>
+								<li class="scroll"><a href="##">categ5</a></li>
+								</ul>
 				            </div>
 				        </div>
 				    </nav>
+					<div class="sidepanel">
+					<div class="">
+					<ul class="content-sub">
+						<li class="sub" data-tab="tab-1">
+						<a href="##">Category_name one</a>
+						</li>
+					</ul>
+					</div>
+						<div id="tab-1" class="tab-content">
+							<ul class="">
+								<li class="">
+								<a href="##">Sub-Category_name one</a>
+								</li>
+							</ul>
+						<a class="return close-ul" style="cursor: pointer;">	
+						<i class="fa fa-chevron-left close-ul" aria-hidden="true"></i>
+						Retour
+						</a>
+						</div>
+					
+					 <i class="fa fa-times close-side" aria-hidden="true"></i>
+					</div>
 				</div>
 			    <div class="clearfix"></div>
 
@@ -168,96 +196,7 @@
 					<i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
 				</div>
 			</div>
-
-<script>
-//up $ down count cart
-function increaseCount(a, b) {
-	var input = b.previousElementSibling;
-	var value = parseInt(input.value, 10);
-	value = isNaN(value) ? 0 : value;
-	value++;
-	input.value = value;
-  }
-  
-  function decreaseCount(a, b) {
-	var input = b.nextElementSibling;
-	var value = parseInt(input.value, 10);
-	if (value > 1) {
-	  value = isNaN(value) ? 0 : value;
-	  value--;
-	  input.value = value;
-	}
-  }
-</script>  
-<script> 
-//password   
-var togglePassword = document.querySelector("#togglePassword");
-var password = document.querySelector("#password");
-$("#togglePassword").click(function(){
-  // toggle the type attribute
-  var type = password.getAttribute("type") === "password" ? "text" : "password";
-  password.setAttribute("type", type);
-  // toggle the eye icon
-  this.classList.toggle('fa-eye');
-  this.classList.toggle('fa-eye-slash');
-});
-
-var toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
-var confirm_password = document.querySelector("#confirm_password");
-$("#toggleConfirmPassword").click(function(){
-  // toggle the type attribute
-  var type = confirm_password.getAttribute("type") === "password" ? "text" : "password";
-  confirm_password.setAttribute("type", type);
-  // toggle the eye icon
-  this.classList.toggle('fa-eye');
-  this.classList.toggle('fa-eye-slash');
-});
-
-var toggleCurrentPassword = document.querySelector("#toggleCurrentPassword");
-var current_password = document.querySelector("#current_password");
-$("#toggleCurrentPassword").click(function(){
-  // toggle the type attribute
-  var type = current_password.getAttribute("type") === "password" ? "text" : "password";
-  current_password.setAttribute("type", type);
-  // toggle the eye icon
-  this.classList.toggle('fa-eye');
-  this.classList.toggle('fa-eye-slash');
-});
-</script>
-
-<script>
-//margin dynamic
-
-var details_product = <%= Enum.count(Fracomex.Products.list_items()) %>
-for (let pas = 0; pas <= details_product; pas++) {
-  $('#product-'+ pas).hover(function () {
-    $("#name-"+ pas).css( { "margin-top" : "150px","transition" : "0.3s", "background-color" : "white", "width" : "100%" } );
-	  $("#price-"+ pas).css( { "margin-top" : "220px","transition" : "0.3s", "background-color" : "white", "width" : "100%" } );
-}, 
-function () {
-    $("#name-"+ pas).css( { "margin-top" : "210px","transition" : "0.3s", "background" : "none"} );
-	  $("#price-"+ pas).css( { "margin-top" : "280px","transition" : "0.3s", "background" : "none"} );
-});
-}
-</script>
-        </footer>
-	<!--footer end-->
-  </body>
-  <script>
-    $( document ).ready(function() {
-    $("#search").click(function(){
-      $("#search-nav").slideToggle("500", "easeInOutCirc");
-      $(".sb").focus();
-      $("#search").hide("500", "easeInOutCirc");
-      $(".top-section").css( { "margin-top" : "170px","transition" : "0.3s" } );
-    });
-    $("#close-search").click(function(){
-      $("#search-nav").slideToggle("500", "easeInOutCirc");
-      $(".sb").focus();
-      $("#search").show("500", "easeInOutCirc");
-      $(".top-section").css( { "margin-top" : "110px", "transition" : "0.3s" } );  
-    });
-    });
-  </script>
+		</footer>
+		</body>
 </html>
 

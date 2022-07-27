@@ -60,11 +60,14 @@
 								data-target="#navbar-menu">
 								<i class="fa fa-bars"></i>
 							</button>
-							<a class="navbar-brand" href={Routes.page_path(@socket, :index)}>Fraco<span>mex</span>.</a>
+							<a class="navbar-brand" href={Routes.page_path(@socket, :index)}>
+								<img src={Routes.static_path(@socket, "/images/fracomex.jpg")}>
+							</a>
 
 						</div>
 						<div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
 							<ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
+								<!--
 								<li class={"scroll #{if Routes.page_path(@socket, :index), do: "de" }"}>
 									<a href={Routes.page_path(@socket, :index)}>Accueil</a>
 								</li>
@@ -84,7 +87,7 @@
 											</li>
 										<% end %>
 									</ul>
-								</li>
+								</li> -->
 
 								<!--
 				                    <li class="dropdown scroll">				                        
@@ -99,11 +102,19 @@
 				                    </li>
 									-->
 								<!--  <li class="scroll"><a href="#blog">blog</a></li> -->
-								<li class="scroll"><a href="#newsletter">contact</a></li>
+								<li class="scroll"><a href="##">categ1</a></li>
+								<li class="scroll"><a href="##">categ2</a></li>
+								<li class="scroll"><a href="##">categ3</a></li>
+								<li class="scroll"><a href="##">categ4</a></li>
+								<li class="scroll"><a href="##">categ5</a></li>
 							</ul>
 						</div>
 					</div>
 				</nav>
+				<div class="sidepanel">
+				<span>Click the button on the side to watch this panel collapse gracefully</span>
+				<div class="line"></div>
+				</div>
 			</div>
 			<div class="clearfix"></div>
 

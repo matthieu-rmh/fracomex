@@ -12,35 +12,11 @@
 					<!-- .item -->
 					<div class="item active">
 						<div class="single-slide-item slide1">
-							<div class="container">
+							<div class="container p-4">
 								<div class="slide-hero-content">
 									<div class="row">
-										<div class="col-sm-7">
-											<div class="single-slide-hero">
-												<div class="slide-hero-txt">
-													<h4>Article à la une #1</h4>
-													<h2>Slide #1</h2>
-													<p>
-                                                        Description de l'article à la une #1
-                                                    </p>
-													<div class="packages-price">
-														<p>
-															$ 399.00
-															<del>$ 499.00</del>
-														</p>
-													</div>
-													
-												</div><!--/.slide-hero-txt-->
-											</div><!--/.single-slide-hero-->
-										</div><!--/.col-->
-										<div class="col-sm-5">
-											<div class="single-slide-hero">
-												<div class="slide-hero-img">
-													<img src={Routes.static_path(@conn, "/images/slider1.png")} alt="slider image">
-												</div><!--/.slide-hero-txt-->
-											</div><!--/.single-slide-hero-->
-										</div><!--/.col-->
-									</div><!--/.row-->
+										<img src={Routes.static_path(@conn, "/images/slide.jpg")} alt="categ image" class="shadow">
+									</div>	
 								</div><!--/.slide-hero-content-->
 							</div><!-- /.container-->
 						</div><!-- /.single-slide-item-->
@@ -49,35 +25,11 @@
 
 					<div class="item">
 						<div class="single-slide-item slide2">
-							<div class="container">
+							<div class="container p-4">
 								<div class="slide-hero-content">
 									<div class="row">
-										<div class="col-sm-7">
-											<div class="single-slide-hero">
-												<div class="slide-hero-txt">
-													<h4>Article à la une #2</h4>
-													<h2>Slide #2</h2>
-													<p>
-                                                        Description de l'article à la une #2
-													</p>
-													<div class="packages-price">
-														<p>
-															$ 199.00
-															<del>$ 299.00</del>
-														</p>
-													</div>
-													
-												</div><!--/.slide-hero-txt-->
-											</div><!--/.single-slide-hero-->
-										</div><!--/.col-->
-										<div class="col-sm-5">
-											<div class="single-slide-hero">
-												<div class="slide-hero-img">
-													<img src={Routes.static_path(@conn, "/images/slider2.png")} alt="slider image">
-												</div><!--/.slide-hero-txt-->
-											</div><!--/.single-slide-hero-->
-										</div><!--/.col-->
-									</div><!--/.row-->
+										<img src={Routes.static_path(@conn, "/images/slide.jpg")} alt="categ image"  class="shadow">
+									</div>	
 								</div><!--/.slide-hero-content-->
 							</div><!-- /.container-->
 						</div><!-- /.single-slide-item-->
@@ -86,35 +38,11 @@
 
 					<div class="item">
 						<div class="single-slide-item slide3">
-							<div class="container">
+							<div class="container p-4">
 								<div class="slide-hero-content">
 									<div class="row">
-										<div class="col-sm-7">
-											<div class="single-slide-hero">
-												<div class="slide-hero-txt">
-													<h4>Article à la une #3</h4>
-													<h2>Slide #3</h2>
-													<p>
-                                                        Description de	l'article à la une #3
-                                                    </p>
-													<div class="packages-price">
-														<p>
-															$ 299.00
-															<del>$ 399.00</del>
-														</p>
-													</div>
-													
-												</div><!--/.slide-hero-txt-->
-											</div><!--/.single-slide-hero-->
-										</div><!--/.col-->
-										<div class="col-sm-5">
-											<div class="single-slide-hero">
-												<div class="slide-hero-img">
-													<img src={Routes.static_path(@conn, "/images/slider1.png")} alt="slider image">
-												</div><!--/.slide-hero-txt-->
-											</div><!--/.single-slide-hero-->
-										</div><!--/.col-->
-									</div><!--/.row-->
+										<img src={Routes.static_path(@conn, "/images/slide.jpg")} alt="categ image"  class="shadow">
+									</div>	
 								</div><!--/.slide-hero-content-->
 							</div><!-- /.container-->
 						</div><!-- /.single-slide-item-->
@@ -122,7 +50,7 @@
 					</div><!-- /.item .active-->
 				</div><!-- /.carousel-inner-->
 
-			</div><!--/#header-carousel-->
+</div><!--/#header-carousel-->
 <!--categ start -->
 <section id="categ" class="categ" style="position: relative; top: -10rem;margin-bottom: -10rem;">
 			<div class="container">
@@ -184,7 +112,58 @@
 </section><!--/.categ-->
 		<!--categ end -->            
 <%= render "arrivage.html", Map.put(assigns, :action, Routes.page_path(@conn, :index)) %>
+<!--welcome-hero start -->
+	<div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
+				<!--/.carousel-inner -->
+				<div class="carousel-inner" role="listbox">
+					<!-- .item -->
+					<div class="item active">
+						<div class="single-slide-item slide1">
+                        <div class="banner_2_background" style="background-image:url(./images/banner_2_background.jpg)"></div>
+							<div class="container p-4" style="width: 100%;">
+								<div class="welcome-hero-content">
+									<div class="row">
+										<div class="col-sm-7">
+											<div class="single-welcome-hero animated fadeIn">
+												<div class="welcome-hero-txt animated fadeInLeft p-4" id="text-banner">
+													<h2 class="mb-4">Title</h2>
+													<p>
+														Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiuiana smod tempor  ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip. 
+													</p>
+													<div class="price mb-4">
+														<p>
+															€399.00 ----
+															<del>€ 499.00</del>
+														</p>
+													</div>
+                                                    <div class="text-start" style="position: absolute;">
+													<button class="btn-cart valide-cart text-start">
+                                                        <span class="single_product_addtocart">Découvrir</span>
+                                                    </button>
+                                                    </div>
+												</div><!--/.welcome-hero-txt-->
+											</div><!--/.single-welcome-hero-->
+										</div><!--/.col-->
+										<div class="col-sm-5">
+											<div class="single-welcome-hero">
+												<div class="welcome-hero-img animated fadeInRight">
+													<img src={Routes.static_path(@conn, "/images/slider2.png")} alt="slider image">
+												</div><!--/.welcome-hero-txt-->
+											</div><!--/.single-welcome-hero-->
+										</div><!--/.col-->
+									</div><!--/.row-->
+								</div><!--/.welcome-hero-content-->
+							</div><!-- /.container-->
+						</div><!-- /.single-slide-item-->
 
+					</div><!-- /.item .active-->
+
+					
+
+					
+				</div><!-- /.carousel-inner-->
+
+</div><!--/#header-carousel-->
 <section id="promo" class="categ">
 <div class="p-4">
 	<div class="row">
