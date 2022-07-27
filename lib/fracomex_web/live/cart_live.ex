@@ -118,6 +118,14 @@ defmodule FracomexWeb.Live.CartLive do
     end
   end
 
+  # Mettre à jour la session avec le nouveau panier
+  def handle_event("update-cart", _params, socket) do
+    {:noreply,
+      socket
+      |> redirect(to: Routes.cart_path(socket, :index))
+    }
+  end
+
   def render(assigns) do
     FracomexWeb.CartView.render("cart_live.html", assigns)
   end
