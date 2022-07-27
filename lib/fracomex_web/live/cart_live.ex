@@ -27,6 +27,7 @@ defmodule FracomexWeb.Live.CartLive do
     socket
     |> assign(user_id: Map.get(session, "user_id"))
     |> assign(cart: Map.get(session, "cart"))
+    |> assign(sum_cart: sum_cart(session["cart"]))
   end
 
   def handle_event("dec-button", params, socket) do
