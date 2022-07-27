@@ -3,6 +3,8 @@ defmodule FracomexWeb.Live.CartLive do
 
   alias Fracomex.Products
 
+  alias Fracomex.Utilities
+
   def mount(_params, session, socket) do
     socket =
       socket
@@ -111,7 +113,7 @@ defmodule FracomexWeb.Live.CartLive do
       0
     else
       cart
-      |> Enum.map(fn cart -> cart.quantity * Decimal.to_float Products.get_item!(cart.product_id).sale_price_vat_excluded end)
+      |> Enum.map(fn cart -> cart.quantity * Utilities.price_to_float(cart.product_id) end)
       |> Enum.sum()
     end
   end
