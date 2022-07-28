@@ -94,22 +94,37 @@ defmodule FracomexWeb.Live.ProductLive do
 
         true ->
           # Retrouver la position de l'item dans le panier
-          index = Enum.find_index(socket.assigns.cart, fn cart -> cart.product_id == "#{item_id}" end)
 
-          # Assigner une nouvelle valeur à la quantité à partir de la position
-          # Et mettre à jour le panier dans la session à partir de la nouvelle valeur
-          new_cart = List.update_at(socket.assigns.cart, index, fn cart -> %{product_id: item_id, quantity: cart.quantity + quantity} end)
+          quantity_in_cart = Enum.find(socket.assigns.cart, &(&1.product_id)).quantity
 
-          # Mettre à jour la session avec le nouveau panier
-          PhoenixLiveSession.put_session(socket, "cart", new_cart)
-          PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(new_cart))
+          real_stock =
+            Products.get_item!(item_id).real_stock
+            |> Decimal.to_float()
+            |> trunc()
 
-          {:noreply,
-           socket
-           |> put_flash(:info, product_added_in_cart)
-           |> redirect(to: Routes.product_path(socket, :product_details, item.caption, item_id))
-           |> assign(cart: new_cart)
-          }
+          if quantity_in_cart >= real_stock do
+            {:noreply, socket |> put_flash(:error, "Le stock disponible pour #{item.caption} est de #{real_stock}")}
+          else
+            index = Enum.find_index(socket.assigns.cart, &(&1.product_id == item_id))
+
+            # Assigner une nouvelle valeur à la quantité à partir de la position
+            # Et mettre à jour le panier dans la session à partir de la nouvelle valeur
+            new_cart = List.update_at(socket.assigns.cart, index, fn cart -> %{product_id: item_id, quantity: cart.quantity + quantity} end)
+
+            # Mettre à jour la session avec le nouveau panier
+            PhoenixLiveSession.put_session(socket, "cart", new_cart)
+            PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(new_cart))
+
+            {:noreply,
+             socket
+             |> put_flash(:info, product_added_in_cart)
+             |> redirect(to: Routes.product_path(socket, :product_details, item.caption, item_id))
+             |> assign(cart: new_cart)
+            }
+          end
+
+
+
       end
     end
   end
@@ -139,7 +154,7 @@ defmodule FracomexWeb.Live.ProductLive do
       |> trunc()
 
     if quantity >= real_stock do
-      {:noreply, socket |> put_flash(:error, "Il reste que #{real_stock} quantité pour #{caption}.")}
+      {:noreply, socket |> put_flash(:error, "Il reste que #{real_stock} stock disponible pour #{caption}.")}
     else
       {:noreply, socket |> assign(quantity: quantity + 1)}
     end
