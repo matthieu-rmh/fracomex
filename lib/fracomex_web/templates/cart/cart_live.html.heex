@@ -14,20 +14,22 @@
 					</tr>
 				</thead>
 				<tbody style="overflow: scroll;">
-					<%= if not is_nil(@cart) do %>
+					<%= if is_nil(@cart) or @cart == [] do %>
+						
+					<% else %>
 						<%= for i <- 0..Enum.count(@cart) - 1  do %>
 							<tr class="cart-product">
 								<td class="img-cart" style="margin-top: -8px;">
 									<p hidden><%  %>.news</p>
-									<img src={Fracomex.Products.get_item!(Enum.at(@cart, i).product_id).image} width="80px" height="80px">
+									<img src={"/images/small-items/#{Fracomex.Utilities.product_in_cart(@cart, i).image}"} width="80px" height="80px">
 								</td>
 
 								<td class="title-cart" width="30%">
-									<p><%= Fracomex.Products.get_item!(Enum.at(@cart, i).product_id).caption %></p>
+									<p><%= Fracomex.Utilities.product_in_cart(@cart, i).caption %></p>
 								</td>
 
 								<td class="price-cart">
-									<p><%= Decimal.to_float Fracomex.Products.get_item!(Enum.at(@cart, i).product_id).sale_price_vat_excluded %>€</p>
+								    <p><%= Fracomex.Utilities.price_to_float(Enum.at(@cart, i).product_id) %> €</p>
 								</td>
 								<td class="quantity-cart">
 									<div class="counter">
@@ -49,23 +51,23 @@
 									</div>
 								</td>
 								<td class="price-cart">
-									<p><%= Float.round((Enum.at(@cart, i).quantity) * (Decimal.to_float Fracomex.Products.get_item!(Enum.at(@cart, i).product_id).sale_price_vat_excluded), 2) %>€</p>
+									<p><%= Float.round((Enum.at(@cart, i).quantity) * Fracomex.Utilities.price_to_float(Enum.at(@cart, i).product_id)) %>€</p>
 								</td>
 									
-								<td class="remove-cart"><p><i class="lnr lnr-cross cart-remove"></i></p></td>
+								<td class="remove-cart" phx-click="remove-item-from-cart" phx-value-id={Enum.at(@cart, i).product_id}>
+									<p><i class="lnr lnr-cross cart-remove"></i></p>
+								</td>
 							</tr>
 						<% end %>
-					<% else %>
-						
 					<% end %>
 					
 				</tbody>
 			</table>
 			<div class="row">
 			<div class="col-md-12">
-			<button class="btn-cart valide-cart update" onclick="window.location.href='#'">
-				<span class="single_product_addtocart">Mettre à jour</span>
-			</button>
+				<button phx-click="update-cart" class="button-cart product-add-cart valide-cart update">
+					<span class="single_product_addtocart">Mettre à jour</span>
+				</button>
 			</div>
 			</div>
 		</div>    
@@ -77,23 +79,19 @@
 			<li
 				class="list-group-item d-flex justify-content-between align-items-center border-0 p-2">
 				Sous-total :
-				<span> $53.98</span>
+				<span><%= @sum_cart %> €</span>
 			</li>
 			<li
 				class="list-group-item d-flex justify-content-between align-items-center border-0 p-2 mb-3">
 				<div>
 					<strong>Total :</strong>
-					<%= if not is_nil(@cart) do %>
-						<%= for product_id <- 0..Enum.count(@cart) - 1 do %>
-							<span><strong> <%= Enum.at(@cart, product_id).product_id %> </strong></span>
-						<% end %>
-					<% end %>
+					<span><%= @sum_cart %> €</span>
 				</div>
 						
 			</li>
 			</ul>
 
-			<button class="btn-cart valide-cart" onclick="window.location.href='#'">
+			<button class="button-cart validate-cart" onclick="window.location.href='#'">
 				<span class="single_product_addtocart">Valider</span>
 			</button>
 		</div>

@@ -115,9 +115,9 @@ Hooks.Custom = {
         jQuery(".cart-close").click(function(){
             jQuery(this).parents(".single-cart-list").fadeOut();
         });
-        jQuery(".cart-remove").click(function(){
-            jQuery(".cart-product").fadeOut();
-        });
+        // jQuery(".cart-remove").click(function(){
+        //     jQuery(".cart-product").fadeOut();
+        // });
     }
 }
 

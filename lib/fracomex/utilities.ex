@@ -1,5 +1,7 @@
 defmodule Fracomex.Utilities do
 
+  alias Fracomex.Products
+
   def get_page_title_tag(request_path, user_id) do
     uid = cond do
       not is_nil(user_id) -> user_id
@@ -34,6 +36,19 @@ defmodule Fracomex.Utilities do
 
     end
 
+  end
+
+
+  # Transformer le prix décimal en float
+  def price_to_float(id) do
+    price = Products.get_item!(id).sale_price_vat_excluded
+    |> Decimal.to_float()
+  end
+
+  # Récupérer les informations des produits dans le panier
+  def product_in_cart(cart, i) do
+    Enum.at(cart, i).product_id
+    |> Products.get_item!()
   end
 
 end
