@@ -736,7 +736,6 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 Hooks.SearchButton = {
     mounted(){
-        "use strict";
     $( document ).ready(function() {
     $("#searchlive").click(function(){
       $("#search-nav").slideToggle("500", "easeInOutCirc");
@@ -753,9 +752,8 @@ Hooks.SearchButton = {
       $("#header-carousel").css( { "margin-top" : "80px","transition" : "0.3s" } );
       $(".top-section").css( { "margin-top" : "90px", "transition" : "0.3s" } );
     });
-    });
-    /*hooks sidepanel*/
-    $('.all-live').click(function() {
+     /*hooks sidepanel*/
+     $(".all").click(function() {
         $(".sidepanel").addClass("animated slideInLeft").show(); 		
         var spWidth = $('.sidepanel').width();
         var spMarginLeft = parseInt($('.sidepanel').css('margin-left'),10);
@@ -770,7 +768,7 @@ Hooks.SearchButton = {
         $(".overlay-panel").fadeIn(2000); 
         $("body").addClass("fixed-position"); 
       });
-      $(".close-side .live").click(function(){
+    $(".close-side").click(function(){
         var spWidth = $('.sidepanel').width();
         var spMarginLeft = parseInt($('.sidepanel').css('margin-left'),10);
         var w = (spMarginLeft >= 0 ) ? spWidth * -1 : 0;
@@ -784,6 +782,23 @@ Hooks.SearchButton = {
         $(".overlay-panel").fadeOut();  
         $("body").removeClass("fixed-position"); 
           });
+       });
+    $('.sub').click(function(){
+        var tab_id = $(this).attr('data-tab');
+        $('.content-sub').slideToggle().hide();
+        $('.sub').removeClass('current');
+        $('.tab-content').removeClass('current').addClass("animated slideInLeft");
+        $(this).addClass('current');
+        $("#"+tab_id).addClass('current');
+    });
+    $('.close-ul').click(function(){
+        var tab_id = $(this).attr('data-tab');
+    $('.content-sub').addClass("animated slideInLeft").show();
+        $('.sub').removeClass('current');
+        $('.tab-content').removeClass('current');
+        $(this).addClass('current');
+        $("#"+tab_id).addClass('current');
+    });     
     }
 }
 
