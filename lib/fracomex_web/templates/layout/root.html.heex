@@ -25,6 +25,7 @@
   </body>
   
 <script>
+//cart close
   $( document ).ready(function() {
 	$(".cart-close").click(function(){
 		$(this).parents(".single-cart-list").fadeOut();
@@ -36,7 +37,7 @@
 </script>
 
 <script>  
-    //category
+//category side panel
 	$('.all').click(function() {
   $(".sidepanel").addClass("animated slideInLeft").show(); 		
   var spWidth = $('.sidepanel').width();
@@ -49,6 +50,8 @@
   $('.sidepanel span').animate({
     marginLeft:w
   });
+  $(".overlay-panel").fadeIn(2000); 
+  $("body").addClass("fixed-position"); 
 });
 $(".close-side").click(function(){
   var spWidth = $('.sidepanel').width();
@@ -61,31 +64,30 @@ $(".close-side").click(function(){
   $('.sidepanel span').animate({
     marginLeft:w
   });
+  $(".overlay-panel").fadeOut();  
+  $("body").removeClass("fixed-position"); 
 	});
 </script>
 
 <script>
+/* content ul li in side panel*/
 $(document).ready(function(){
 	$('.sub').click(function(){
 		var tab_id = $(this).attr('data-tab');
     $('.content-sub').slideToggle().hide();
 		$('.sub').removeClass('current');
 		$('.tab-content').removeClass('current').addClass("animated slideInLeft");
-
 		$(this).addClass('current');
 		$("#"+tab_id).addClass('current');
 	})
-
   $('.close-ul').click(function(){
 		var tab_id = $(this).attr('data-tab');
     $('.content-sub').addClass("animated slideInLeft").show();
 		$('.sub').removeClass('current');
 		$('.tab-content').removeClass('current');
-
 		$(this).addClass('current');
 		$("#"+tab_id).addClass('current');
 	})
-
 });
 </script>
 
@@ -98,7 +100,6 @@ function increaseCount(a, b) {
 	value++;
 	input.value = value;
   }
-  
   function decreaseCount(a, b) {
 	var input = b.nextElementSibling;
 	var value = parseInt(input.value, 10);
@@ -115,10 +116,10 @@ function increaseCount(a, b) {
 var togglePassword = document.querySelector("#togglePassword");
 var password = document.querySelector("#password");
 $("#togglePassword").click(function(){
-  // toggle the type attribute
+// toggle the type attribute
   var type = password.getAttribute("type") === "password" ? "text" : "password";
   password.setAttribute("type", type);
-  // toggle the eye icon
+// toggle the eye icon
   this.classList.toggle('fa-eye');
   this.classList.toggle('fa-eye-slash');
 });
@@ -126,10 +127,10 @@ $("#togglePassword").click(function(){
 var toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
 var confirm_password = document.querySelector("#confirm_password");
 $("#toggleConfirmPassword").click(function(){
-  // toggle the type attribute
+// toggle the type attribute
   var type = confirm_password.getAttribute("type") === "password" ? "text" : "password";
   confirm_password.setAttribute("type", type);
-  // toggle the eye icon
+// toggle the eye icon
   this.classList.toggle('fa-eye');
   this.classList.toggle('fa-eye-slash');
 });
@@ -137,37 +138,16 @@ $("#toggleConfirmPassword").click(function(){
 var toggleCurrentPassword = document.querySelector("#toggleCurrentPassword");
 var current_password = document.querySelector("#current_password");
 $("#toggleCurrentPassword").click(function(){
-  // toggle the type attribute
+// toggle the type attribute
   var type = current_password.getAttribute("type") === "password" ? "text" : "password";
   current_password.setAttribute("type", type);
-  // toggle the eye icon
+// toggle the eye icon
   this.classList.toggle('fa-eye');
   this.classList.toggle('fa-eye-slash');
 });
 </script>
 <script>
-    $( document ).ready(function() {
-    $("#search").click(function(){
-      $("#search-nav").slideToggle("500", "easeInOutCirc");
-      $(".sb").focus();
-      $("#search").hide("500", "easeInOutCirc");
-      $("#header-carousel").css( { "margin-top" : "120px","transition" : "0.3s" } );
-      $(".top-section").css( { "margin-top" : "170px","transition" : "0.3s" } );
-      $(".sidepanel").css( { "margin-top" : "25px", "transition" : "0.3s" } );  
-    });
-    $("#close-search").click(function(){
-      $("#search-nav").slideToggle("500", "easeInOutCirc");
-      $(".sb").focus();
-      $("#search").show("500", "easeInOutCirc");
-      $("#header-carousel").css( { "margin-top" : "80px","transition" : "0.3s" } );
-      $(".top-section").css( { "margin-top" : "110px", "transition" : "0.3s" } );
-      $(".sidepanel").css( { "margin-top" : "-35px", "transition" : "0.3s" } );  
-    });
-    });
-    
-</script>
-<script>
-//margin dynamic
+//margin dynamic in hover product
 let details_product = <%= Enum.count(Fracomex.Products.list_items()) %>
 for (let pas = 0; pas <= details_product; pas++) {
   $("#product-"+pas).hover(function () {

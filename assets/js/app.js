@@ -6,6 +6,7 @@ import "../js/bootsnav.js"
 import "../js/jQuery-2.1.4.min.js"
 import "../js/owl.carousel.min.js"
 import "../js/custom.js"
+import "../js/search.js"
 
 //import "../js/modern.min.js"
 //import "../js/jqueryeasing.min.js"
@@ -735,19 +736,53 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 
 Hooks.SearchButton = {
     mounted(){
-        $( document ).ready(function() {
-            $("#search").click(function(){
-              $("#search-nav").slideToggle("500", "easeInOutCirc");
-              $(".sb").focus();
-              $("#search").hide("500", "easeInOutCirc");
-              $(".top-section").css( { "margin-top" : "170px","transition" : "0.3s" } );
-            });
-            $("#close-search").click(function(){
-              $("#search-nav").slideToggle("500", "easeInOutCirc");
-              $(".sb").focus();
-              $("#search").show("500", "easeInOutCirc");
-              $(".top-section").css( { "margin-top" : "110px", "transition" : "0.3s" } );  
-            });
+        "use strict";
+    $( document ).ready(function() {
+    $("#searchlive").click(function(){
+      $("#search-nav").slideToggle("500", "easeInOutCirc");
+      $(".sb").focus();
+      $("#searchlive").hide("500", "easeInOutCirc");
+      $("#header-carousel").css( { "margin-top" : "120px","transition" : "0.3s" } );
+      $(".top-section").css( { "margin-top" : "150px","transition" : "0.3s" } );
+      
+    });
+    $("#close-searchlive").click(function(){
+      $("#search-nav").slideToggle("500", "easeInOutCirc");
+      $(".sb").focus();
+      $("#searchlive").show("500", "easeInOutCirc");
+      $("#header-carousel").css( { "margin-top" : "80px","transition" : "0.3s" } );
+      $(".top-section").css( { "margin-top" : "90px", "transition" : "0.3s" } );
+    });
+    });
+    /*hooks sidepanel*/
+    $('.all-live').click(function() {
+        $(".sidepanel").addClass("animated slideInLeft").show(); 		
+        var spWidth = $('.sidepanel').width();
+        var spMarginLeft = parseInt($('.sidepanel').css('margin-left'),10);
+        var w = (spMarginLeft >= 0 ) ? spWidth * -1 : 0;
+        var cw = (w < 0) ? -w : spWidth-22;
+        $('.sidepanel').animate({
+          marginLeft:w
+        });
+        $('.sidepanel span').animate({
+          marginLeft:w
+        });
+        $(".overlay-panel").fadeIn(2000); 
+        $("body").addClass("fixed-position"); 
+      });
+      $(".close-side .live").click(function(){
+        var spWidth = $('.sidepanel').width();
+        var spMarginLeft = parseInt($('.sidepanel').css('margin-left'),10);
+        var w = (spMarginLeft >= 0 ) ? spWidth * -1 : 0;
+        var cw = (w < 0) ? -w : spWidth-22;
+        $('.sidepanel').animate({
+          marginLeft:w
+        });
+        $('.sidepanel span').animate({
+          marginLeft:w
+        });
+        $(".overlay-panel").fadeOut();  
+        $("body").removeClass("fixed-position"); 
           });
     }
 }

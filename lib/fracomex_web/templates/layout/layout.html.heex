@@ -125,7 +125,9 @@
 									
 				                    
 				                    <li class={"scroll #{if @conn.request_path=="/contact", do: "active"}"}><a href={Routes.page_path(@conn, :contact)}>contact</a></li> -->
-				                <li class="scroll"><a href="##" class="all">Nos produits</a></li>
+				                <li class="scroll"><a href="#all-product" class="all">
+								<span class="lnr lnr-menu" style="font-size: 16px;"></span> Tous les produits</a>
+								</li>
 								<li class="scroll"><a href="##">categ2</a></li>
 								<li class="scroll"><a href="##">categ3</a></li>
 								<li class="scroll"><a href="##">categ4</a></li>
@@ -135,10 +137,15 @@
 				        </div>
 				    </nav>
 					<div class="sidepanel">
+					
 					<div class="">
+					<h3 class="title-panel">Catégories des produits</h3>
 					<ul class="content-sub">
 						<li class="sub" data-tab="tab-1">
-						<a href="##">Category_name one</a>
+						<a href="##">
+						Category_name one 
+						<span class="lnr lnr-chevron-right"></span>
+						</a>
 						</li>
 					</ul>
 					</div>
@@ -154,8 +161,9 @@
 						</a>
 						</div>
 					
-					 <i class="fa fa-times close-side" aria-hidden="true"></i>
+					 <i class="fa fa-times close-side" aria-hidden="true" style="cursor: pointer;"></i>
 					</div>
+					<div class="overlay-panel" style=" display: none;"></div>
 				</div>
 			    <div class="clearfix"></div>
 
@@ -234,6 +242,7 @@
 					<i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
 				</div>
 			</div>
+			
 		</footer>
 		</body>
 </html>

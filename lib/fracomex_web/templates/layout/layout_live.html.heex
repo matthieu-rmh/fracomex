@@ -18,13 +18,13 @@
 					<form class="s" id="search-nav">
 						<input type="search" class="sb" name="q" autocomplete="off" placeholder="Recherche produits" />
 						<button type="submit" class="sbtn lnr lnr-magnifier"></button>
-						<i class="sbtn lnr lnr-cross" id="close-search"></i>
+						<i class="sbtn lnr lnr-cross" id="close-searchlive"></i>
 					</form>
 					<div class="container">
 						<div class="attr-nav">
 							<ul>
 								<li class="search">
-									<a id="search" href=""><span class="lnr lnr-magnifier"></span></a>
+									<a id="searchlive" href=""><span class="lnr lnr-magnifier"></span></a>
 								</li>
 								<li class="nav-setting dropdown">
 									<a href={Routes.users_path(@socket, :signin)}><span class="lnr lnr-user"></span></a>
@@ -141,7 +141,9 @@
 				                    </li>
 									-->
 								<!--  <li class="scroll"><a href="#blog">blog</a></li> -->
-								<li class="scroll"><a href="##">categ1</a></li>
+								<li class="scroll"><a href="#all-product" class="all-live">
+								<span class="lnr lnr-menu" style="font-size: 16px;"></span> Tous les produits</a>
+								</li>
 								<li class="scroll"><a href="##">categ2</a></li>
 								<li class="scroll"><a href="##">categ3</a></li>
 								<li class="scroll"><a href="##">categ4</a></li>
@@ -151,9 +153,29 @@
 					</div>
 				</nav>
 				<div class="sidepanel">
-				<span>Click the button on the side to watch this panel collapse gracefully</span>
-				<div class="line"></div>
+					<div class="">
+					<h3 class="title-panel">Catégories des produits</h3>
+					<ul class="content-sub">
+						<li class="sub" data-tab="tab-1">
+						<a href="#">Category_name one</a>
+						</li>
+					</ul>
+					</div>
+						<div id="tab-1" class="tab-content">
+							<ul class="">
+								<li class="">
+								<a href="#">Sub-Category_name one</a>
+								</li>
+							</ul>
+						<a class="return close-ul" style="cursor: pointer;">	
+						<i class="fa fa-chevron-left close-ul" aria-hidden="true"></i>
+						Retour
+						</a>
+						</div>
+					
+					 <i class="fa fa-times close-side live" aria-hidden="true"></i>
 				</div>
+				<div class="overlay-panel" style=" display: none;"></div>
 			</div>
 			<div class="clearfix"></div>
 

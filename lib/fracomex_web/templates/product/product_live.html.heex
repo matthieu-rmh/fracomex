@@ -22,7 +22,7 @@
 								<a class="child mb-0" href="##" >
 									Collapsible Item #<%= item.id %>
 								</a>
-								<div id={"sub-collapse#{item.id}"} class="collapse" aria-labelledby="li-category" data-parent="#collapse-category">
+								<div id={"sub-collapse#{item.id}"} class="collapse" data-parent="#collapse-category">
 									<ul class="sub-category">
 										<li>
 										<a href="*">Sub-Collapsible Item #<%= item.id %></a> 
@@ -31,7 +31,7 @@
 								</div>
 							</li>
 							<!--/has not sub-category-->
-							<li class="no-child" id="li-category">
+							<li class="no-child" id="li-category-no-child">
 								<a class="child mb-0" href="##" >
 									Collapsible Item #<%= item.id %>
 								</a>

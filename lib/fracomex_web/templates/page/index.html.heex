@@ -28,7 +28,7 @@
 							<div class="container p-4">
 								<div class="slide-hero-content">
 									<div class="row">
-										<img src={Routes.static_path(@conn, "/images/slide.jpg")} alt="categ image"  class="shadow">
+										<img src={Routes.static_path(@conn, "/images/slide2.jpg")} alt="categ image"  class="shadow">
 									</div>	
 								</div><!--/.slide-hero-content-->
 							</div><!-- /.container-->
@@ -52,7 +52,7 @@
 
 </div><!--/#header-carousel-->
 <!--categ start -->
-<section id="categ" class="categ" style="position: relative; top: -10rem;margin-bottom: -10rem;">
+<section id="categ" class="categ" style="position: relative;margin-top: -10rem; margin-bottom: -10rem;">
 			<div class="container">
 				<div class="section-header mb-4">
                 <h2 class="title-promo">NOS PRODUITS</h2>
@@ -60,10 +60,14 @@
 				<div class="categ-content">
 					<div class="row">
 						<div class="col-sm-4">
-							<div class="single-categ animated fadeInLeft">
+							<div class="single-categ animated fadeInLeft shadow">
 								<div class="single-categ-img">
 									<img src={Routes.static_path(@conn, "/images/slider1.png")} alt="categ image">
-									<div class="single-categ-img-overlay"></div>
+									<div class="single-categ-img-overlay">
+                                        <button class="btn-cart valide-cart in-categ">
+                                            <span class="single_product_addtocart">Découvrir</span>
+                                        </button>
+                                    </div>
 								</div>
 								<div class="single-categ-txt">
 									<h2 class="mb-2">Category_name</h2>
@@ -76,10 +80,14 @@
 							
 						</div>
 						<div class="col-sm-4">
-							<div class="single-categ animated fadeInUp">
+							<div class="single-categ animated fadeInUp shadow">
 								<div class="single-categ-img">
 									<img src={Routes.static_path(@conn, "/images/slider2.png")} alt="categ image">
-									<div class="single-categ-img-overlay"></div>
+									<div class="single-categ-img-overlay">
+                                        <button class="btn-cart valide-cart in-categ">
+                                            <span class="single_product_addtocart">Découvrir</span>
+                                        </button>
+                                    </div>
 								</div>
 								<div class="single-categ-txt">
 									<h2 class="mb-2">Category_name</h2>
@@ -91,10 +99,14 @@
 							</div>
 						</div>
 						<div class="col-sm-4">
-							<div class="single-categ animated fadeInRight">
+							<div class="single-categ animated fadeInRight shadow">
 								<div class="single-categ-img">
 									<img src={Routes.static_path(@conn, "/images/slider3.png")} alt="categ image">
-									<div class="single-categ-img-overlay"></div>
+									<div class="single-categ-img-overlay">
+                                        <button class="btn-cart valide-cart in-categ">
+                                            <span class="single_product_addtocart">Découvrir</span>
+                                        </button>
+                                    </div>
 								</div>
 								<div class="single-categ-txt">
 									<h2 class="mb-2">Category_name</h2>
@@ -137,7 +149,7 @@
 														</p>
 													</div>
                                                     <div class="text-start" style="position: absolute;">
-													<button class="btn-cart valide-cart text-start">
+													<button class="btn-cart valide-cart in-banner">
                                                         <span class="single_product_addtocart">Découvrir</span>
                                                     </button>
                                                     </div>
@@ -147,7 +159,7 @@
 										<div class="col-sm-5">
 											<div class="single-welcome-hero">
 												<div class="welcome-hero-img animated fadeInRight">
-													<img src={Routes.static_path(@conn, "/images/slider2.png")} alt="slider image">
+													<img src={Routes.static_path(@conn, "/images/dreambells.png")} alt="slider image">
 												</div><!--/.welcome-hero-txt-->
 											</div><!--/.single-welcome-hero-->
 										</div><!--/.col-->

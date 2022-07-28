@@ -1,8 +1,13 @@
 @media screen and (max-width:1680px){
-
+	.sidepanel {
+		margin-left: -800px;
+	  }
 }/*max-width:1680px*/
 @media screen and (max-width:1440px){
 	.single-slide-hero {height: 807px;}
+	.sidepanel {
+		margin-left: -800px;
+	  }
 }/*max-width:1440px*/
 
 @media screen and (max-width:1199px){
@@ -55,8 +60,7 @@
 		line-height: 1.5em;
 		color: #f1f1f2;
 		text-align: center;
-		opacity: 0.9;
-		margin-top: 8px;
+		opacity: 1;
 	  }
 }/*max-width:768px*/
 
