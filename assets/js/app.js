@@ -54,49 +54,14 @@ Hooks.Custom = {
                     }, 1500);
                     return false;
                 });
-            // 2. owl carousel
-                    $('#client').owlCarousel({
-                        items:5,
-                        loop:true,
-                        smartSpeed: 1000,
-                        autoplay:true,
-                        dots:false,
-                        autoplayHoverPause:true,
-                        responsive:{
-                                0:{
-                                    items:2
-                                },
-                                415:{
-                                    items:3
-                                },
-                                600:{
-                                    items:3
         
-                                },
-                                1200:{
-                                    items:5
-                                }
-                            }
-                        });
                         $('.play').on('click',function(){
                             owl.trigger('play.owl.autoplay',[1000])
                         })
                         $('.stop').on('click',function(){
                             owl.trigger('stop.owl.autoplay')
                         })        
-                    $("#collection-carousel").owlCarousel({
-                        items: 1,
-                        autoplay: true,
-                        loop: true,
-                        dots:false,
-                        mouseDrag:true,
-                        nav:false,
-                        smartSpeed:1000,
-                        transitionStyle:"fade",
-                        animateIn: 'fadeIn',
-                        animateOut: 'fadeOutLeft'
-                        // navText:["<i class='fa fa-angle-left'></i>","<i class='fa fa-angle-right'></i>"]
-                    });
+                  
             // 3. slide animation support 
                 $(function(){
                     $(".slide-hero-txt h4,.slide-hero-txt h2,.slide-hero-txt p").removeClass("animated fadeInUp").css({'opacity':'0'});
@@ -107,17 +72,8 @@ Hooks.Custom = {
                     $(".slide-hero-txt h4,.slide-hero-txt h2,.slide-hero-txt p").addClass("animated fadeInUp").css({'opacity':'0'});
                     $(".slide-hero-txt button").addClass("animated fadeInDown").css({'opacity':'0'});
                 });
-                /*$(".cart-close").click(function(){
-                    $(this).parents(".single-cart-list").fadeOut();
-                });*/
+                
         });
-        // 4. cart-close
-        jQuery(".cart-close").click(function(){
-            jQuery(this).parents(".single-cart-list").fadeOut();
-        });
-        // jQuery(".cart-remove").click(function(){
-        //     jQuery(".cart-product").fadeOut();
-        // });
     }
 }
 
@@ -768,7 +724,7 @@ Hooks.SearchButton = {
         $(".overlay-panel").fadeIn(2000); 
         $("body").addClass("fixed-position"); 
       });
-    $(".close-side").click(function(){
+    $(".close-side.live").click(function(){
         var spWidth = $('.sidepanel').width();
         var spMarginLeft = parseInt($('.sidepanel').css('margin-left'),10);
         var w = (spMarginLeft >= 0 ) ? spWidth * -1 : 0;
@@ -785,15 +741,15 @@ Hooks.SearchButton = {
        });
     $('.sub').click(function(){
         var tab_id = $(this).attr('data-tab');
-        $('.content-sub').slideToggle().hide();
+        $('.content-sub').hide();
         $('.sub').removeClass('current');
-        $('.tab-content').removeClass('current').addClass("animated slideInLeft");
+        $('.tab-content').removeClass('current').addClass("animated fadeInLeft");
         $(this).addClass('current');
         $("#"+tab_id).addClass('current');
     });
     $('.close-ul').click(function(){
         var tab_id = $(this).attr('data-tab');
-    $('.content-sub').addClass("animated slideInLeft").show();
+        $('.content-sub').addClass("animated fadeInRight").show();
         $('.sub').removeClass('current');
         $('.tab-content').removeClass('current');
         $(this).addClass('current');
