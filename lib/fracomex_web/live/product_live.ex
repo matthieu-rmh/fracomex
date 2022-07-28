@@ -69,8 +69,6 @@ defmodule FracomexWeb.Live.ProductLive do
           PhoenixLiveSession.put_session(socket, "cart", [cart])
           PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart([cart]))
 
-          IO.puts("CART***********")
-
           {:noreply,
            socket
            |> put_flash(:info, product_added_in_cart)
@@ -83,8 +81,6 @@ defmodule FracomexWeb.Live.ProductLive do
             product_id: item_id,
             quantity: quantity
           }
-
-          IO.puts("CART1***********")
 
           PhoenixLiveSession.put_session(socket, "cart", socket.assigns.cart ++ [cart])
           PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(socket.assigns.cart ++ [cart]))
@@ -107,7 +103,7 @@ defmodule FracomexWeb.Live.ProductLive do
             |> trunc()
 
           if quantity_in_cart + quantity > real_stock do
-            {:noreply, socket |> put_flash(:error, "Le stock disponible pour #{item.caption} est de #{real_stock}")}
+            {:noreply, socket |> put_flash(:error, "Il n'a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{real_stock}", else: real_stock} #{item.caption} dans le panier (reste 0)")}
           else
             index = Enum.find_index(socket.assigns.cart, &(&1.product_id == item_id))
 
@@ -155,7 +151,7 @@ defmodule FracomexWeb.Live.ProductLive do
       |> trunc()
 
     if quantity >= real_stock do
-      {:noreply, socket |> put_flash(:error, "Il reste que #{real_stock} stock disponible pour #{caption}.")}
+      {:noreply, socket |> put_flash(:error, "Il n'a pas assez de stock pour #{caption} (reste #{real_stock})")}
     else
       {:noreply, socket |> assign(quantity: quantity + 1)}
     end
