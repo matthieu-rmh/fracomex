@@ -1,7 +1,7 @@
 <section class="top-section p-4">
 	<div class="container px-4 px-lg-5 my-5" id="shop-banner">
 		<div class="text-center">
-			<h1 class="">Panier</h1>
+			<h1 class="">Article</h1>
 		</div>
 	</div>
 </section>
@@ -40,10 +40,13 @@
 						<input type="hidden" name="item_id" value={@item_get_by_id.id}>
 						<div class="details">
 							<%= if not is_nil(@item_get_by_id) do %>
+								<% family_caption = if not is_nil(@item_get_by_id.family), do: @item_get_by_id.family.caption, else: "Aucune" %>
+								<% sub_family_caption = if not is_nil(@item_get_by_id.sub_family), do: @item_get_by_id.sub_family.caption, else: "Aucune" %>
 								<h2 class="details-product-name"><%= @item_get_by_id.caption %> </h2>
-								<p><b>Catégorie:</b> Product_category</p>
-								<p><b>Stock disponible:</b> <%= @item_get_by_id.real_stock %></p>
-								<h3 class="details-product-price"><%= @item_get_by_id.sale_price_vat_excluded %> €</h3>
+								<p><b>Catégorie:</b> <%= family_caption %></p>
+								<p><b>Sous-catégorie:</b> <%= sub_family_caption %></p>
+								<p><b>Stock disponible:</b> <%= Decimal.to_integer(@item_get_by_id.real_stock) %></p>
+								<h3 class="details-product-price"><%= Fracomex.Utilities.price_format(@item_get_by_id.sale_price_vat_excluded) %> €</h3>
 								<div class="row">
 									<div class="col-md-2 col-sm-4">
 										<div class="counter">

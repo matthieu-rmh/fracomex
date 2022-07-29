@@ -32,7 +32,7 @@ defmodule FracomexWeb.Live.ProductLive do
     item_id = params["id_produit"]
 
     if not is_nil(item_id) do
-      item_get_by_id = Products.get_item!(item_id)
+      item_get_by_id = Products.get_item_with_family_and_sub_family!(item_id)
 
       {:noreply, socket |> assign(item_get_by_id: item_get_by_id)}
     else

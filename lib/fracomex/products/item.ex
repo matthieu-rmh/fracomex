@@ -2,6 +2,7 @@ defmodule Fracomex.Products.Item do
   use Ecto.Schema
   import Ecto.Changeset
   alias Fracomex.Products
+  alias Fracomex.Products.{Family, Subfamily}
 
   @primary_key {:id, :string, autogenerate: false}
   schema "items" do
@@ -11,8 +12,10 @@ defmodule Fracomex.Products.Item do
     field :image_version, :integer
     field :real_stock, :decimal
     field :stock_status, :boolean, default: false
-    field :family_id, :string
-    field :sub_family_id, :string
+    # field :family_id, :string
+    # field :sub_family_id, :string
+    belongs_to :family, Family, type: :string
+    belongs_to :sub_family, Subfamily, type: :string
   end
 
   @doc false

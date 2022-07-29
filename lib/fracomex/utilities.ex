@@ -51,4 +51,8 @@ defmodule Fracomex.Utilities do
     |> Products.get_item!()
   end
 
+  def price_format(price) do
+    :erlang.float_to_binary(Decimal.to_float(price), [decimals: 2]) |> String.replace(".", ",")
+  end
+
 end
