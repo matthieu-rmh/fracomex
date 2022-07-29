@@ -23,6 +23,8 @@ defmodule FracomexWeb.PageController do
       conn,
       "contact.html",
       layout: {FracomexWeb.LayoutView, "layout.html"},
+      cart: Plug.Conn.get_session(conn, :cart),
+      sum_cart: Plug.Conn.get_session(conn, :sum_cart)
     )
   end
 end

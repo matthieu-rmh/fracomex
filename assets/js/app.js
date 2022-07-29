@@ -693,69 +693,71 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
 Hooks.SearchButton = {
     mounted(){
     $( document ).ready(function() {
-    $("#searchlive").click(function(){
+      $("#searchlive").click(function(){
       $("#search-nav").slideToggle("500", "easeInOutCirc");
       $(".sb").focus();
       $("#searchlive").hide("500", "easeInOutCirc");
       $("#header-carousel").css( { "margin-top" : "120px","transition" : "0.3s" } );
       $(".top-section").css( { "margin-top" : "150px","transition" : "0.3s" } );
-      
     });
-    $("#close-searchlive").click(function(){
+      $("#close-searchlive").click(function(){
       $("#search-nav").slideToggle("500", "easeInOutCirc");
       $(".sb").focus();
       $("#searchlive").show("500", "easeInOutCirc");
       $("#header-carousel").css( { "margin-top" : "80px","transition" : "0.3s" } );
       $(".top-section").css( { "margin-top" : "90px", "transition" : "0.3s" } );
     });
-     /*hooks sidepanel*/
-     $(".all").click(function() {
-        $(".sidepanel").addClass("animated slideInLeft").show(); 		
-        var spWidth = $('.sidepanel').width();
-        var spMarginLeft = parseInt($('.sidepanel').css('margin-left'),10);
-        var w = (spMarginLeft >= 0 ) ? spWidth * -1 : 0;
-        var cw = (w < 0) ? -w : spWidth-22;
-        $('.sidepanel').animate({
-          marginLeft:w
-        });
-        $('.sidepanel span').animate({
-          marginLeft:w
-        });
-        $(".overlay-panel").fadeIn(2000); 
-        $("body").addClass("fixed-position"); 
+    /*sidebar*/
+    $(".all").click(function(){
+        'use strict'
+      $(".sidepanel").addClass("animated slideInLeft").show(); 		
+      let spWidth = $(".sidepanel").width();
+      let spMarginLeft = parseInt($(".sidepanel").css('margin-left'),10);
+      let w = (spMarginLeft >= 0 ) ? spWidth * -1 : 0;
+      let cw = (w < 0) ? -w : spWidth-22;
+      $(".sidepanel").animate({
+        marginLeft:w
       });
-    $(".close-side.live").click(function(){
-        var spWidth = $('.sidepanel').width();
-        var spMarginLeft = parseInt($('.sidepanel').css('margin-left'),10);
-        var w = (spMarginLeft >= 0 ) ? spWidth * -1 : 0;
-        var cw = (w < 0) ? -w : spWidth-22;
-        $('.sidepanel').animate({
-          marginLeft:w
+      $('.sidepanel span').animate({
+        marginLeft:w
+      });
+      $(".overlay-panel").fadeIn(2000); 
+      $("body").addClass("fixed-position"); 
+    });
+    $(".close-side").click(function(){
+      let spWidth = $('.sidepanel').width();
+      let spMarginLeft = parseInt($('.sidepanel').css('margin-left'),10);
+      let w = (spMarginLeft >= 0 ) ? spWidth * -1 : 0;
+      let cw = (w < 0) ? -w : spWidth-22;
+      $(".sidepanel").animate({
+        marginLeft:w
+      });
+      $(".sidepanel span").animate({
+        marginLeft:w
+      });
+      $(".overlay-panel").fadeOut();  
+      $("body").removeClass("fixed-position"); 
         });
-        $('.sidepanel span').animate({
-          marginLeft:w
-        });
-        $(".overlay-panel").fadeOut();  
-        $("body").removeClass("fixed-position"); 
-          });
-       });
     $('.sub').click(function(){
-        var tab_id = $(this).attr('data-tab');
+        let tab_id = $(this).attr('data-tab');
         $('.content-sub').hide();
         $('.sub').removeClass('current');
         $('.tab-content').removeClass('current').addClass("animated fadeInLeft");
         $(this).addClass('current');
         $("#"+tab_id).addClass('current');
+        let timer = 0;
+        $("li .sub-sub").addClass("animated fadeInRight").fadeIn(timer += 200);
     });
     $('.close-ul').click(function(){
-        var tab_id = $(this).attr('data-tab');
+        let tab_id = $(this).attr('data-tab');
         $('.content-sub').addClass("animated fadeInRight").show();
         $('.sub').removeClass('current');
         $('.tab-content').removeClass('current');
         $(this).addClass('current');
         $("#"+tab_id).addClass('current');
     });     
-    }
+    }) 
+}
 }
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
@@ -784,6 +786,7 @@ window.addEventListener("phx:page-loading-stop", () => {
 });
 
 // connect if there are any LiveViews on the page
+
 liveSocket.connect()
 
 // expose liveSocket on window for web console debug logs and latency simulation:
