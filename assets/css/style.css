@@ -825,7 +825,7 @@ ul.cart-list > li.total {
     font-weight: bold;
   }
 .p-product-price {
-    color: #0072cd !important;
+    color: #e41201 !important;
   }  
 
 .new-arrival-cart {
@@ -1304,16 +1304,53 @@ input[type=email] {
   line-height: 2;
   width: 100%;
   }
+  /*.current-category{
+    background-image: linear-gradient(
+      to right,
+      #510101 0%,
+      #b8000f 51%,
+      #cc001f 100%
+    );
+    background-size: 200% auto;
+    color: #fff;
+    transition: all 0.5s ease-in-out;
+  }*/
   #collapse-category{
     outline: 2px solid #e41201;
     outline-offset: -6px;
   } 
   #li-category {
     text-align: start;
+    padding: 5px;
   }
+  
+  #li-category:hover {
+    text-align: start;
+    padding: 5px;
+  }
+  
+  #li-category:hover {
+    background-position: right;
+  }
+  
+  #li-category a {
+    color: #000;
+    } 
+  #li-category a:hover {
+    color: #b8000f;
+        transition: all 0.5s ease-in-out;
+    }    
+  #li-category a::after {
+    padding-right: 5px;
+    }
   .sub-category {
     margin-left: 40px;
   }  
+ /* .category-collapse {
+    outline: 2px solid #000;
+    outline-offset: -2px;
+    padding: 5px;
+  }*/
   .has-child > a:after {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
@@ -1594,6 +1631,34 @@ margin-bottom: -10px !important;
     border: 1px solid;
     padding: 10px;
   }
+  .hm-side-menu{
+    margin-top: -10px;
+    margin-left: 10px;
+    line-height: 0.5em;
+   }
+  .hm-side-menu ul li{
+   padding: 2px;
+   line-height: 0.5em;
+  }
+  .hm-side-menu ul li a {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 15px;
+    -webkit-transition: .3s; 
+    -moz-transition:.3s; 
+    -ms-transition:.3s; 
+    -o-transition:.3s;
+    transition: .3s;
+   }
+  .hm-side-menu ul li a:hover{
+    color: #e41201;
+    -webkit-transform:translateX(10px);
+    -moz-transform:translateX(10px);
+    -ms-transform:translateX(10px);
+    -o-transform:translateX(10px);
+    transform:translateX(10px);
+   }
   .sidepanel {
     position:fixed;
     height:100vh;
@@ -1606,7 +1671,7 @@ margin-bottom: -10px !important;
     line-height:1.5em;
     color:#f1f1f2;
     text-align:center;
-    opacity: 1;
+    opacity: 0.9;
     top: 0;
   }
   .sidepanel:before {
@@ -1621,14 +1686,24 @@ margin-bottom: -10px !important;
   .sidepanel ul {
     display: block;
     text-align: start;
-    margin-left: 10px;
     margin-top: 30px;
   }
   .sidepanel .tab-content ul{
     margin-top: 36px;
   }
-  .sidepanel ul li {
+  .sidepanel ul.content-sub li {
     padding: 10px;
+  }
+  .sidepanel ul.content-sub li:hover{
+    background-image: linear-gradient(
+      to right,
+      #510101 0%,
+      #b8000f 51%,
+      #cc001f 100%
+    );
+    background-size: 200% auto;
+    color: #fff;
+    transition: all 0.5s ease-in-out;
   }
   .sidepanel li a {
     color: #fff;
@@ -1679,7 +1754,7 @@ margin-bottom: -10px !important;
   .line {
     height:1px;
     width:calc(100% - 44px);
-    background-color:#E9D985;
+    background-color:#b60c00;
     margin:0 22px;
   }
 

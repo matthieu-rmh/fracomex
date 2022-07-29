@@ -18,20 +18,20 @@
 						<ul class="category">
 						<%= for item <- @items do %>
 							<!--/has sub-category-->	
-							<li class="has-child collapsed" id="li-category"  data-toggle="collapse" data-target={"#sub-collapse#{item.id}"} aria-expanded="true" aria-controls="collapseOne">
+							<li class="has-child collapsed" id={"li-category#{item.id}"}  data-toggle="collapse" data-target={"#sub-collapse#{item.id}"} aria-expanded="true" aria-controls="collapseOne">
 								<a class="child mb-0" href="##" >
 									Collapsible Item #<%= item.id %>
 								</a>
-								<div id={"sub-collapse#{item.id}"} class="collapse" data-parent="#collapse-category">
+							</li>	
+								<div id={"sub-collapse#{item.id}"} class="collapse category-collapse" data-parent="#collapse-category">
 									<ul class="sub-category">
 										<li>
 										<a href="*">Sub-Collapsible Item #<%= item.id %></a> 
 										</li>
 									</ul>
 								</div>
-							</li>
 							<!--/has not sub-category-->
-							<li class="no-child" id="li-category-no-child">
+							<li class="no-child" id={"li-category-no-child#{item.id}"}>
 								<a class="child mb-0" href="##" >
 									Collapsible Item #<%= item.id %>
 								</a>
@@ -58,7 +58,7 @@
 					<%= for item <- @items do %>
 					<div class="product-grid">	
 						<div class="col-md-3 col-sm-4 content-product">
-							<div class="details-product" id="details">
+							<div class="details-product" id={"details-#{item.id}"}>
 							<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :product_details, "#{String.downcase(item.caption)}", "#{item.id}")}>
 								<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
 									<img src={Routes.static_path(@socket, "/images/small-items/#{item.image}")} alt={item.caption}>

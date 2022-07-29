@@ -24,18 +24,6 @@
     <%= @inner_content %>
   </body>
   
-<script>
-//cart close
-  $( document ).ready(function() {
-	$(".cart-close").click(function(){
-		$(this).parents(".single-cart-list").fadeOut();
-	});
-	$(".cart-remove").click(function(){
-		$(".cart-product").fadeOut();
-	});
-  });
-</script>
-
 <script>  
 //category side panel
 	$('.all').click(function() {
@@ -74,44 +62,23 @@ $(".close-side").click(function(){
 /* content ul li in side panel*/
 $(document).ready(function(){
 	$('.sub').click(function(){
-		var tab_id = $(this).attr('data-tab');
-    $('.content-sub').slideToggle().hide();
-		$('.sub').removeClass('current');
-		$('.tab-content').removeClass('current').addClass("animated slideInLeft");
-		$(this).addClass('current');
-		$("#"+tab_id).addClass('current');
-	})
-  $('.close-ul').click(function(){
-		var tab_id = $(this).attr('data-tab');
-    $('.content-sub').addClass("animated slideInLeft").show();
-		$('.sub').removeClass('current');
-		$('.tab-content').removeClass('current');
-		$(this).addClass('current');
-		$("#"+tab_id).addClass('current');
-	})
+        var tab_id = $(this).attr('data-tab');
+        $('.content-sub').hide();
+        $('.sub').removeClass('current');
+        $('.tab-content').removeClass('current').addClass("animated fadeInLeft");
+        $(this).addClass('current');
+        $("#"+tab_id).addClass('current');
+    });
+    $('.close-ul').click(function(){
+        var tab_id = $(this).attr('data-tab');
+        $('.content-sub').addClass("animated fadeInRight").show();
+        $('.sub').removeClass('current');
+        $('.tab-content').removeClass('current');
+        $(this).addClass('current');
+        $("#"+tab_id).addClass('current');
+    }); 
 });
 </script>
-
-<script>
-//up $ down count cart
-function increaseCount(a, b) {
-	var input = b.previousElementSibling;
-	var value = parseInt(input.value, 10);
-	value = isNaN(value) ? 0 : value;
-	value++;
-	input.value = value;
-  }
-  function decreaseCount(a, b) {
-	var input = b.nextElementSibling;
-	var value = parseInt(input.value, 10);
-	if (value > 1) {
-	  value = isNaN(value) ? 0 : value;
-	  value--;
-	  input.value = value;
-	}
-  }
-</script>  
-
 <script> 
 //password   
 var togglePassword = document.querySelector("#togglePassword");
@@ -162,4 +129,43 @@ function () {
 });
 }
 </script>
+<!--BadBooleanErrorscript>
+/* category ul li*/
+$(document).ready(function(){
+	$('ul #li-category').click(function(){
+    $('#li-category').removeClass('current-category');
+		$(this).addClass('current-category');
+	})
+});
+</script-->
+<!--script>
+//up $ down count cart
+function increaseCount(a, b) {
+	var input = b.previousElementSibling;
+	var value = parseInt(input.value, 10);
+	value = isNaN(value) ? 0 : value;
+	value++;
+	input.value = value;
+  }
+  function decreaseCount(a, b) {
+	var input = b.nextElementSibling;
+	var value = parseInt(input.value, 10);
+	if (value > 1) {
+	  value = isNaN(value) ? 0 : value;
+	  value--;
+	  input.value = value;
+	}
+  }
+</script-->  
+<!--script>
+//cart close
+  $( document ).ready(function() {
+	$(".cart-close").click(function(){
+		$(this).parents(".single-cart-list").fadeOut();
+	});
+	$(".cart-remove").click(function(){
+		$(".cart-product").fadeOut();
+	});
+  });
+</script-->
 </html>
