@@ -11,7 +11,7 @@ defmodule FracomexWeb.Live.ProductLive do
       |> put_session_assigns(session)
       |> assign(
         items: Products.list_items(),
-        families: Products.list_families(),
+        families: Products.list_families_with_subs(),
         sub_families: Products.list_sub_families(),
         quantity: 0,
         cart: session["cart"],
