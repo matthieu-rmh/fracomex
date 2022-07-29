@@ -7,7 +7,7 @@ defmodule FracomexWeb.PageController do
     render(
       conn,
       "index.html",
-      items: Products.list_items(),
+      items: Products.list_items_arrival(),
       families: Products.list_families(),
       sub_families: Products.list_sub_families(),
       cart: Plug.Conn.get_session(conn, :cart),

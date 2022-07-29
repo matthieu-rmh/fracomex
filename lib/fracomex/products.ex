@@ -20,6 +20,12 @@ defmodule Fracomex.Products do
     Repo.all(Item)
   end
 
+  def list_items_arrival do
+    query = from i in Item,
+            limit: 8
+    Repo.all(query)
+  end
+
   def list_item_ids do
     query = from i in Item,
             select: i.id
