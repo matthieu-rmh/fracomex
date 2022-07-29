@@ -189,7 +189,7 @@ nav.navbar.bootsnav ul.nav > li.dropdown span {
 .wrap-sticky nav.navbar.bootsnav.sticked .attr-nav > ul > li > a {padding:28px 15px;}
 /*.attr-nav*/
 
-/*badge*/
+/*badge cart*/
 .badge {
     background-color: #e41201;
 }
@@ -205,7 +205,6 @@ nav.navbar.bootsnav ul.nav > li.dropdown span {
 nav.navbar.bootsnav .navbar-toggle {
     position: relative;
     background-color: transparent;
-    border: 1px solid #e41201;
     padding: 10px;
     top: 0;
 }
