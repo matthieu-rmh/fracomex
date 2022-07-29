@@ -7,7 +7,6 @@ defmodule FracomexWeb.PageController do
     render(
       conn,
       "index.html",
-      layout: {FracomexWeb.LayoutView, "layout.html"},
       items: Products.list_items(),
       families: Products.list_families(),
       sub_families: Products.list_sub_families(),
@@ -22,7 +21,8 @@ defmodule FracomexWeb.PageController do
     render(
       conn,
       "contact.html",
-      layout: {FracomexWeb.LayoutView, "layout.html"},
+      cart: Plug.Conn.get_session(conn, :cart),
+      sum_cart: Plug.Conn.get_session(conn, :sum_cart)
     )
   end
 end

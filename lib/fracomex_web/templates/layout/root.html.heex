@@ -20,9 +20,215 @@
 	  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
   </head>
+
+
   <body>
+		<header id="home" class="slide-hero">
+			<div class="top-area">
+				<div class="header-area">
+				    <nav class="navbar navbar-default bootsnav  navbar-sticky"  data-minus-value-desktop="70" data-minus-value-mobile="55" data-speed="1000">
+				        <form class="s" id="search-nav">
+						<input type="search" class="sb" name="q" autocomplete="off" placeholder="Recherche produits" />
+						<button type="submit" class="sbtn lnr lnr-magnifier"></button>
+						<i class="sbtn lnr lnr-cross" id="close-search"></i> 
+						</form> 
+						<div class="container">            
+				            <div class="attr-nav">
+				                <ul>
+				                	<li class="search">
+				                		<a id="search" href=""><span class="lnr lnr-magnifier"></span></a>
+				                	</li>
+				                	<li class="nav-setting dropdown">
+				                		<a href={Routes.users_path(@conn, :signin)} class="dropdown-toggle" data-toggle="dropdown"><span class="lnr lnr-user"></span></a>
+										<%= if not is_nil(Plug.Conn.get_session(@conn, :user_id)) do %>
+										<ul class="dropdown-menu s-cate" id="user-icon-dropdown">
+											<li class="scroll"><a href={Routes.users_path(@conn, :my_account)}><span class="lnr lnr-user"></span> Mon profil</a></li>
+											<li class="scroll"><a href={Routes.users_path(@conn, :my_address)}><span class="lnr lnr-map-marker"></span> Mon adresse</a></li>
+											<li class="scroll"><a href={Routes.users_path(@conn, :signout)} style="color: red; opacity: 0.75;"><span class="lnr lnr-exit"></span> Se déconnecter</a></li>
+										 </ul>
+										 <% end %>
+				                	</li>
+				                    <li class="dropdown">
+				                        <a href={Routes.cart_path(@conn, :index)} class="dropdown-toggle" data-toggle="dropdown">
+				                            <span class="lnr lnr-cart"></span>
+											<span class="badge badge-bg-1">
+												<%= if not is_nil(@cart) do %>
+													<%= Enum.count(@cart) %>
+												<% else %>
+													0
+												<% end %>
+											</span>
+				                        </a>
+
+				                    </li>
+				                </ul>
+				            </div>
+				            <div class="navbar-header">
+				                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
+				                    <i class="fa fa-bars"></i>
+				                </button>
+				                <a class="navbar-brand" href={Routes.page_path(@conn, :index)}>
+								<img src={Routes.static_path(@conn, "/images/fracomex.jpg")}>
+								</a>
+
+				            </div>
+				            <div class="collapse navbar-collapse menu-ui-design" id="navbar-menu">
+				                <ul class="nav navbar-nav navbar-center" data-in="fadeInDown" data-out="fadeOutUp">
+									<!--
+				                    <li class={"scroll #{if @conn.request_path=="/", do: "active"}"}><a href={Routes.page_path(@conn, :index)}>Accueil</a></li>
+				                    <li class={"dropdown scroll #{if @conn.request_path=="/product", do: "active"}"}>
+										<a href={Routes.product_path(@conn, :index)} class="dropdown" data-toggle="">
+											Boutique
+										</a>
+
+										<ul class="dropdown-menu itemfamilies-dropdown-menu s-cate">
+											<%= for family <- Fracomex.Products.list_families() do %>
+												 <li class="scroll"><a href="#blog"><%= family.caption %></a></li>
+											<% end %>
+										 </ul>
+									</li>
+									
+									
+				                    <li class="dropdown scroll">				                        
+										<a href="#" class="dropdown" data-toggle="dropdown" >
+				                            dropdown
+				                        </a>
+				                        <ul class="dropdown-menu">
+				                           <li class="scroll"><a href="#blog">dropdown1</a></li>
+										   <li class="scroll"><a href="#blog">dropdown2</a></li>
+										   <li class="scroll"><a href="#blog">dropdown3</a></li>
+				                        </ul>
+				                    </li>
+									
+				                    
+				                    <li class={"scroll #{if @conn.request_path=="/contact", do: "active"}"}><a href={Routes.page_path(@conn, :contact)}>contact</a></li> -->
+				                <li class="scroll"><a href="#all-product" class="all">
+								<span class="lnr lnr-menu" style="font-size: 16px;"></span> Tous les produits</a>
+								</li>
+								<li class="scroll"><a href="##">categ2</a></li>
+								<li class="scroll"><a href="##">categ3</a></li>
+								<li class="scroll"><a href="##">categ4</a></li>
+								<li class="scroll"><a href="##">categ5</a></li>
+								</ul>
+				            </div>
+				        </div>
+				    </nav>
+					<div class="sidepanel">
+						<div class="animated fadeIn">
+							<h3 class="title-panel">Catégories des produits</h3>
+							<ul class="content-sub" style="overflow-y: auto; min-height: 500px;">
+								<li class="sub" data-tab="tab-1">
+								<a href="##">
+								Category_name one 
+								<span class="lnr lnr-chevron-right"></span>
+								</a>
+								</li>
+							</ul>
+						</div>
+						<div id="tab-1" class="tab-content">
+							<ul class="" style="overflow-y: auto; min-height: 460px;">
+								<li class="">
+								<a href="##">Sub-Category_name one</a>
+								</li>
+							</ul>
+							<a class="return close-ul" style="cursor: pointer;">	
+							<i class="fa fa-chevron-left close-ul" aria-hidden="true"></i>
+							Retour
+							</a>
+						</div>
+						<div class="line"></div>
+						<div class="hm-side-menu">
+						<ul>
+							<li class="scroll"><a href="/">Accueil</a></li>
+							<li class="scroll"><a href="/boutique">Boutique</a></li>
+							<li class="scroll"><a href="/contact">contact</a></li>
+							
+						</ul>
+						</div>
+					 <i class="fa fa-times close-side" aria-hidden="true" style="cursor: pointer;"></i>
+					</div>
+					<div class="overlay-panel" style=" display: none;"></div>
+				</div>
+			    <div class="clearfix"></div>
+
+			</div>
+		</header>
     <%= @inner_content %>
-  </body>
+	<!--prefooter start -->
+		<section id="prefooter"  class="prefooter">
+			<div class="container">
+				<div class="hm-footer-details">
+					<div class="row">
+						<div class=" col-md-4 col-sm-6 col-xs-12">
+							<div class="hm-footer-widget">
+								<div class="hm-foot-title">
+									<h4>Informations</h4>
+									
+								</div>
+								<div class="hm-foot-menu">
+									<ul>
+										<li><a href="#">A propos de nous</a></li>
+										<li><a href="#">Contactez-nous</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class=" col-md-4 col-sm-6 col-xs-12">
+							<div class="hm-footer-widget">
+								<div class="hm-foot-title">
+									<h4>Navigation</h4>
+								</div>
+								<div class="hm-foot-menu">
+									<ul>
+										<li><a href={Routes.product_path(@conn, :index)}>Nos produits</a></li>
+										<li><a href={Routes.product_path(@conn, :index)}>Boutique</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+				
+						<div class=" col-md-4 col-sm-6 col-xs-12">
+							<div class="hm-footer-widget">
+								<div class="hm-foot-title">
+									<h4>Contact</h4>
+								</div>
+								<div class="hm-foot-menu">
+										<p>Adresse:</p>
+										<p>Tél:</p>
+										<p>E-mail:</p>							
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	<!--/prefooter end-->
+    <!--footer start-->
+		<footer id="footer"  class="footer">
+			<div class="container">
+				<div class="hm-footer-copyright text-center">
+					<!--div class="footer-social">
+						<a href="#"><i class="fab fa-facebook"></i></a>	
+						<a href="#"><i class="fab fa-instagram"></i></a>
+						<a href="#"><i class="fab fa-linkedin"></i></a>
+						<a href="#"><i class="fab fa-pinterest"></i></a>
+						<a href="#"><i class="fab fa-behance"></i></a>	
+					</div-->
+					<p>
+						&copy;copyright. | <a href="http://www.phidia.fr" style="font-weight: bold;">Phidia</a> | 2022
+					</p>
+				</div>
+			</div>
+			<!--/.scroll-Top-->
+			<div id="scroll-Top">
+				<div class="return-to-top">
+					<i class="fa fa-angle-up " id="scroll-top" data-toggle="tooltip" data-placement="top" title="" data-original-title="Back to Top" aria-hidden="true"></i>
+				</div>
+			</div>
+			
+		</footer>
+		</body>
   
 <script>  
 //category side panel
