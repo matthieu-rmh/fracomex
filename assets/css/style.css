@@ -192,7 +192,6 @@ nav.navbar.bootsnav ul.nav > li.dropdown span {
 /*badge*/
 .badge {
     background-color: #e41201;
-    border: 1px solid #000000;
 }
 .attr-nav > ul > li > a span.badge {
     margin-top: -25px;
@@ -274,7 +273,6 @@ ul.cart-list > li.total {
     justify-content: center;
     align-items: center;
     background: #e41201;
-    border: 1px solid #000000;
     width: 80px;
     height: 30px;
     white-space: nowrap;
@@ -828,12 +826,10 @@ ul.cart-list > li.total {
     color: #e41201 !important;
   }  
 
-.new-arrival-cart {
+  .new-arrival-cart {
     position: absolute;
-    bottom: -14px;
     z-index: 0;
-    left: 0;
-    width: 100%;
+    width: 80%;
     height: 35px;
     background: #e41201;
     -webkit-transition: .3s linear;
@@ -846,20 +842,17 @@ ul.cart-list > li.total {
     text-align: center;
 }
 .new-arrival-cart p {
-    float: left;
     color: #fff;
     font-size: 12px;
     line-height: 3;
-    margin-left: 55px;
 }
-.new-arrival-cart p a{color: #fff;font-weight: 400;font-size: 12px;}
+.new-arrival-cart p a{color: #fff;font-weight: 400;font-size: 12px;text-align: center;}
 .new-arrival-cart p span.lnr.lnr-cart {margin-right: 10px;}
 .new-arrival-cart p span{text-transform: uppercase;}
 p.arrival-review span {margin-right: 15px;}
 .single-product-bg:hover .new-arrival-cart {
-    opacity:1;
+    opacity: 0.9;
     visibility:visible;
-    bottom:0px;
 }
 .single-product  h4 a{
     color:#5f5b57;
@@ -1166,7 +1159,6 @@ input[type=email] {
     cursor: pointer;
     color: #fff;
     background:#e41201;
-	border:1px solid #000000;
 	border-radius:50%;
 	-webkit-transition: .5s; 
 	-moz-transition:.5s; 
@@ -1178,7 +1170,6 @@ input[type=email] {
 #scroll-Top  .return-to-top:hover {
     background:#000000;
     color: #ffffff;
-	border:1px solid #e41201;
 }
 
 #scroll-Top  .return-to-top i{
