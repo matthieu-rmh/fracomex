@@ -72,8 +72,8 @@ defmodule FracomexWeb.Live.ProductLive do
           {:noreply,
            socket
            |> put_flash(:info, product_added_in_cart)
-           |> redirect(to: Routes.product_path(socket, :product_details, item.caption, item_id))
            |> assign(cart: [cart])
+           |> redirect(to: Routes.product_path(socket, :product_details, item.caption, item_id))
           }
 
         is_nil(Enum.find(socket.assigns.cart, fn cart -> cart.product_id == "#{item_id}" end)) ->
@@ -88,8 +88,8 @@ defmodule FracomexWeb.Live.ProductLive do
           {:noreply,
            socket
            |> put_flash(:info, product_added_in_cart)
-           |> redirect(to: Routes.product_path(socket, :product_details, item.caption, item_id))
            |> assign(cart: socket.assigns.cart ++ [cart])
+           |> redirect(to: Routes.product_path(socket, :product_details, item.caption, item_id))
           }
 
         true ->
@@ -118,8 +118,8 @@ defmodule FracomexWeb.Live.ProductLive do
             {:noreply,
              socket
              |> put_flash(:info, product_added_in_cart)
-             |> redirect(to: Routes.product_path(socket, :product_details, item.caption, item_id))
              |> assign(cart: new_cart)
+             |> redirect(to: Routes.product_path(socket, :product_details, item.caption, item_id))
             }
           end
       end
