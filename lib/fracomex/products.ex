@@ -132,6 +132,19 @@ defmodule Fracomex.Products do
     Repo.all(Family)
   end
 
+  def list_limited_families do
+    query = from f in Family,
+            limit: 5
+    Repo.all(query)
+  end
+
+  def list_families_with_subs do
+    query = from f in Family,
+            preload: [:sub_families]
+
+    Repo.all(query)
+  end
+
   def list_family_ids do
     query = from family in Family,
             select: family.id
