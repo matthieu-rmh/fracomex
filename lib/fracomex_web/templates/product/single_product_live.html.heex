@@ -41,7 +41,8 @@
 						<div class="details">
 							<%= if not is_nil(@item_get_by_id) do %>
 								<h2 class="details-product-name"><%= @item_get_by_id.caption %> </h2>
-								<p>Catégorie : Product_category</p>
+								<p><b>Catégorie:</b> Product_category</p>
+								<p><b>Stock disponible:</b> <%= @item_get_by_id.real_stock %></p>
 								<h3 class="details-product-price"><%= @item_get_by_id.sale_price_vat_excluded %> €</h3>
 								<div class="row">
 									<div class="col-md-2 col-sm-4">

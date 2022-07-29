@@ -18,7 +18,7 @@ defmodule FracomexWeb.Live.CartLive do
         sum_cart: sum_cart(session["cart"])
       )
 
-    {:ok, socket, layout: {FracomexWeb.LayoutView, "layout_live.html"}}
+    {:ok, socket}
   end
 
   def handle_info({:live_session_updated, session}, socket) do
