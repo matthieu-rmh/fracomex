@@ -23,7 +23,7 @@
 								</div>
 								<!--product_price-->
 								<div class="product-price" id={"price-#{item.id}"}>
-								<p class="p-product-price"><%= item.sale_price_vat_excluded %> €</p>
+								<p class="p-product-price"><%= Fracomex.Utilities.price_format(item.sale_price_vat_excluded) %> €</p>
 								</div>
 									<div class="new-arrival-cart">
 										<p class="add-to-cart">
