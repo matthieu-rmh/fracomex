@@ -771,7 +771,7 @@ let liveSocket = new LiveSocket("/live", Socket, {params: {_csrf_token: csrfToke
 
 // Show progress bar on live navigation and form submits. Only displays if still
 // loading after 200msec
-topbar.config({barColors: {0: "#29d"}, shadowColor: "rgba(0, 0, 0, .3)"})
+topbar.config({barColors: {0: "#e41201"}, shadowColor: "rgba(0, 0, 0, .3)"})
 
 let topBarScheduled = undefined;
 window.addEventListener("phx:page-loading-start", () => {

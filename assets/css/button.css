@@ -6,7 +6,7 @@ button.button-cart {
   padding: 1rem 1.5rem; 
   background: #e6442e;
   color: #fff;
-  outline: 1px solid #000000 !important;
+  /* outline: 1px solid #000000 !important; */
   width: auto;
   transition: 0.2s linear;
 }
