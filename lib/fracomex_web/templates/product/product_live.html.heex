@@ -50,6 +50,15 @@
 					</div>	
 									
 					<div class="col-md-9 col-sm-12">
+						<main class="container">
+							<p class="alert alert-info" role="alert"
+							phx-click="lv:clear-flash"
+							phx-value-key="info"><%= live_flash(@flash, :info) %></p>
+						
+							<p class="alert alert-danger" role="alert"
+								phx-click="lv:clear-flash"
+								phx-value-key="error"><%= live_flash(@flash, :error) %></p>
+						</main>
 						<div class="row filter">
 							<div class="col-md-2 align-self-end col-filter">					
 							<div class="form-group">
@@ -82,12 +91,14 @@
 									<div class="product-price" id={"price-#{item.id}"}>
 									<p class="p-product-price"><%= Fracomex.Utilities.price_format(item.sale_price_vat_excluded) %> €</p>
 									</div>
-									<div class="new-arrival-cart">
+									<div 
+										class="new-arrival-cart" 
+										phx-click="add-one-product-to-cart"
+										phx-value-id={item.id}
+									>
 										<p class="add-to-cart">
-											<a href="#">
 											<span class="lnr lnr-cart"></span>
 											<span class="addtocart">Ajouter au panier</span>
-											</a>
 										</p>
 										<!--p class="arrival-review pull-right">
 											<span class="lnr lnr-heart"></span>

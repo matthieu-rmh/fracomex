@@ -64,7 +64,7 @@ defmodule FracomexWeb.Live.ProductLive do
     item = Products.get_item_with_family_and_sub_family!(item_id)
     quantity = String.to_integer(params["quantity"])
 
-    product_added_in_cart = "(#{quantity}) #{item.caption} a été ajouté au panier"
+    product_added_in_cart = "#{item.caption} a été ajouté au panier"
 
     if quantity == 0 do
       {:noreply, socket}
@@ -81,7 +81,7 @@ defmodule FracomexWeb.Live.ProductLive do
 
           {:noreply,
            socket
-           |> put_flash(:info, product_added_in_cart)
+           |> put_flash(:info, "(#{if quantity < 10, do: "0#{quantity}", else: quantity}) #{product_added_in_cart}")
            |> assign(cart: [cart])
            |> redirect(to: Routes.product_path(socket, :product_details, item.family.caption, item.sub_family.caption, item.caption, item_id))
           }
@@ -97,7 +97,7 @@ defmodule FracomexWeb.Live.ProductLive do
 
           {:noreply,
            socket
-           |> put_flash(:info, product_added_in_cart)
+           |> put_flash(:info, "(#{if quantity < 10, do: "0#{quantity}", else: quantity}) #{product_added_in_cart}")
            |> assign(cart: socket.assigns.cart ++ [cart])
            |> redirect(to: Routes.product_path(socket, :product_details, item.family.caption, item.sub_family.caption, item.caption, item_id))
           }
@@ -127,12 +127,88 @@ defmodule FracomexWeb.Live.ProductLive do
 
             {:noreply,
              socket
-             |> put_flash(:info, product_added_in_cart)
+             |> put_flash(:info, "(#{if quantity_in_cart + quantity < 10, do: "0#{quantity_in_cart + quantity}", else: quantity_in_cart + quantity}) #{product_added_in_cart}")
              |> assign(cart: new_cart)
-             |> redirect(to: Routes.product_path(socket, :product_details, item.family_id, item.sub_family_id, item.caption, item_id))
+             |> redirect(to: Routes.product_path(socket, :product_details, item.family.caption, item.sub_family.caption, item.caption, item_id))
             }
           end
       end
+    end
+  end
+
+  def handle_event("add-one-product-to-cart", params, socket) do
+    IO.puts("PARAMS")
+    IO.inspect(params)
+
+    item = Products.get_item_with_family_and_sub_family!(params["id"])
+
+    quantity = 1
+
+    product_added_in_cart = "#{item.caption} a été ajouté au panier"
+
+    cond do
+      is_nil(socket.assigns.cart) ->
+        cart = %{
+          product_id: item.id,
+          quantity: quantity
+        }
+
+        PhoenixLiveSession.put_session(socket, "cart", [cart])
+        PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart([cart]))
+
+        {:noreply,
+          socket
+          |> put_flash(:info, "(0#{quantity}) #{product_added_in_cart}")
+          |> assign(cart: [cart])
+          |> redirect(to: Routes.product_path(socket, :index))
+        }
+
+      is_nil(Enum.find(socket.assigns.cart, fn cart -> cart.product_id == "#{item.id}" end)) ->
+        cart = %{
+          product_id: item.id,
+          quantity: quantity
+        }
+
+        PhoenixLiveSession.put_session(socket, "cart", socket.assigns.cart ++ [cart])
+        PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(socket.assigns.cart ++ [cart]))
+
+        {:noreply,
+          socket
+          |> put_flash(:info, "(0#{quantity}) #{product_added_in_cart}")
+          |> assign(cart: socket.assigns.cart ++ [cart])
+          |> redirect(to: Routes.product_path(socket, :index))
+        }
+
+      true ->
+
+        # Retrouver la position de l'item dans le panier
+        quantity_in_cart = Enum.find(socket.assigns.cart, &(&1.product_id == item.id)).quantity
+
+        real_stock =
+          Products.get_item!(item.id).real_stock
+          |> Decimal.to_float()
+          |> trunc()
+
+        if quantity_in_cart > real_stock or quantity_in_cart + quantity > real_stock do
+          {:noreply, socket |> put_flash(:error, "Il n'a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier (reste #{real_stock - quantity_in_cart})")}
+        else
+          index = Enum.find_index(socket.assigns.cart, &(&1.product_id == item.id))
+
+          # Assigner une nouvelle valeur à la quantité à partir de la position
+          # Et mettre à jour le panier dans la session à partir de la nouvelle valeur
+          new_cart = List.update_at(socket.assigns.cart, index, fn cart -> %{product_id: item.id, quantity: cart.quantity + quantity} end)
+
+          # Mettre à jour la session avec le nouveau panier
+          PhoenixLiveSession.put_session(socket, "cart", new_cart)
+          PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(new_cart))
+
+          {:noreply,
+            socket
+            |> put_flash(:info, "(#{if quantity_in_cart + quantity < 10, do: "0#{quantity_in_cart + quantity}", else: quantity_in_cart + quantity}) #{product_added_in_cart}")
+            |> assign(cart: new_cart)
+            |> redirect(to: Routes.product_path(socket, :index))
+          }
+        end
     end
   end
 
