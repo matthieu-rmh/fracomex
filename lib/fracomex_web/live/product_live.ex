@@ -61,7 +61,7 @@ defmodule FracomexWeb.Live.ProductLive do
 
   def handle_event("add-product-to-cart", params, socket) do
     item_id = params["item_id"]
-    item = Products.get_item!(item_id)
+    item = Products.get_item_with_family_and_sub_family!(item_id)
     quantity = String.to_integer(params["quantity"])
 
     product_added_in_cart = "(#{quantity}) #{item.caption} a été ajouté au panier"
