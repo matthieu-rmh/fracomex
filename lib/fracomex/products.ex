@@ -26,6 +26,16 @@ defmodule Fracomex.Products do
     Repo.all(query)
   end
 
+  def list_items_paginate(params) do
+    family_caption = from f in Family
+    sub_family_caption = from sf in SubFamily
+
+    query = from i in Item,
+            preload: [family: ^family_caption, sub_family: ^sub_family_caption]
+
+    Repo.paginate(query, params)
+  end
+
   def list_items_arrival do
     family_query = from f in Family
     sub_family_query = from sf in SubFamily
@@ -156,6 +166,13 @@ defmodule Fracomex.Products do
   """
   def list_families do
     Repo.all(Family)
+  end
+
+  def list_families_paginate(params) do
+    query = from f in Family,
+            preload: [:sub_families]
+
+    Repo.paginate(query, params)
   end
 
   def list_limited_families do
