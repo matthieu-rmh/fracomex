@@ -53,7 +53,8 @@ defmodule Fracomex.MixProject do
       {:pbkdf2_elixir, "~> 2.0"},
       {:mogrify, "~> 0.9.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:phoenix_live_session, "~> 0.1"}
+      {:phoenix_live_session, "~> 0.1"},
+      {:scrivener_ecto, "~> 2.7"}
     ]
   end
 
