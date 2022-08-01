@@ -1,0 +1,8 @@
+a.page-link.active {
+    background-color: #e41201 !important;
+    color: #fff !important;
+}
+
+a.page-link:hover{
+    cursor: pointer;
+}
