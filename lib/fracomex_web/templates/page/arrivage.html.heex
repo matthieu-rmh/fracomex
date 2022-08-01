@@ -9,7 +9,7 @@
 					<%= for item <- @items do %>
 						<div class="col-md-3 col-sm-4">
 							<div class={"details-product-#{item.id}"} id="details">
-							<a href={Routes.product_path(@conn, :product_details, "#{String.downcase(item.family.caption)}", "#{String.downcase(item.sub_family.caption)}", "#{String.downcase(item.caption)}", item.id)} class={"product-#{item.id}"} >
+							<a href={Routes.product_path(@conn, :product_details, "#{String.downcase(item.family.caption) |> String.replace(" ", "-")}", "#{String.downcase(item.sub_family.caption) |> String.replace(" ", "-")}", "#{String.downcase(item.caption) |> String.replace(" ", "-")}", item.id)} class={"product-#{item.id}"} >
 								<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
 									<img src={Routes.static_path(@conn, "/images/small-items/#{item.image}")} alt={item.image}>
 									<div class="single-product-bg-overlay"></div>

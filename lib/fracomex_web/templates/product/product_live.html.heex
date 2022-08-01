@@ -75,7 +75,7 @@
 					<div class="product-grid">	
 						<div class="col-md-3 col-sm-4 content-product">
 							<div class="details-product" id={"details-#{item.id}"}>
-							<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :product_details, "#{String.downcase(item.family.caption)}", "#{String.downcase(item.sub_family.caption)}", "#{String.downcase(item.caption)}", "#{item.id}")}>
+							<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :product_details, "#{String.downcase(item.family.caption) |> String.replace(" ", "-")}", "#{String.downcase(item.sub_family.caption) |> String.replace(" ", "-")}", "#{String.downcase(item.caption) |> String.replace(" ", "-")}", "#{item.id}")}>
 								<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
 									<img src={Routes.static_path(@socket, "/images/small-items/#{item.image}")} alt={item.caption}>
 									<div class="single-product-bg-overlay"></div>
