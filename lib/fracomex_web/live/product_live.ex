@@ -41,12 +41,12 @@ defmodule FracomexWeb.Live.ProductLive do
   end
 
   def handle_event("show-product-details", params, socket) do
-    item_id = params["id"]
-    item_caption = params["caption"]
+    id = params["id"]
+    item = Products.get_item_with_family_and_sub_family!(id)
 
     {:noreply,
      socket
-     |> push_redirect(to: Routes.product_path(socket, :product_details, item_caption, item_id))}
+     |> push_redirect(to: Routes.product_path(socket, :product_details, item.family.caption, item.sub_family.caption, item.caption, id))}
   end
 
   def handle_event("add-product-to-cart", params, socket) do
@@ -73,7 +73,7 @@ defmodule FracomexWeb.Live.ProductLive do
            socket
            |> put_flash(:info, product_added_in_cart)
            |> assign(cart: [cart])
-           |> redirect(to: Routes.product_path(socket, :product_details, item.caption, item_id))
+           |> redirect(to: Routes.product_path(socket, :product_details, item.family.caption, item.sub_family.caption, item.caption, item_id))
           }
 
         is_nil(Enum.find(socket.assigns.cart, fn cart -> cart.product_id == "#{item_id}" end)) ->
@@ -89,7 +89,7 @@ defmodule FracomexWeb.Live.ProductLive do
            socket
            |> put_flash(:info, product_added_in_cart)
            |> assign(cart: socket.assigns.cart ++ [cart])
-           |> redirect(to: Routes.product_path(socket, :product_details, item.caption, item_id))
+           |> redirect(to: Routes.product_path(socket, :product_details, item.family.caption, item.sub_family.caption, item.caption, item_id))
           }
 
         true ->
@@ -119,7 +119,7 @@ defmodule FracomexWeb.Live.ProductLive do
              socket
              |> put_flash(:info, product_added_in_cart)
              |> assign(cart: new_cart)
-             |> redirect(to: Routes.product_path(socket, :product_details, item.caption, item_id))
+             |> redirect(to: Routes.product_path(socket, :product_details, item.family_id, item.sub_family_id, item.caption, item_id))
             }
           end
       end
