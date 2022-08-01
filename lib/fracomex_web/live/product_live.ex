@@ -31,12 +31,22 @@ defmodule FracomexWeb.Live.ProductLive do
   def handle_params(params, _url, socket) do
     item_id = params["id_produit"]
 
+    items = Products.list_items_paginate(params)
+    families = Products.list_families_paginate(params)
+
     if not is_nil(item_id) do
       item_get_by_id = Products.get_item_with_family_and_sub_family!(item_id)
 
-      {:noreply, socket |> assign(item_get_by_id: item_get_by_id)}
+      {:noreply,
+        socket
+        |> assign(item_get_by_id: item_get_by_id)
+      }
     else
-      {:noreply, socket}
+      {:noreply,
+        socket
+        |> assign(items: items)
+        |> assign(families: families)
+      }
     end
   end
 
@@ -172,6 +182,10 @@ defmodule FracomexWeb.Live.ProductLive do
       |> Enum.map(fn cart -> cart.quantity * Decimal.to_float Products.get_item!(cart.product_id).sale_price_vat_excluded end)
       |> Enum.sum()
     end
+  end
+
+  def handle_event("paginate", %{"page" => page}, socket) do
+    {:noreply, push_redirect(socket, to: Routes.product_path(socket, :index, page: page))}
   end
 
   def render(assigns) do
