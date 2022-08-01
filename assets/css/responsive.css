@@ -1,3 +1,13 @@
+@media screen and (max-width:3680px){
+	.sidepanel {
+		margin-left: -1000px;
+	  }
+	}
+@media screen and (max-width:2680px){
+	.sidepanel {
+		margin-left: -1000px;
+	  }
+	}
 @media screen and (max-width:1680px){
 	.sidepanel {
 		margin-left: -800px;
@@ -38,12 +48,36 @@
 	nav.navbar.bootsnav .navbar-brand {padding: 25px;}
 	nav.navbar.bootsnav ul.nav > li > a {padding: 15px 0px;border: transparent;}
 	.attr-nav > ul > li > a {padding: 20px 15px;}
+	.nav-page {
+        background-color: darkred;
+      }
+    .navigation {
+        text-align: center;
+        padding-left: 25px;
+      }  
+    .navigation li {
+        display: inline;
+        text-align: center;
+        padding-left: 20px;
+      } 
 }/*max-width:992px*/
 
 @media screen and (max-width:991px){
 	.main-menu .nav li span.badge {top: 20px;right:-5px;}
 	.single-feature,.single-blog,.single-new-arrival {max-width: 270px;margin: 30px auto;}
 	.single-populer-products {max-width: 350px;margin: 30px auto;min-height: auto;padding-bottom: 30px;}
+	.nav-page {
+        background-color: darkred;
+      }
+    .navigation {
+        text-align: center;
+        padding-left: 25px;
+      }  
+    .navigation li {
+        display: inline;
+        text-align: center;
+        padding-left: 20px;
+      } 
 
 }/*max-width:991px*/
 
@@ -70,6 +104,12 @@
 	.single-slide-hero {height:auto;background: transparent;padding: 100px 0;display: block;}
 
 	.feature-content,.blog-content,.new-arrivals-content{margin-top:40px;}
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full .container {
+		top: 0px !important;
+	  }
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container {
+		top: 0px !important;
+	  }
 	
 }/*max-width:767px*/
 
@@ -82,18 +122,48 @@
 		display: block;
 		align-items: center;
 	  }  
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full .container {
+		top: 0px !important;
+	  }
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container {
+		top: 0px !important;
+	  }  
 }/*max-width:660px*/
 
 @media screen and (max-width: 640px){
 	#navbar-menu {
 		background-color: #e8e8e8;
 	  }
+	  .nav-page {
+        background-color: darkred;
+      }
+    .navigation {
+        text-align: center;
+        padding-left: 25px;
+      }  
+    .navigation li {
+        display: inline;
+        text-align: center;
+        padding-left: 20px;
+      }  
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full .container {
+		top: 0px !important;
+	  }
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container {
+		top: 0px !important;
+	  }   
 }/*max-width:640px*/
 
 @media screen and (max-width: 580px){
 	#navbar-menu {
 		background-color: #e8e8e8;
 	  }
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full .container {
+		top: 0px !important;
+	  }
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container {
+		top: 0px !important;
+	  }  
 	  
 }/*max-width:580px*/
 
@@ -101,11 +171,22 @@
 	#navbar-menu {
 		background-color: #e8e8e8;
 	  }
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full .container {
+		top: 0px !important;
+	  }
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container {
+		top: 0px !important;
+	  }  
 }/*max-width:540px*/
 
 @media screen and (max-width: 480px){
 	.slide-hero h2 {font-size: 30px;}
-	
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full .container {
+		top: 0px !important;
+	  }
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container {
+		top: 0px !important;
+	  }
 }/*max-width:480px*/
 
 @media screen and (max-width: 440px){
@@ -123,6 +204,23 @@
 }/*max-width:350px*/
 
 @media screen and  (max-width: 320px){
-	
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full .container {
+		top: 0px !important;
+	  }
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container {
+		top: 0px !important;
+	  }
+	.nav-page {
+        background-color: darkred;
+      }
+    .navigation {
+        text-align: center;
+        padding-left: 25px;
+      }  
+    .navigation li {
+        display: inline;
+        text-align: center;
+        padding-left: 20px;
+      } 
 }/*max-width:320px*/
 
