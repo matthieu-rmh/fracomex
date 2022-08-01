@@ -13,7 +13,7 @@ defmodule FracomexWeb.Live.ProductLive do
         items: Products.list_items(),
         families: Products.list_families_with_subs(),
         sub_families: Products.list_sub_families(),
-        quantity: 0,
+        quantity: 1,
         cart: session["cart"],
         sum_cart: session["sum_cart"]
       )
