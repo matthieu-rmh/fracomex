@@ -17,11 +17,21 @@ defmodule Fracomex.Products do
 
   """
   def list_items do
-    Repo.all(Item)
+    family_caption = from f in Family
+    sub_family_caption = from sf in SubFamily
+
+    query = from i in Item,
+            preload: [family: ^family_caption, sub_family: ^sub_family_caption]
+
+    Repo.all(query)
   end
 
   def list_items_arrival do
+    family_query = from f in Family
+    sub_family_query = from sf in SubFamily
+
     query = from i in Item,
+            preload: [family: ^family_query, sub_family: ^sub_family_query],
             limit: 8
     Repo.all(query)
   end
