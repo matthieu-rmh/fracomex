@@ -109,17 +109,17 @@
 									
 				                    
 				                    <li class={"scroll #{if @conn.request_path=="/contact", do: "active"}"}><a href={Routes.page_path(@conn, :contact)}>contact</a></li> -->
-				                <li class="scroll"><a href="#all-product" class="all">
+				                <li class="scroll in-top"><a href="#all-product" class="all">
 								<span class="lnr lnr-menu" style="font-size: 16px;"></span> Tous les produits</a>
 								</li>
 								<%= for family <- Fracomex.Products.list_limited_families do %>
-									<li class="scroll"><a href="##"><%= family.caption %></a></li>
+									<li class="scroll in-top"><a href="##"><%= family.caption %></a></li>
 								<% end %>
 								</ul>
 				            </div>
 				        </div>
 				    </nav>
-					<div class="sidepanel">
+					<!--div class="sidepanel">
 						<div class="animated fadeIn">
 							<h3 class="title-panel">Catégories des produits</h3>
 							<ul class="content-sub" style="overflow-y: auto; min-height: 500px;">
@@ -159,6 +159,40 @@
 						</ul>
 						</div>
 					 <i class="fa fa-times close-side" aria-hidden="true" style="cursor: pointer;"></i>
+					</div-->
+					<div class="sidepanel">
+						<div class="drop-wrapper">
+							<h3 class="title-panel">Catégories des produits</h3>
+							<ul class="content-sub" style="overflow-y: auto; min-height: 500px;">
+								<%= for family <- Fracomex.Products.list_families_with_subs do %>
+								<li class="sub" data-target="#dropright">
+									<a>
+										<%= family.caption %> 
+											<span class="lnr lnr-chevron-right"></span>
+									</a>
+								<div class="drop-menu dropright" id="dropright">
+									<ul class="" style="overflow-y: auto; min-height: 460px;">
+										<%= for sub_family <- family.sub_families do %>
+											<li class="">
+												<a href="##"><%= sub_family.caption %></a>
+											</li>
+										<% end %>
+									</ul>
+								</div>
+								</li>
+								<% end %>
+							</ul>
+						</div>
+						<div class="line"></div>
+						<div class="hm-side-menu">
+							<ul>
+								<li class="scroll in-panel"><a href="/">Accueil</a></li>
+								<li class="scroll in-panel"><a href="/boutique">Boutique</a></li>
+								<li class="scroll in-panel"><a href="/contact">contact</a></li>
+								
+							</ul>
+						</div>
+					<i class="fa fa-times close-side" aria-hidden="true" style="cursor: pointer;"></i>
 					</div>
 					<div class="overlay-panel" style=" display: none;"></div>
 				</div>
@@ -276,28 +310,6 @@ $(".close-side").click(function(){
   $("body").removeClass("fixed-position"); 
 	});
 </script>
-
-<script>
-/* content ul li in side panel*/
-$(document).ready(function(){
-	$('.sub').click(function(){
-        var tab_id = $(this).attr('data-tab');
-        $('.content-sub').hide();
-        $('.sub').removeClass('current');
-        $('.tab-content').removeClass('current').addClass("animated fadeInLeft");
-        $(this).addClass('current');
-        $("#"+tab_id).addClass('current');
-    });
-    $('.close-ul').click(function(){
-        var tab_id = $(this).attr('data-tab');
-        $('.content-sub').addClass("animated fadeInRight").show();
-        $('.sub').removeClass('current');
-        $('.tab-content').removeClass('current');
-        $(this).addClass('current');
-        $("#"+tab_id).addClass('current');
-    }); 
-});
-</script>
 <script> 
 //password   
 var togglePassword = document.querySelector("#togglePassword");
@@ -386,5 +398,26 @@ function increaseCount(a, b) {
 		$(".cart-product").fadeOut();
 	});
   });
+</script-->
+<!--script>
+/* content ul li in side panel*/
+$(document).ready(function(){
+	$('.sub').click(function(){
+        var tab_id = $(this).attr('data-tab');
+        $('.content-sub').hide();
+        $('.sub').removeClass('current');
+        $('.tab-content').removeClass('current').addClass("animated fadeInLeft");
+        $(this).addClass('current');
+        $("#"+tab_id).addClass('current');
+    });
+    $('.close-ul').click(function(){
+        var tab_id = $(this).attr('data-tab');
+        $('.content-sub').addClass("animated fadeInRight").show();
+        $('.sub').removeClass('current');
+        $('.tab-content').removeClass('current');
+        $(this).addClass('current');
+        $("#"+tab_id).addClass('current');
+    }); 
+});
 </script-->
 </html>

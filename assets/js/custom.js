@@ -36,3 +36,25 @@ $(document).ready(function(){
         });
 		
 });
+const sub = document.querySelectorAll('.sub');
+const dropMenus = document.querySelectorAll('.drop-menu');
+
+sub.forEach(lisub => {
+    lisub.addEventListener('mouseover', () => {
+        removeActive();
+        lisub.classList.add('active');
+        document.querySelector(lisub.dataset.target).classList.add('active');
+		$('.drop-menu').addClass("animated fadeInLeft")
+    })
+})
+
+const removeActive = () => {
+    sub.forEach(lisub => lisub.classList.remove('active'));
+    dropMenus.forEach(dropmenu => dropmenu.classList.remove('active'));
+}
+
+window.onclick = (e) => {
+    if (!e.target.matches('.sub')) {
+        removeActive()
+    }
+}

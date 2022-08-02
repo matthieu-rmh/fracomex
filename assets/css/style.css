@@ -1675,7 +1675,6 @@ margin-bottom: -10px !important;
     color:#f1f1f2;
     text-align:center;
     opacity: 0.9;
-    top: 0;
   }
   .sidepanel:before {
     content:'';
@@ -1776,4 +1775,46 @@ margin-bottom: -10px !important;
 /*text banner*/
 #text-banner{
     margin: 10rem;
+}
+
+
+/*dropright*/
+.btn{
+    padding: 0.5rem 1.5rem;
+    border: none;
+    outline: none;
+    background-color: #0f81fb;
+    color: #f3f3f3;
+    border-radius: 3px;
+}
+
+.btn.active{
+    box-shadow: 0 0 0 0.125rem rgba(13, 128, 250, 0.5);
+}
+.drop-wrapper{
+    position: relative;
+}
+
+.drop-menu{
+    display: none;
+    position: absolute;
+    width: 350px;
+}
+
+.drop-menu.active{
+    display: block;
+}
+.dropright{
+    background-color:#070707;
+    height: 100vh;
+    left: 100%;
+    top: -10px;
+    margin-left: 0.125rem;
+}
+
+.drop-menu a{
+    display: block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    color: #343434;
 }
