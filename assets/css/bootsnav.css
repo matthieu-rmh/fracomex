@@ -1,4 +1,7 @@
 /* @bootsnav*/
+.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container {
+    top: -5px !important;
+  }  
 nav.bootsnav .dropdown.megamenu-fw {
     position: static;
 }
@@ -41,11 +44,9 @@ nav.navbar.bootsnav{
     margin-top: 0px;
   }
 .navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full {
-    margin-top: -10px;
+    margin-top: 0px;
 }
-.navbar {
-    margin-top: -10px;
-  }
+
 nav.navbar.bootsnav ul.nav > li > a{
     color: #6f6f6f;
     background-color: transparent;
@@ -65,7 +66,7 @@ nav.navbar.bootsnav .navbar-toggle{
     background-color: #fff;
     border: none;
     padding: 0;
-    font-size: 18px;
+    font-size: 20px;
     position: relative;
     top: 5px;
 }
@@ -765,24 +766,32 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
         width: 250px;
         left: -250px;
     }
-    
-    /* Menu Center*/
-    nav.navbar.bootsnav.menu-center .container{
+    /*custom nav*/
+    .nav-page {
+        background-color: #630b05;
         position: relative;
-    }
-    
-    nav.navbar.bootsnav.menu-center ul.nav.navbar-center{
-        float:none;
-        margin: 0 auto;
-        display: table;
-        table-layout: fixed;
-    }
-    .navbar-center{
-        float:none;
-        margin: 0 auto;
-        display: table !important;
-        table-layout: fixed !important;
-    }
+        z-index: 2;
+      }
+    .navigation {
+        text-align: center;
+        padding-left: 25px;
+      }  
+    .navigation li {
+        display: inline;
+        text-align: center;
+        padding-left: 20px;
+      }  
+    .navigation li a {
+        color: #fff;
+      }  
+    .scroll {
+        margin-top: 30px;
+    }  
+    .wrap-sticky nav.navbar.bootsnav.sticked ul.nav > li {
+        margin-top: 0px;
+      }
+    /* Menu Center*/
+   
     nav.navbar.bootsnav.menu-center .navbar-header,
     nav.navbar.bootsnav.menu-center .attr-nav{
         position: absolute;

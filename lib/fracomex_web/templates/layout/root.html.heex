@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="csrf-token" content={csrf_token_value()}>
     <%= live_title_tag assigns[:page_title] || "#{Fracomex.Utilities.get_page_title_tag(@conn.request_path, Plug.Conn.get_session(@conn, :user_id))}", suffix: " · Fracomex Mayotte" %>
-
+	<link rel="shortcut icon" type="image/icon" href={Routes.static_path(@conn, "/images/favicon.png")}/>
     <!-- CSS Link -->
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"/>
@@ -26,14 +26,21 @@
 		<header id="home" class="slide-hero">
 			<div class="top-area">
 				<div class="header-area">
-				    <nav class="navbar navbar-default bootsnav  navbar-sticky"  data-minus-value-desktop="70" data-minus-value-mobile="55" data-speed="1000">
+				    <nav class="navbar navbar-default bootsnav  navbar-sticky">
 				        <form class="s" id="search-nav">
 						<input type="search" class="sb" name="q" autocomplete="off" placeholder="Recherche produits" />
 						<button type="submit" class="sbtn lnr lnr-magnifier"></button>
 						<i class="sbtn lnr lnr-cross" id="close-search"></i> 
 						</form> 
-						<div class="container">            
-				            <div class="attr-nav">
+						<div class="nav-page"  data-in="fadeInDown" data-out="fadeOutUp">
+							<ul class="navigation">
+									<li><a href="/boutique">Boutique</a></li>
+									<li><a href="/contact">Contact</a></li>
+									<li><a href="/">A propos de nous</a></li>
+							</ul>
+						</div>
+						<div class="container" style="top: -20px;">            
+				            <div class="attr-nav"  data-in="fadeInDown" data-out="fadeOutUp">
 				                <ul>
 				                	<li class="search">
 				                		<a id="search" href=""><span class="lnr lnr-magnifier"></span></a>
@@ -63,7 +70,7 @@
 				                    </li>
 				                </ul>
 				            </div>
-				            <div class="navbar-header">
+				            <div class="navbar-header"  data-in="fadeInDown" data-out="fadeOutUp">
 				                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
 				                    <i class="fa fa-bars"></i>
 				                </button>
@@ -145,9 +152,9 @@
 						<div class="line"></div>
 						<div class="hm-side-menu">
 						<ul>
-							<li class="scroll"><a href="/">Accueil</a></li>
-							<li class="scroll"><a href="/boutique">Boutique</a></li>
-							<li class="scroll"><a href="/contact">contact</a></li>
+							<li class="scroll in-panel"><a href="/">Accueil</a></li>
+							<li class="scroll in-panel"><a href="/boutique">Boutique</a></li>
+							<li class="scroll in-panel"><a href="/contact">contact</a></li>
 							
 						</ul>
 						</div>

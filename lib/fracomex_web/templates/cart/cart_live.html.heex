@@ -29,7 +29,7 @@
 								</td>
 
 								<td class="price-cart">
-								    <p><%= Fracomex.Utilities.price_to_float(Enum.at(@cart, i).product_id) %> €</p>
+								    <p><%= Fracomex.Utilities.price_format(Fracomex.Utilities.product_in_cart(@cart, i).sale_price_vat_excluded) %> €</p>
 								</td>
 								<td class="quantity-cart">
 									<div class="counter">
@@ -51,7 +51,7 @@
 									</div>
 								</td>
 								<td class="price-cart">
-									<p><%= Float.round((Enum.at(@cart, i).quantity) * Fracomex.Utilities.price_to_float(Enum.at(@cart, i).product_id)) %>€</p>
+									<p><%= Fracomex.Utilities.price_format_from_float(Float.round((Enum.at(@cart, i).quantity) * Fracomex.Utilities.price_to_float(Enum.at(@cart, i).product_id))) %>€</p>
 								</td>
 									
 								<td class="remove-cart" phx-click="remove-item-from-cart" phx-value-id={Enum.at(@cart, i).product_id}>
@@ -79,13 +79,13 @@
 			<li
 				class="list-group-item d-flex justify-content-between align-items-center border-0 p-2">
 				Sous-total :
-				<span><%= @sum_cart %> €</span>
+				<span><%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</span>
 			</li>
 			<li
 				class="list-group-item d-flex justify-content-between align-items-center border-0 p-2 mb-3">
 				<div>
 					<strong>Total :</strong>
-					<span><%= @sum_cart %> €</span>
+					<span><%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</span>
 				</div>
 						
 			</li>

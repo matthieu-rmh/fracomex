@@ -116,6 +116,17 @@ html,body{height: 100%;}
 /*-------------------------------------
         2. Top-area
 --------------------------------------*/
+nav.navbar.bootsnav.menu-center .container{
+    position: relative;
+    min-height: 70px;
+    height: 70px !important;
+}
+.navbar-center{
+    float:none;
+    margin: 0 auto;
+    display: table !important;
+    table-layout: fixed !important;
+}
 nav.navbar.bootsnav {
     background-color: transparent;
     border-bottom: transparent;
@@ -147,7 +158,7 @@ nav.navbar.bootsnav ul.nav > li > a {
     -o-transition: 0.3s linear; 
     transition: 0.3s linear;
 }
-nav.navbar.bootsnav ul.nav > li > a {padding: 48px 25px;}
+nav.navbar.bootsnav ul.nav > li > a {padding: 15px 25px;}
 nav.navbar.bootsnav ul.nav > li > a:hover,nav.navbar.bootsnav ul.nav > li > a:focus{color: #e41201;}
 nav.navbar.bootsnav ul.nav > li.active>a {color: #e41201;}
 
@@ -177,7 +188,6 @@ nav.navbar.bootsnav ul.nav > li.dropdown span {
 /*.attr-nav*/
 .attr-nav {
     position: relative;
-    top:5px;
 }
 .attr-nav > ul > li > a {
     color: #616060;
@@ -1620,6 +1630,9 @@ margin-bottom: -10px !important;
     margin-top: 10px;
     border: 1px solid;
     padding: 10px;
+  }
+  .scroll.in-panel {
+    margin-top: 5px;
   }
   .hm-side-menu{
     margin-top: -10px;
