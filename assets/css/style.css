@@ -1811,10 +1811,11 @@ margin-bottom: -10px !important;
     top: -10px;
     margin-left: 0.125rem;
 }
-
+.drop-menu .ul-drop-menu {
+    margin-top: 0px;
+  }
 .drop-menu a{
     display: block;
-    padding: 0.5rem 1rem;
     text-decoration: none;
     color: #343434;
 }

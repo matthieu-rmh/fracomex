@@ -173,9 +173,9 @@
 											<span class="lnr lnr-chevron-right"></span>
 									</a>
 								<div class="drop-menu dropright" id={"dropright-#{family.id}"}>
-									<ul class="" style="overflow-y: auto; min-height: 460px;">
+									<ul class="ul-drop-menu" style="overflow-y: auto; min-height: 460px;">
 										<%= for sub_family <- family.sub_families do %>
-											<li class="">
+											<li class="li-drop-menu">
 												<a href="##"><%= sub_family.caption %></a>
 											</li>
 										<% end %>
