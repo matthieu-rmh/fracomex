@@ -81,7 +81,9 @@ defmodule FracomexWeb.Live.ProductLive do
 
     product_added_in_cart = "#{item.caption} a été ajouté au panier"
 
-    if quantity == 0 do
+    real_stock = Decimal.to_integer(item.real_stock)
+
+    if quantity == 0 or quantity > real_stock do
       {:noreply, socket}
     else
       cond do
