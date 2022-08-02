@@ -31,6 +31,8 @@ defmodule FracomexWeb.Live.ProductLive do
   def handle_params(params, _url, socket) do
     item_id = params["id_produit"]
 
+    page = String.to_integer(params["page"] || "1")
+
     items = Products.list_items_paginate(params)
     families = Products.list_families_paginate(params)
 
@@ -44,6 +46,7 @@ defmodule FracomexWeb.Live.ProductLive do
     else
       {:noreply,
         socket
+        |> assign(options: page)
         |> assign(items: items)
         |> assign(families: families)
       }

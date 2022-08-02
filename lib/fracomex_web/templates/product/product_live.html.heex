@@ -116,48 +116,56 @@
 				<nav aria-label="pagination" class="text-center">
 				<ul class="pagination">
 					<%= if @items.page_number > 1 do %>
-							<li class="page-item">
-								<a 
-									class="page-link" 
-									data-phx-link="patch"
-									data-phx-link-state="push"
-									href={Routes.product_path(@socket, :index, page: @items.page_number - 1)}
-									aria-label="Previous"
-								>
-									<span aria-hidden="true">&laquo;</span>
-									<span class="sr-only">Previous</span>
-								</a>
-							</li>
-						<% end %>
+					<li class="page-item">
+						<a 
+							class="page-link" 
+							data-phx-link="patch"
+							data-phx-link-state="push"
+							href={Routes.product_path(@socket, :index, page: @items.page_number - 1)}
+							aria-label="Previous"
+						>
+							<span aria-hidden="true">&laquo;</span>
+							<span class="sr-only">Previous</span>
+						</a>
+					</li>
+				<% end %>
 
-						<%= if @items.total_pages > 1 do %>
-							<%= for page <- Enum.to_list(1..@items.total_pages) do %>
-								<li class="page-item">
-									<a 
-										class={"page-link #{if @items.page_number == page, do: "active"}"} 
-										phx-click="paginate" 
-										phx-value-page={page}>
+				<%= if @items.total_pages > 1 do %>
+					<%= for page <- (@options - 3)..(@options + 3), page > 0 do %>
+						<li class="page-item">
+							<a 
+								class={"page-link #{if @items.page_number == page, do: "active"}"} 
+								phx-click="paginate" 
+								phx-value-page={page}
+								style={"display: #{if page > @items.total_pages, do: "none", else: "block"}"}
+							>
 
-										<%= page %>
-									</a>
-								</li>
-							<% end %>
-						<% end %>
+							
 
-						<%= if @items.page_number < @items.total_pages do %>
-							<li class="page-item">
-								<a 
-									class="page-link" 
-									data-phx-link="patch"
-									data-phx-link-state="push"
-									href={Routes.product_path(@socket, :index, page: @items.page_number + 1)} 
-									aria-label="Next"
-								>
-									<span aria-hidden="true">&raquo;</span>
-									<span class="sr-only">Next</span>
-								</a>
-							</li>
-						<% end %>
+									<%= page %>
+								
+							</a>
+						</li>
+					<% end %>
+				<% end %>
+
+				<%= if @items.page_number < @items.total_pages do %>
+					<li class="page-item">
+						<a 
+							class="page-link" 
+							data-phx-link="patch"
+							data-phx-link-state="push"
+							href={Routes.product_path(@socket, :index, page: @items.page_number + 1)} 
+							aria-label="Next"
+						>
+							<span aria-hidden="true">&raquo;</span>
+							<span class="sr-only">Next</span>
+						</a>
+					</li>
+				<% end %>
+
+
+
 					</ul>
 				</nav>
 			</div>
