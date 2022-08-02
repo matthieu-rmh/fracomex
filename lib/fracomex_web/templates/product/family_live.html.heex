@@ -31,8 +31,8 @@
 							<div id={"sub-collapse#{family.id}"} class="collapse category-collapse" data-parent="#collapse-category">
 								<ul class="sub-category">
 									<%= for sub_family <- family.sub_families do %>
-										<li>
-											<a href="*"><%= sub_family.caption %></a> 
+										<li class="">
+											<a href={Routes.product_path(@socket, :sub_family, family.caption, sub_family.caption)}><%= sub_family.caption %></a>
 										</li>
 									<% end %>
 								</ul>

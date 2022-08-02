@@ -111,11 +111,17 @@
 									
 				                    
 				                    <li class={"scroll #{if @conn.request_path=="/contact", do: "active"}"}><a href={Routes.page_path(@conn, :contact)}>contact</a></li> -->
-				                <li class="scroll in-top"><a href="#all-product" class="all">
-								<span class="lnr lnr-menu" style="font-size: 16px;"></span> Tous les produits</a>
+				                <li class="scroll in-top">
+									<a style="cursor: pointer" class="all">
+										<span class="lnr lnr-menu" style="font-size: 16px;"></span> Tous les produits
+									</a>
 								</li>
 								<%= for family <- Fracomex.Products.list_limited_families do %>
-									<li class="scroll in-top"><a href="##"><%= family.caption %></a></li>
+									<li class="scroll in-top">
+										<a href={Routes.product_path(@conn, :family, family.caption)}>
+											<%= family.caption %>
+										</a>
+									</li>
 								<% end %>
 								</ul>
 				            </div>
@@ -168,19 +174,20 @@
 							<ul class="content-sub" style="overflow-y: auto; min-height: 500px; height: 450px;">
 								<%= for family <- Fracomex.Products.list_families_with_subs do %>
 								<li class="sub" data-target={"#dropright-#{family.id}"}>
-									<a>
+									<a style="display: block;" href={Routes.product_path(@conn, :family, family.caption)}>
 										<%= family.caption %> 
-											<span class="lnr lnr-chevron-right"></span>
+										<span class="lnr lnr-chevron-right"></span>
 									</a>
-								<div class="drop-menu dropright" id={"dropright-#{family.id}"}>
-									<ul class="" style="overflow-y: auto; min-height: 460px;">
-										<%= for sub_family <- family.sub_families do %>
-											<li class="">
-												<a href="##"><%= sub_family.caption %></a>
-											</li>
-										<% end %>
-									</ul>
-								</div>
+
+									<div class="drop-menu dropright" id={"dropright-#{family.id}"}>
+										<ul class="" style="overflow-y: auto; min-height: 460px;">
+											<%= for sub_family <- family.sub_families do %>
+												<li class="">
+													<a href={Routes.product_path(@conn, :sub_family, family.caption, sub_family.caption)}><%= sub_family.caption %></a>
+												</li>
+											<% end %>
+										</ul>
+									</div>
 								</li>
 								<% end %>
 							</ul>
