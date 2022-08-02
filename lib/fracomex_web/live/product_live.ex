@@ -15,9 +15,7 @@ defmodule FracomexWeb.Live.ProductLive do
         sub_families: Products.list_sub_families(),
         quantity: 1,
         cart: session["cart"],
-        sum_cart: session["sum_cart"],
-        show_sub_family: false,
-        show_item_by_sub_family: false
+        sum_cart: session["sum_cart"]
       )
 
     {:ok, socket}
@@ -30,54 +28,83 @@ defmodule FracomexWeb.Live.ProductLive do
      |> put_session_assigns(session)}
   end
 
+  # Gestion des paramètres dans l'url
   def handle_params(params, _url, socket) do
-    IO.puts("PARAMS")
-    IO.inspect(params)
+    id = params["id_produit"]
+    categorie = params["categorie"]
+    sous_categorie = params["sous_categorie"]
+    page = params["page"]
 
-    item_id = params["id_produit"]
-
-    page = String.to_integer(params["page"] || "1")
+    page = String.to_integer(page || "1")
 
     items = Products.list_items_paginate(params)
     families = Products.list_families_paginate(params)
 
-    if not is_nil(item_id) do
-      item_get_by_id = Products.get_item_with_family_and_sub_family!(item_id)
+    case sous_categorie do
+      nil ->
+        cond do
+          not is_nil(categorie) ->
+            family_id = Products.get_family_id_by_caption!(categorie)
+            families = Products.get_family_with_its_subs!(family_id)
+            sub_families = families.sub_families
 
-      {:noreply,
-        socket
-        |> assign(item_get_by_id: item_get_by_id)
-      }
-    else
-      {:noreply,
-        socket
-        |> assign(options: page)
-        |> assign(items: items)
-        |> assign(families: families)
-      }
+            {:noreply, socket  |> assign(sub_families_by_family_id: sub_families)}
+
+          true ->
+            {:noreply,
+              socket
+              |> assign(options: page)
+              |> assign(items: items)
+              |> assign(families: families)
+            }
+        end
+      _ ->
+        sub_family_id = Products.get_sub_family_id_by_caption!(sous_categorie)
+        items_by_family_id = Products.get_item_by_sub_family!(sub_family_id)
+
+        if not is_nil(id) do
+          item = Products.get_item_with_family_and_sub_family!(id)
+
+          {:noreply,
+            socket
+            |> assign(item: item)
+          }
+        else
+          {:noreply,
+            socket
+            |> assign(options: page)
+            |> assign(items: items)
+            |> assign(families: families)
+            |> assign(items_by_family_id: items_by_family_id)
+          }
+        end
     end
   end
 
+  # Afficher les sous-catégories appartenant à la catégorie
   def handle_event("show-sub-family", %{"id" => id}, socket) do
-    sub_families = Products.get_family_with_its_subs!(id).sub_families
+    families = Products.get_family_with_its_subs!(id)
 
     {:noreply,
       socket
-      |> assign(sub_families_by_family_id: sub_families)
-      |> assign(show_sub_family: true)
-      |> assign(show_item_by_sub_family: false)
+      |> push_patch(to: Routes.product_path(socket, :family, families.caption))
     }
   end
 
-  def handle_event("show-item-by-sub-family", %{"id" => id}, socket) do
-    items = Products.get_item_by_sub_family!(id)
 
-    {:noreply,
-      socket
-      |> assign(items: items)
-      |> assign(show_item_by_sub_family: true)
-      |> assign(show_sub_family: false)
-    }
+  # Afficher les articles appartenant à la sous-catégorie
+  def handle_event("show-item-by-sub-family", %{"id" => id}, socket) do
+    families = Products.get_family_with_its_subs!(id)
+    sub_families = Products.get_sub_family!(id)
+
+    if is_nil(families) or is_nil(sub_families) do
+      {:noreply, socket}
+    else
+      {:noreply,
+        socket
+        |> push_patch(to: Routes.product_path(socket, :sub_family, families.caption, sub_families.caption))
+      }
+    end
   end
 
   def handle_event("show-product-details", params, socket) do
@@ -342,13 +369,15 @@ defmodule FracomexWeb.Live.ProductLive do
   end
 
   def render(assigns) do
-    # On récupère l'atome de l'url de la page actuelle
-    # Si :index, on affiche la page boutique
-    # Sinon, on affiche la page détail du produit
-    if assigns.live_action == :index do
-      FracomexWeb.ProductView.render("product_live.html", assigns)
-    else
-      FracomexWeb.ProductView.render("single_product_live.html", assigns)
+    case assigns.live_action do
+      :index ->
+        FracomexWeb.ProductView.render("product_live.html", assigns)
+      :family ->
+        FracomexWeb.ProductView.render("family_live.html", assigns)
+      :sub_family ->
+        FracomexWeb.ProductView.render("sub_family_live.html", assigns)
+      :product_details ->
+        FracomexWeb.ProductView.render("single_product_live.html", assigns)
     end
   end
 end
