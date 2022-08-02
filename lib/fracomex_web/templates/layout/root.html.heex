@@ -34,9 +34,11 @@
 						</form> 
 						<div class="nav-page"  data-in="fadeInDown" data-out="fadeOutUp">
 							<ul class="navigation">
+									<li><a href="/contact"><span class="lnr lnr-map-marker"></span> ZI KAWENI</a></li>	
+									<li><a href="/contact"><span class="lnr lnr-phone-handset"></span> 0269 61 25 38</a></li>
+									<li><a href="/contact"><span class="lnr lnr-envelope"></span> devis.fracomex@gmail.com</a></li>
 									<li><a href="/boutique">Boutique</a></li>
 									<li><a href="/contact">Contact</a></li>
-									<li><a href="/">A propos de nous</a></li>
 							</ul>
 						</div>
 						<div class="container" style="top: -20px;">            
@@ -163,14 +165,14 @@
 					<div class="sidepanel">
 						<div class="drop-wrapper">
 							<h3 class="title-panel">Catégories des produits</h3>
-							<ul class="content-sub" style="overflow-y: auto; min-height: 500px;">
+							<ul class="content-sub" style="overflow-y: auto; min-height: 500px; height: 450px;">
 								<%= for family <- Fracomex.Products.list_families_with_subs do %>
-								<li class="sub" data-target="#dropright">
+								<li class="sub" data-target={"#dropright-#{family.id}"}>
 									<a>
 										<%= family.caption %> 
 											<span class="lnr lnr-chevron-right"></span>
 									</a>
-								<div class="drop-menu dropright" id="dropright">
+								<div class="drop-menu dropright" id={"dropright-#{family.id}"}>
 									<ul class="" style="overflow-y: auto; min-height: 460px;">
 										<%= for sub_family <- family.sub_families do %>
 											<li class="">
@@ -184,14 +186,7 @@
 							</ul>
 						</div>
 						<div class="line"></div>
-						<div class="hm-side-menu">
-							<ul>
-								<li class="scroll in-panel"><a href="/">Accueil</a></li>
-								<li class="scroll in-panel"><a href="/boutique">Boutique</a></li>
-								<li class="scroll in-panel"><a href="/contact">contact</a></li>
-								
-							</ul>
-						</div>
+						
 					<i class="fa fa-times close-side" aria-hidden="true" style="cursor: pointer;"></i>
 					</div>
 					<div class="overlay-panel" style=" display: none;"></div>
@@ -209,13 +204,13 @@
 						<div class=" col-md-4 col-sm-6 col-xs-12">
 							<div class="hm-footer-widget">
 								<div class="hm-foot-title">
-									<h4>Informations</h4>
+									<h4 class="primary-color">Informations</h4>
 									
 								</div>
 								<div class="hm-foot-menu">
 									<ul>
-										<li><a href="#">A propos de nous</a></li>
-										<li><a href="#">Contactez-nous</a></li>
+										<li><a href="/">A propos de nous</a></li>
+										
 									</ul>
 								</div>
 							</div>
@@ -223,12 +218,13 @@
 						<div class=" col-md-4 col-sm-6 col-xs-12">
 							<div class="hm-footer-widget">
 								<div class="hm-foot-title">
-									<h4>Navigation</h4>
+									<h4 class="primary-color">Navigation</h4>
 								</div>
 								<div class="hm-foot-menu">
 									<ul>
-										<li><a href={Routes.product_path(@conn, :index)}>Nos produits</a></li>
+										<li class="all"><a href="##">Nos produits</a></li>
 										<li><a href={Routes.product_path(@conn, :index)}>Boutique</a></li>
+										<li><a href="/contact">Contactez-nous</a></li>
 									</ul>
 								</div>
 							</div>
@@ -237,12 +233,12 @@
 						<div class=" col-md-4 col-sm-6 col-xs-12">
 							<div class="hm-footer-widget">
 								<div class="hm-foot-title">
-									<h4>Contact</h4>
+									<h4 class="primary-color">Contact</h4>
 								</div>
 								<div class="hm-foot-menu">
-										<p>Adresse:</p>
-										<p>Tél:</p>
-										<p>E-mail:</p>							
+										<p><span class="lnr lnr-map-marker"></span> Adresse: ZI KAWENI</p>
+										<p><span class="lnr lnr-phone-handset"></span> Tél: 0269 61 25 38</p>
+										<p><span class="lnr lnr-envelope"></span> E-mail: devis.fracomex@gmail.com</p>							
 								</div>
 							</div>
 						</div>
@@ -345,7 +341,7 @@ $("#toggleCurrentPassword").click(function(){
   this.classList.toggle('fa-eye-slash');
 });
 </script>
-<script>
+<!--script>
 //margin dynamic in hover product
 let details_product = <%= Fracomex.Products.list_item_ids() %>
 for (let pas = 0; pas <= details_product; pas++) {
@@ -359,7 +355,7 @@ function () {
 	  $("#price-"+pas).css({ "margin-top" : "280px","transition" : "0.3s", "background" : "none"});
 });
 }
-</script>
+</script-->
 <!--BadBooleanErrorscript>
 /* category ul li*/
 $(document).ready(function(){

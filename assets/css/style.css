@@ -1738,7 +1738,7 @@ margin-bottom: -10px !important;
   .overlay-panel {
     position:fixed;
     height:100vh;
-    background-color:#b60c00;
+    background-color:#000000;
     width:100%;
     min-width:100px;
     z-index:1;
