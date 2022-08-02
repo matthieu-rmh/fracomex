@@ -784,7 +784,7 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
     .navigation li a {
         color: #fff;
       }  
-    .scroll {
+    .scroll.in-top{
         margin-top: 30px;
     }  
     .wrap-sticky nav.navbar.bootsnav.sticked ul.nav > li {
