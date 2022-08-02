@@ -21,7 +21,7 @@
 								<% length(family.sub_families) > 0 -> %>
 								<!--/has sub-category-->	
 								<li class="has-child collapsed" id={"li-category#{family.id}"}  data-toggle="collapse" data-target={"#sub-collapse#{family.id}"} aria-expanded="true" aria-controls="collapseOne">
-									<a class="child mb-0" href="##" >
+									<a class="child mb-0" style="color: #000000c4; cursor: pointer;" phx-click="show-sub-family" phx-value-id={family.id}>
 										<%= family.caption %>
 									</a>
 								</li>	
@@ -70,104 +70,232 @@
 								</select>
 							</div>
 							</div>   
-						</div>  
-					<%= for item <- @items do %>
-					<div class="product-grid">	
-						<div class="col-md-3 col-sm-4 content-product">
-							<div class="details-product" id={"details-#{item.id}"}>
-							<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :product_details, "#{String.downcase(item.family.caption) |> String.replace(" ", "-")}", "#{String.downcase(item.sub_family.caption) |> String.replace(" ", "-")}", "#{String.downcase(item.caption) |> String.replace(" ", "-")}", "#{item.id}")}>
-								<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
-									<img src={Routes.static_path(@socket, "/images/small-items/#{item.image}")} alt={item.caption}>
-									<div class="single-product-bg-overlay"></div>
-									<div hidden class="sale bg-1">
-										<p hidden>news</p>
-										<p>Arrivage</p>
+						</div> 
+						
+					<%= if @show_sub_family and not @show_item_by_sub_family do %>
+						<%= for sub_family <- @sub_families_by_family_id do %>
+							<div class="product-grid">	
+								<div class="col-md-3 col-sm-4 content-product">
+									<div class="details-product">
+										<div phx-click="show-item-by-sub-family" phx-value-id={sub_family.id}>
+											<div class="single-product-bg shadow">
+												<img src="" alt="">
+												<div class="single-product-bg-overlay"></div>
+												<div hidden class="sale bg-1">
+													<p hidden>news</p>
+													<p>Arrivage</p>
+												</div>
+
+												<!--product_title-->
+												<div class="product-name">	
+													<a class="a-product-name" href="#">
+														<%= sub_family.caption %>
+													</a>
+												</div>
+
+												<div class="new-arrival-cart" phx-click="show-item-by-sub-family" phx-value-id={sub_family.id}>
+													<p class="add-to-cart">
+														<span class="addtocart">Découvrir</span>
+													</p>
+												</div>
+											</div>
+										</div>	
 									</div>
-									<!--product_title-->
-									<div class="product-name" id={"name-#{item.id}"}>	
-									<a class="a-product-name" href="#"><%= item.caption %></a>
+								</div>	
+							</div>		
+						<% end %>
+					<% end %>
+
+					<%= if @show_item_by_sub_family do %>
+						<%= for item <- @items do %>
+							<div class="product-grid">	
+								<div class="col-md-3 col-sm-4 content-product">
+									<div class="details-product" id={"details-#{item.id}"}>
+									<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :product_details, "#{String.downcase(item.family.caption) |> String.replace(" ", "-")}", "#{String.downcase(item.sub_family.caption) |> String.replace(" ", "-")}", "#{String.downcase(item.caption) |> String.replace(" ", "-")}", "#{item.id}")}>
+										<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
+											<img src={Routes.static_path(@socket, "/images/small-items/#{item.image}")} alt={item.caption}>
+											<div class="single-product-bg-overlay"></div>
+											<div hidden class="sale bg-1">
+												<p hidden>news</p>
+												<p>Arrivage</p>
+											</div>
+											<!--product_title-->
+											<div class="product-name" id={"name-#{item.id}"}>	
+											<a class="a-product-name" href="#"><%= item.caption %></a>
+											</div>
+											<!--product_price-->
+											<div class="product-price" id={"price-#{item.id}"}>
+											<p class="p-product-price"><%= Fracomex.Utilities.price_format(item.sale_price_vat_excluded) %> €</p>
+											</div>
+											<div 
+												class="new-arrival-cart" 
+												phx-click="add-one-product-to-cart"
+												phx-value-id={item.id}
+											>
+												<p class="add-to-cart">
+													<span class="lnr lnr-cart"></span>
+													<span class="addtocart">Ajouter au panier</span>
+												</p>
+												<!--p class="arrival-review pull-right">
+													<span class="lnr lnr-heart"></span>
+													<span class="lnr lnr-frame-expand" title="Zoom"></span>
+												</p-->
+											</div>
+										</div>
+										
+									</a>	
 									</div>
-									<!--product_price-->
-									<div class="product-price" id={"price-#{item.id}"}>
-									<p class="p-product-price"><%= Fracomex.Utilities.price_format(item.sale_price_vat_excluded) %> €</p>
+								</div>	
+							</div>		
+						<% end %>
+
+
+						<!-- PAGINATION -->
+						<nav aria-label="pagination" class="text-center">
+							<ul class="pagination">
+								<%= if @items.page_number > 1 do %>
+									<li class="page-item">
+										<a 
+											class="page-link" 
+											data-phx-link="patch"
+											data-phx-link-state="push"
+											href={Routes.product_path(@socket, :index, page: @items.page_number - 1)}
+											aria-label="Previous"
+										>
+											<span aria-hidden="true">&laquo;</span>
+											<span class="sr-only">Previous</span>
+										</a>
+									</li>
+								<% end %>
+	
+								<%= if @items.total_pages > 1 do %>
+									<%= for page <- (@options - 3)..(@options + 3), page > 0 do %>
+										<li class="page-item">
+											<a 
+												class={"page-link #{if @items.page_number == page, do: "active"}"} 
+												phx-click="paginate" 
+												phx-value-page={page}
+												style={"display: #{if page > @items.total_pages, do: "none", else: "block"}"}
+											>
+												<%= page %>	
+											</a>
+										</li>
+									<% end %>
+								<% end %>
+	
+								<%= if @items.page_number < @items.total_pages do %>
+									<li class="page-item">
+										<a 
+											class="page-link" 
+											data-phx-link="patch"
+											data-phx-link-state="push"
+											href={Routes.product_path(@socket, :index, page: @items.page_number + 1)} 
+											aria-label="Next"
+										>
+											<span aria-hidden="true">&raquo;</span>
+											<span class="sr-only">Next</span>
+										</a>
+									</li>
+								<% end %>
+							</ul>
+						</nav>
+					<% end %>
+					
+					<%= if not @show_sub_family and not @show_item_by_sub_family do %> 
+						<%= for item <- @items do %>
+							<div class="product-grid">	
+								<div class="col-md-3 col-sm-4 content-product">
+									<div class="details-product" id={"details-#{item.id}"}>
+									<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :product_details, "#{String.downcase(item.family.caption) |> String.replace(" ", "-")}", "#{String.downcase(item.sub_family.caption) |> String.replace(" ", "-")}", "#{String.downcase(item.caption) |> String.replace(" ", "-")}", "#{item.id}")}>
+										<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
+											<img src={Routes.static_path(@socket, "/images/small-items/#{item.image}")} alt={item.caption}>
+											<div class="single-product-bg-overlay"></div>
+											<div hidden class="sale bg-1">
+												<p hidden>news</p>
+												<p>Arrivage</p>
+											</div>
+											<!--product_title-->
+											<div class="product-name" id={"name-#{item.id}"}>	
+											<a class="a-product-name" href="#"><%= item.caption %></a>
+											</div>
+											<!--product_price-->
+											<div class="product-price" id={"price-#{item.id}"}>
+											<p class="p-product-price"><%= Fracomex.Utilities.price_format(item.sale_price_vat_excluded) %> €</p>
+											</div>
+											<div 
+												class="new-arrival-cart" 
+												phx-click="add-one-product-to-cart"
+												phx-value-id={item.id}
+											>
+												<p class="add-to-cart">
+													<span class="lnr lnr-cart"></span>
+													<span class="addtocart">Ajouter au panier</span>
+												</p>
+												<!--p class="arrival-review pull-right">
+													<span class="lnr lnr-heart"></span>
+													<span class="lnr lnr-frame-expand" title="Zoom"></span>
+												</p-->
+											</div>
+										</div>
+										
+									</a>	
 									</div>
-									<div 
-										class="new-arrival-cart" 
-										phx-click="add-one-product-to-cart"
-										phx-value-id={item.id}
-									>
-										<p class="add-to-cart">
-											<span class="lnr lnr-cart"></span>
-											<span class="addtocart">Ajouter au panier</span>
-										</p>
-										<!--p class="arrival-review pull-right">
-											<span class="lnr lnr-heart"></span>
-											<span class="lnr lnr-frame-expand" title="Zoom"></span>
-										</p-->
-									</div>
-								</div>
-								
-							</a>	
-							</div>
-						</div>	
-					</div>		
+								</div>	
+							</div>		
+						<% end %>
 					<% end %>
 				</div>
-				<nav aria-label="pagination" class="text-center">
-				<ul class="pagination">
-					<%= if @items.page_number > 1 do %>
-					<li class="page-item">
-						<a 
-							class="page-link" 
-							data-phx-link="patch"
-							data-phx-link-state="push"
-							href={Routes.product_path(@socket, :index, page: @items.page_number - 1)}
-							aria-label="Previous"
-						>
-							<span aria-hidden="true">&laquo;</span>
-							<span class="sr-only">Previous</span>
-						</a>
-					</li>
+
+				<%= if not @show_sub_family and not @show_item_by_sub_family do %> 
+					<nav aria-label="pagination" class="text-center">
+						<ul class="pagination">
+							<%= if @items.page_number > 1 do %>
+								<li class="page-item">
+									<a 
+										class="page-link" 
+										data-phx-link="patch"
+										data-phx-link-state="push"
+										href={Routes.product_path(@socket, :index, page: @items.page_number - 1)}
+										aria-label="Previous"
+									>
+										<span aria-hidden="true">&laquo;</span>
+										<span class="sr-only">Previous</span>
+									</a>
+								</li>
+							<% end %>
+
+							<%= if @items.total_pages > 1 do %>
+								<%= for page <- (@options - 3)..(@options + 3), page > 0 do %>
+									<li class="page-item">
+										<a 
+											class={"page-link #{if @items.page_number == page, do: "active"}"} 
+											phx-click="paginate" 
+											phx-value-page={page}
+											style={"display: #{if page > @items.total_pages, do: "none", else: "block"}"}
+										>
+											<%= page %>	
+										</a>
+									</li>
+								<% end %>
+							<% end %>
+
+							<%= if @items.page_number < @items.total_pages do %>
+								<li class="page-item">
+									<a 
+										class="page-link" 
+										data-phx-link="patch"
+										data-phx-link-state="push"
+										href={Routes.product_path(@socket, :index, page: @items.page_number + 1)} 
+										aria-label="Next"
+									>
+										<span aria-hidden="true">&raquo;</span>
+										<span class="sr-only">Next</span>
+									</a>
+								</li>
+							<% end %>
+						</ul>
+					</nav>
 				<% end %>
-
-				<%= if @items.total_pages > 1 do %>
-					<%= for page <- (@options - 3)..(@options + 3), page > 0 do %>
-						<li class="page-item">
-							<a 
-								class={"page-link #{if @items.page_number == page, do: "active"}"} 
-								phx-click="paginate" 
-								phx-value-page={page}
-								style={"display: #{if page > @items.total_pages, do: "none", else: "block"}"}
-							>
-
-							
-
-									<%= page %>
-								
-							</a>
-						</li>
-					<% end %>
-				<% end %>
-
-				<%= if @items.page_number < @items.total_pages do %>
-					<li class="page-item">
-						<a 
-							class="page-link" 
-							data-phx-link="patch"
-							data-phx-link-state="push"
-							href={Routes.product_path(@socket, :index, page: @items.page_number + 1)} 
-							aria-label="Next"
-						>
-							<span aria-hidden="true">&raquo;</span>
-							<span class="sr-only">Next</span>
-						</a>
-					</li>
-				<% end %>
-
-
-
-					</ul>
-				</nav>
 			</div>
 		</div>
 </section>

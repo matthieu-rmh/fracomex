@@ -15,7 +15,9 @@ defmodule FracomexWeb.Live.ProductLive do
         sub_families: Products.list_sub_families(),
         quantity: 1,
         cart: session["cart"],
-        sum_cart: session["sum_cart"]
+        sum_cart: session["sum_cart"],
+        show_sub_family: false,
+        show_item_by_sub_family: false
       )
 
     {:ok, socket}
@@ -29,6 +31,9 @@ defmodule FracomexWeb.Live.ProductLive do
   end
 
   def handle_params(params, _url, socket) do
+    IO.puts("PARAMS")
+    IO.inspect(params)
+
     item_id = params["id_produit"]
 
     page = String.to_integer(params["page"] || "1")
@@ -51,6 +56,28 @@ defmodule FracomexWeb.Live.ProductLive do
         |> assign(families: families)
       }
     end
+  end
+
+  def handle_event("show-sub-family", %{"id" => id}, socket) do
+    sub_families = Products.get_family_with_its_subs!(id).sub_families
+
+    {:noreply,
+      socket
+      |> assign(sub_families_by_family_id: sub_families)
+      |> assign(show_sub_family: true)
+      |> assign(show_item_by_sub_family: false)
+    }
+  end
+
+  def handle_event("show-item-by-sub-family", %{"id" => id}, socket) do
+    items = Products.get_item_by_sub_family!(id)
+
+    {:noreply,
+      socket
+      |> assign(items: items)
+      |> assign(show_item_by_sub_family: true)
+      |> assign(show_sub_family: false)
+    }
   end
 
   def handle_event("show-product-details", params, socket) do
@@ -190,9 +217,6 @@ defmodule FracomexWeb.Live.ProductLive do
   end
 
   def handle_event("add-one-product-to-cart", params, socket) do
-    IO.puts("PARAMS")
-    IO.inspect(params)
-
     item = Products.get_item_with_family_and_sub_family!(params["id"])
 
     quantity = 1
