@@ -25,8 +25,8 @@
 					<div class="single-product">
 						<div class="single-product-bg">
 
-							<%= if not is_nil(@item_get_by_id) do %>
-								<img src={Routes.static_path(@socket, "/images/big-items/#{@item_get_by_id.image}")} alt="product_img">
+							<%= if not is_nil(@item) do %>
+								<img src={Routes.static_path(@socket, "/images/big-items/#{@item.image}")} alt="product_img">
 							<% end %>
 
 							<div hidden class="sale bg-1">
@@ -37,23 +37,23 @@
 				</div>
 				<div class="col-md-6 col-sm-8">
 					<form phx-submit="add-product-to-cart">
-						<input type="hidden" name="item_id" value={@item_get_by_id.id}>
+						<input type="hidden" name="item_id" value={@item.id}>
 						<div class="details">
-							<%= if not is_nil(@item_get_by_id) do %>
-								<% family_caption = if not is_nil(@item_get_by_id.family), do: @item_get_by_id.family.caption, else: "Aucune" %>
-								<% sub_family_caption = if not is_nil(@item_get_by_id.sub_family), do: @item_get_by_id.sub_family.caption, else: "Aucune" %>
-								<h2 class="details-product-name"><%= @item_get_by_id.caption %> </h2>
+							<%= if not is_nil(@item) do %>
+								<% family_caption = if not is_nil(@item.family), do: @item.family.caption, else: "Aucune" %>
+								<% sub_family_caption = if not is_nil(@item.sub_family), do: @item.sub_family.caption, else: "Aucune" %>
+								<h2 class="details-product-name"><%= @item.caption %> </h2>
 								<p><b>Catégorie:</b> <%= family_caption %></p>
 								<p><b>Sous-catégorie:</b> <%= sub_family_caption %></p>
-								<p><b>Stock disponible:</b> <%= Decimal.to_integer(@item_get_by_id.real_stock) %></p>
-								<h3 class="details-product-price"><%= Fracomex.Utilities.price_format(@item_get_by_id.sale_price_vat_excluded) %> €</h3>
+								<p><b>Stock disponible:</b> <%= Decimal.to_integer(@item.real_stock) %></p>
+								<h3 class="details-product-price"><%= Fracomex.Utilities.price_format(@item.sale_price_vat_excluded) %> €</h3>
 								<div class="row">
 									<div class="col-md-2 col-sm-4">
 										<div class="counter">
 											<span 
 												class="down" 
 												phx-click="dec-button" 
-												phx-value-item_id={@item_get_by_id.id}
+												phx-value-item_id={@item.id}
 												phx-value-quantity={@quantity} 
 												style={"#{if @quantity < 1, do: "opacity: 0; cursor: auto;", else: "opacity: 1"}"}>-
 											</span>
@@ -61,7 +61,7 @@
 											<span 
 												class="up" 
 												phx-click="inc-button" 
-												phx-value-item_id={@item_get_by_id.id}
+												phx-value-item_id={@item.id}
 												phx-value-quantity={@quantity}>+
 											</span>
 										</div>
@@ -71,7 +71,7 @@
 						</div>
 						<!-- 
 							phx-click="add-product-to-cart"
-							phx-value-item_id = {@item_get_by_id.id}
+							phx-value-item_id = {@item.id}
 						-->
 						<button 
 							type="submit"

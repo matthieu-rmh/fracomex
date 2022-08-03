@@ -14,9 +14,7 @@
 					</tr>
 				</thead>
 				<tbody style="overflow: scroll;">
-					<%= if is_nil(@cart) or @cart == [] do %>
-						
-					<% else %>
+					<%= if not is_nil(@cart) and @cart != [] do %>
 						<%= for i <- 0..Enum.count(@cart) - 1  do %>
 							<tr class="cart-product">
 								<td class="img-cart" style="margin-top: -8px;">
@@ -60,7 +58,6 @@
 							</tr>
 						<% end %>
 					<% end %>
-					
 				</tbody>
 			</table>
 			<div class="row">
@@ -79,13 +76,17 @@
 			<li
 				class="list-group-item d-flex justify-content-between align-items-center border-0 p-2">
 				Sous-total :
-				<span><%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</span>
+				<%= if not is_nil(@cart) and @cart != [] do %>
+					<span><%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</span>
+				<% end %>
 			</li>
 			<li
 				class="list-group-item d-flex justify-content-between align-items-center border-0 p-2 mb-3">
 				<div>
 					<strong>Total :</strong>
-					<span><%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</span>
+					<%= if not is_nil(@cart) and @cart != [] do %>
+						<span><%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</span>
+					<% end %>
 				</div>
 						
 			</li>

@@ -26,6 +26,9 @@ defmodule FracomexWeb.Router do
     # get "/product-details", SingleProductController, :index
     live "/boutique/:categorie/:sous_categorie/:nom_produit/:id_produit", Live.ProductLive, :product_details
 
+    live "/boutique/:categorie/", Live.ProductLive, :family
+    live "/boutique/:categorie/:sous_categorie", Live.ProductLive, :sub_family
+
     # get "/panier", CartController, :index
     live "/panier", Live.CartLive, :index
 

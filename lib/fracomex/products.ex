@@ -220,6 +220,14 @@ defmodule Fracomex.Products do
   """
   def get_family!(id), do: Repo.get!(Family, id)
 
+  # Récupérer l'id de la famille depuis family_caption
+  def get_family_id_by_caption!(family_caption) do
+    query = from f in Family,
+            where: f.caption == ^family_caption,
+            select: f.id
+    Repo.one(query)
+  end
+
   def get_family_with_its_subs!(id) do
       query = from family in Family,
               where: family.id == ^id,
@@ -345,6 +353,14 @@ defmodule Fracomex.Products do
 
   """
   def get_sub_family!(id), do: Repo.get!(SubFamily, id)
+
+  # Récupérer l'id de la sous-famille depuis sub_family_caption
+  def get_sub_family_id_by_caption!(sub_family_caption) do
+    query = from sf in SubFamily,
+            where: sf.caption == ^sub_family_caption,
+            select: sf.id
+    Repo.one(query)
+  end
 
   @doc """
   Creates a item_sub_family.
