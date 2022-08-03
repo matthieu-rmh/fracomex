@@ -30,50 +30,66 @@ defmodule FracomexWeb.Live.ProductLive do
 
   # Gestion des paramètres dans l'url
   def handle_params(params, _url, socket) do
-    id = params["id_produit"]
-    categorie = params["categorie"]
-    sous_categorie = params["sous_categorie"]
-    page = params["page"]
+    id =
+      case params["id_produit"]  do
+        nil -> nil
+        _ -> params["id_produit"]
+      end
 
-    page = String.to_integer(page || "1")
+    categorie =
+      case params["categorie"] do
+        "famille" ->
+          nil
+
+        nil ->
+          nil
+
+        _ -> params["categorie"]
+      end
+
+    sous_categorie =
+      case params["sous_categorie"] do
+        "sous-famille" ->
+          nil
+        nil -> nil
+        _-> params["sous_categorie"]
+      end
+
+    page = String.to_integer(params["page"] || "1")
 
     items = Products.list_items_paginate(params)
     families = Products.list_families_paginate(params)
 
-    case sous_categorie do
-      nil ->
-        cond do
-          not is_nil(categorie) ->
-            family_id = Products.get_family_id_by_caption!(categorie)
-            families = Products.get_family_with_its_subs!(family_id)
-            sub_families = families.sub_families
+    cond do
+      not is_nil(id) ->
+        item = Products.get_item_with_family_and_sub_family!(id)
 
-            {:noreply, socket  |> assign(sub_families_by_family_id: sub_families)}
+        {:noreply,
+          socket
+          |> assign(options: page)
+          |> assign(items: items)
+          |> assign(families: families)
+          |> assign(item: item)
+        }
 
-          true ->
-            {:noreply,
-              socket
-              |> assign(options: page)
-              |> assign(items: items)
-              |> assign(families: families)
-            }
-        end
-      _ ->
+      not is_nil(sous_categorie) ->
         sub_family_id = Products.get_sub_family_id_by_caption!(sous_categorie)
-        sub_family = Products.get_sub_family!(sub_family_id)
-        family_id = Products.get_sub_family!(sub_family_id).family_id
-        family = Products.get_family!(family_id)
 
-        items_by_sub_family_id = Products.get_item_by_sub_family!(sub_family_id, params)
-
-        if not is_nil(id) do
-          item = Products.get_item_with_family_and_sub_family!(id)
-
+        if is_nil(sub_family_id) do
           {:noreply,
             socket
-            |> assign(item: item)
+            |> put_flash(:info, "La sous-famille n'existe pas")
+            |> assign(options: page)
+            |> assign(items: items)
+            |> assign(families: families)
           }
         else
+          sub_family = Products.get_sub_family!(sub_family_id)
+          family_id = Products.get_sub_family!(sub_family_id).family_id
+          family = Products.get_family!(family_id)
+
+          items_by_sub_family_id = Products.get_item_by_sub_family!(sub_family_id, params)
+
           {:noreply,
             socket
             |> assign(options: page)
@@ -83,8 +99,87 @@ defmodule FracomexWeb.Live.ProductLive do
             |> assign(family: family)
             |> assign(sub_family: sub_family)
           }
+
         end
+
+      not is_nil(categorie) ->
+        family_id = Products.get_family_id_by_caption!(categorie)
+
+        if is_nil(family_id) do
+          {:noreply,
+            socket
+            |> put_flash(:info, "La famille n'existe pas")
+            |> assign(options: page)
+            |> assign(items: items)
+            |> assign(families: families)
+          }
+        else
+          families = Products.get_family_with_its_subs!(family_id)
+          sub_families = families.sub_families
+
+          {:noreply, socket  |> assign(sub_families_by_family_id: sub_families)}
+        end
+
+      true ->
+        {:noreply,
+          socket
+          |> assign(options: page)
+          |> assign(items: items)
+          |> assign(families: families)
+          # |> assign(item: item)
+        }
     end
+
+    # case sous_categorie do
+    #   nil ->
+    #     cond do
+    #       not is_nil(categorie) ->
+    #         family_id = Products.get_family_id_by_caption!(categorie)
+    #         families = Products.get_family_with_its_subs!(family_id)
+    #         sub_families = families.sub_families
+
+    #         {:noreply, socket  |> assign(sub_families_by_family_id: sub_families)}
+
+    #       true ->
+    #         {:noreply,
+    #           socket
+    #           |> assign(options: page)
+    #           |> assign(items: items)
+    #           |> assign(families: families)
+    #         }
+    #     end
+    #   _ ->
+    #     sub_family_id = Products.get_sub_family_id_by_caption!(sous_categorie)
+
+    #     if is_nil(sub_family_id) do
+
+    #     end
+
+    #     sub_family = Products.get_sub_family!(sub_family_id)
+    #     family_id = Products.get_sub_family!(sub_family_id).family_id
+    #     family = Products.get_family!(family_id)
+
+    #     items_by_sub_family_id = Products.get_item_by_sub_family!(sub_family_id, params)
+
+    #     if not is_nil(id) do
+    #       item = Products.get_item_with_family_and_sub_family!(id)
+
+    #       {:noreply,
+    #         socket
+    #         |> assign(item: item)
+    #       }
+    #     else
+    #       {:noreply,
+    #         socket
+    #         |> assign(options: page)
+    #         |> assign(items: items)
+    #         |> assign(families: families)
+    #         |> assign(items_by_sub_family_id: items_by_sub_family_id)
+    #         |> assign(family: family)
+    #         |> assign(sub_family: sub_family)
+    #       }
+    #     end
+    # end
   end
 
   # Afficher les sous-catégories appartenant à la catégorie
@@ -117,13 +212,13 @@ defmodule FracomexWeb.Live.ProductLive do
     id = params["id"]
     item = Products.get_item_with_family_and_sub_family!(id)
 
-    family =
-      item.family.caption
-      |> String.replace(" ", "-")
+    # family =
+    #   item.family.caption
+    #   |> String.replace(" ", "-")
 
-    sub_family =
-      item.sub_family.caption
-      |> String.replace(" ", "-")
+    # sub_family =
+    #   item.sub_family.caption
+    #   |> String.replace(" ", "-")
 
     caption =
       item.caption
@@ -131,7 +226,7 @@ defmodule FracomexWeb.Live.ProductLive do
 
     {:noreply,
      socket
-     |> push_redirect(to: Routes.product_path(socket, :product_details, family, sub_family, caption, id))}
+     |> push_redirect(to: Routes.product_path(socket, :product_details, item.family.caption, item.sub_family.caption, caption, id))}
   end
 
   def handle_event("add-product-to-cart", params, socket) do
@@ -156,13 +251,13 @@ defmodule FracomexWeb.Live.ProductLive do
           PhoenixLiveSession.put_session(socket, "cart", [cart])
           PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart([cart]))
 
-          family =
-            item.family.caption
-            |> String.replace(" ", "-")
+          # family =
+          #   item.family.caption
+          #   |> String.replace(" ", "-")
 
-          sub_family =
-            item.sub_family.caption
-            |> String.replace(" ", "-")
+          # sub_family =
+          #   item.sub_family.caption
+          #   |> String.replace(" ", "-")
 
           caption =
             item.caption
@@ -172,7 +267,7 @@ defmodule FracomexWeb.Live.ProductLive do
            socket
            |> put_flash(:info, "(#{if quantity < 10, do: "0#{quantity}", else: quantity}) #{product_added_in_cart}")
            |> assign(cart: [cart])
-           |> redirect(to: Routes.product_path(socket, :product_details, family, sub_family, caption, item_id))
+           |> redirect(to: Routes.product_path(socket, :product_details, item.family.caption, item.sub_family.caption, caption, item_id))
           }
 
         is_nil(Enum.find(socket.assigns.cart, fn cart -> cart.product_id == "#{item_id}" end)) ->
@@ -184,13 +279,13 @@ defmodule FracomexWeb.Live.ProductLive do
           PhoenixLiveSession.put_session(socket, "cart", socket.assigns.cart ++ [cart])
           PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(socket.assigns.cart ++ [cart]))
 
-          family =
-            item.family.caption
-            |> String.replace(" ", "-")
+          # family =
+          #   item.family.caption
+          #   |> String.replace(" ", "-")
 
-          sub_family =
-            item.sub_family.caption
-            |> String.replace(" ", "-")
+          # sub_family =
+          #   item.sub_family.caption
+          #   |> String.replace(" ", "-")
 
           caption =
             item.caption
@@ -200,7 +295,7 @@ defmodule FracomexWeb.Live.ProductLive do
            socket
            |> put_flash(:info, "(#{if quantity < 10, do: "0#{quantity}", else: quantity}) #{product_added_in_cart}")
            |> assign(cart: socket.assigns.cart ++ [cart])
-           |> redirect(to: Routes.product_path(socket, :product_details, family, sub_family, caption, item_id))
+           |> redirect(to: Routes.product_path(socket, :product_details, item.family.caption,  item.sub_family.caption, caption, item_id))
           }
 
         true ->
@@ -226,13 +321,13 @@ defmodule FracomexWeb.Live.ProductLive do
             PhoenixLiveSession.put_session(socket, "cart", new_cart)
             PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(new_cart))
 
-            family =
-              item.family.caption
-              |> String.replace(" ", "-")
+            # family =
+            #   item.family.caption
+            #   |> String.replace(" ", "-")
 
-            sub_family =
-              item.sub_family.caption
-              |> String.replace(" ", "-")
+            # sub_family =
+            #   item.sub_family.caption
+            #   |> String.replace(" ", "-")
 
             caption =
               item.caption
@@ -242,7 +337,7 @@ defmodule FracomexWeb.Live.ProductLive do
              socket
              |> put_flash(:info, "(#{if quantity_in_cart + quantity < 10, do: "0#{quantity_in_cart + quantity}", else: quantity_in_cart + quantity}) #{product_added_in_cart}")
              |> assign(cart: new_cart)
-             |> redirect(to: Routes.product_path(socket, :product_details, family, sub_family, caption, item_id))
+             |> redirect(to: Routes.product_path(socket, :product_details,  item.family.caption, item.sub_family.caption, caption, item_id))
             }
           end
       end
