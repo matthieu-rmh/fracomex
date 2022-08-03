@@ -1627,7 +1627,7 @@ margin-bottom: -10px !important;
   .title-panel {
     text-align: center;
     position: relative;
-    margin-top: 10px;
+    margin-top: 0px;
     border: 1px solid;
     padding: 10px;
   }
@@ -1688,7 +1688,6 @@ margin-bottom: -10px !important;
   .sidepanel ul {
     display: block;
     text-align: start;
-    margin-top: 30px;
   }
   .sidepanel .tab-content ul{
     margin-top: 36px;
@@ -1723,7 +1722,7 @@ margin-bottom: -10px !important;
     color: #e41201;
     top: 0;
     right: 0;
-    margin-top: 22px;
+    margin-top: 12px;
     margin-right: 10px;
   }
   .sidepanel .return {
@@ -1808,8 +1807,7 @@ margin-bottom: -10px !important;
     background-color:#070707;
     height: 100vh;
     left: 100%;
-    top: -10px;
-    margin-left: 0.125rem;
+    top: 1px;
 }
 .drop-menu .ul-drop-menu {
     margin-top: 0px;
@@ -1818,4 +1816,5 @@ margin-bottom: -10px !important;
     display: block;
     text-decoration: none;
     color: #343434;
+    margin-left: 10px;
 }
