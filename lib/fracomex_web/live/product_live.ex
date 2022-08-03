@@ -51,6 +51,7 @@ defmodule FracomexWeb.Live.ProductLive do
       case params["sous_categorie"] do
         "sous-famille" ->
           nil
+
         nil -> nil
         _-> params["sous_categorie"]
       end
@@ -61,6 +62,7 @@ defmodule FracomexWeb.Live.ProductLive do
     families = Products.list_families_paginate(params)
 
     cond do
+      # Si l'id est spécifié, on charge le produit
       not is_nil(id) ->
         item = Products.get_item_with_family_and_sub_family!(id)
 
@@ -72,16 +74,20 @@ defmodule FracomexWeb.Live.ProductLive do
           |> assign(item: item)
         }
 
+      # Si la sous-catégorie est spécifiée, on charge la liste des produits de cette sous-catégorie
       not is_nil(sous_categorie) ->
         sub_family_id = Products.get_sub_family_id_by_caption!(sous_categorie)
 
         if is_nil(sub_family_id) do
+          IO.inspect(socket.assigns)
+
           {:noreply,
             socket
             |> put_flash(:info, "La sous-famille n'existe pas")
             |> assign(options: page)
             |> assign(items: items)
             |> assign(families: families)
+            |> push_redirect(to: Routes.product_path(socket, :index))
           }
         else
           sub_family = Products.get_sub_family!(sub_family_id)
@@ -90,18 +96,36 @@ defmodule FracomexWeb.Live.ProductLive do
 
           items_by_sub_family_id = Products.get_item_by_sub_family!(sub_family_id, params)
 
-          {:noreply,
-            socket
-            |> assign(options: page)
-            |> assign(items: items)
-            |> assign(families: families)
-            |> assign(items_by_sub_family_id: items_by_sub_family_id)
-            |> assign(family: family)
-            |> assign(sub_family: sub_family)
-          }
+          case items_by_sub_family_id.entries do
+            [] ->
+              {:noreply,
+                socket
+                |> assign(options: page)
+                |> assign(items: items)
+                |> assign(families: families)
+                |> push_redirect(to: Routes.product_path(socket, :empty_items))
+              }
+
+            _ ->
+              {:noreply,
+                socket
+                |> assign(options: page)
+                |> assign(items: items)
+                |> assign(families: families)
+                |> assign(items_by_sub_family_id: items_by_sub_family_id)
+                |> assign(family: family)
+                |> assign(sub_family: sub_family)
+              }
+          end
+
+          # IO.puts("ITEMS_by_SUBFAMILIES")
+          # IO.inspect(items_by_sub_family_id.entries)
+
+
 
         end
 
+      # Si la catégorie est spécifiée, on charge la liste des sous-catégories de cette catégorie
       not is_nil(categorie) ->
         family_id = Products.get_family_id_by_caption!(categorie)
 
@@ -112,12 +136,13 @@ defmodule FracomexWeb.Live.ProductLive do
             |> assign(options: page)
             |> assign(items: items)
             |> assign(families: families)
+            |> push_redirect(to: Routes.product_path(socket, :index))
           }
         else
           families = Products.get_family_with_its_subs!(family_id)
           sub_families = families.sub_families
 
-          {:noreply, socket  |> assign(sub_families_by_family_id: sub_families)}
+          {:noreply, socket |> assign(sub_families_by_family_id: sub_families)}
         end
 
       true ->
@@ -126,60 +151,8 @@ defmodule FracomexWeb.Live.ProductLive do
           |> assign(options: page)
           |> assign(items: items)
           |> assign(families: families)
-          # |> assign(item: item)
         }
     end
-
-    # case sous_categorie do
-    #   nil ->
-    #     cond do
-    #       not is_nil(categorie) ->
-    #         family_id = Products.get_family_id_by_caption!(categorie)
-    #         families = Products.get_family_with_its_subs!(family_id)
-    #         sub_families = families.sub_families
-
-    #         {:noreply, socket  |> assign(sub_families_by_family_id: sub_families)}
-
-    #       true ->
-    #         {:noreply,
-    #           socket
-    #           |> assign(options: page)
-    #           |> assign(items: items)
-    #           |> assign(families: families)
-    #         }
-    #     end
-    #   _ ->
-    #     sub_family_id = Products.get_sub_family_id_by_caption!(sous_categorie)
-
-    #     if is_nil(sub_family_id) do
-
-    #     end
-
-    #     sub_family = Products.get_sub_family!(sub_family_id)
-    #     family_id = Products.get_sub_family!(sub_family_id).family_id
-    #     family = Products.get_family!(family_id)
-
-    #     items_by_sub_family_id = Products.get_item_by_sub_family!(sub_family_id, params)
-
-    #     if not is_nil(id) do
-    #       item = Products.get_item_with_family_and_sub_family!(id)
-
-    #       {:noreply,
-    #         socket
-    #         |> assign(item: item)
-    #       }
-    #     else
-    #       {:noreply,
-    #         socket
-    #         |> assign(options: page)
-    #         |> assign(items: items)
-    #         |> assign(families: families)
-    #         |> assign(items_by_sub_family_id: items_by_sub_family_id)
-    #         |> assign(family: family)
-    #         |> assign(sub_family: sub_family)
-    #       }
-    #     end
-    # end
   end
 
   # Afficher les sous-catégories appartenant à la catégorie
@@ -190,22 +163,6 @@ defmodule FracomexWeb.Live.ProductLive do
       socket
       |> push_patch(to: Routes.product_path(socket, :family, families.caption))
     }
-  end
-
-
-  # Afficher les articles appartenant à la sous-catégorie
-  def handle_event("show-item-by-sub-family", %{"id" => id}, socket) do
-    families = Products.get_family_with_its_subs!(id)
-    sub_families = Products.get_sub_family!(id)
-
-    if is_nil(families) or is_nil(sub_families) do
-      {:noreply, socket}
-    else
-      {:noreply,
-        socket
-        |> push_patch(to: Routes.product_path(socket, :sub_family, families.caption, sub_families.caption))
-      }
-    end
   end
 
   def handle_event("show-product-details", params, socket) do
@@ -488,6 +445,8 @@ defmodule FracomexWeb.Live.ProductLive do
         FracomexWeb.ProductView.render("sub_family_live.html", assigns)
       :product_details ->
         FracomexWeb.ProductView.render("single_product_live.html", assigns)
+      :empty_items ->
+        FracomexWeb.ProductView.render("empty_items_live.html", assigns)
     end
   end
 end

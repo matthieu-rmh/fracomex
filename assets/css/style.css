@@ -1818,3 +1818,10 @@ margin-bottom: -10px !important;
     color: #343434;
     margin-left: 10px;
 }
+
+/* Empty Items */
+.empty-items {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
