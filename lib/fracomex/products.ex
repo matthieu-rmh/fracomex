@@ -78,14 +78,14 @@ defmodule Fracomex.Products do
     Repo.one(query)
   end
 
-  def get_item_by_sub_family!(id) do
+  def get_item_by_sub_family!(id, params) do
     family_query = from f in Family
     sub_family_query = from f in SubFamily
 
     query = from i in Item,
             where: i.sub_family_id == ^id,
             preload: [family: ^family_query, sub_family: ^sub_family_query]
-    Repo.paginate(query)
+    Repo.paginate(query, params)
   end
 
   @doc """

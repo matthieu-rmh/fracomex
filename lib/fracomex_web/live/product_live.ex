@@ -60,7 +60,11 @@ defmodule FracomexWeb.Live.ProductLive do
         end
       _ ->
         sub_family_id = Products.get_sub_family_id_by_caption!(sous_categorie)
-        items_by_family_id = Products.get_item_by_sub_family!(sub_family_id)
+        sub_family = Products.get_sub_family!(sub_family_id)
+        family_id = Products.get_sub_family!(sub_family_id).family_id
+        family = Products.get_family!(family_id)
+
+        items_by_sub_family_id = Products.get_item_by_sub_family!(sub_family_id, params)
 
         if not is_nil(id) do
           item = Products.get_item_with_family_and_sub_family!(id)
@@ -75,7 +79,9 @@ defmodule FracomexWeb.Live.ProductLive do
             |> assign(options: page)
             |> assign(items: items)
             |> assign(families: families)
-            |> assign(items_by_family_id: items_by_family_id)
+            |> assign(items_by_sub_family_id: items_by_sub_family_id)
+            |> assign(family: family)
+            |> assign(sub_family: sub_family)
           }
         end
     end
@@ -366,6 +372,15 @@ defmodule FracomexWeb.Live.ProductLive do
 
   def handle_event("paginate", %{"page" => page}, socket) do
     {:noreply, push_redirect(socket, to: Routes.product_path(socket, :index, page: page))}
+  end
+
+  def handle_event("paginate-items-in-sub-family", params, socket) do
+    family = %{"caption" => params["family"]}
+    sub_family = %{"caption" => params["sub_family"]}
+    page = params["page"]
+
+
+    {:noreply, push_redirect(socket, to: Routes.product_path(socket, :sub_family, family["caption"], sub_family["caption"], page: page))}
   end
 
   def render(assigns) do
