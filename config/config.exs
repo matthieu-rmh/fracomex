@@ -31,9 +31,9 @@ config :swoosh, :api_client, false
 
 config :fracomex, Fracomex.Mailer,
   adapter: Swoosh.Adapters.SMTP,
-  relay: "smtp.office365.com",
-  username: "fracomexmayotte@outlook.com",
-  password: "Mgbi@261!",
+  relay: "ssl0.ovh.net",
+  username: "notifications@mgbi.mg",
+  password: "n0T1fIc4tI0nMgBi",
   port: 587,
   retries: 1
 

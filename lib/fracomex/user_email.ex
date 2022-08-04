@@ -5,7 +5,7 @@ defmodule Fracomex.UserEmail do
   @spec welcome :: {:error, any} | {:ok, any}
   def welcome() do
     new()
-    |> from("fracomexmayotte@outlook.com")
+    |> from("notifications@mgbi.mg")
     |> to("razafintsalama.rmh@gmail.com")
     |> subject("YOOO!")
     |> html_body("<h1>Hello</h1>")
@@ -19,7 +19,7 @@ defmodule Fracomex.UserEmail do
       <a href=\"#{check_mail_url}\">#{check_mail_url}</a>
       "
       new()
-      |> from("fracomexmayotte@outlook.com")
+      |> from("notifications@mgbi.mg")
       |> to(mail_address)
       |> subject("[FRACOMEX.FR] Confirmation de votre inscription")
       |> html_body(html_text)
@@ -32,7 +32,7 @@ defmodule Fracomex.UserEmail do
       <a href=\"#{forgot_password_mail_url}\">#{forgot_password_mail_url}</a>
       "
       new()
-      |> from("fracomexmayotte@outlook.com")
+      |> from("notifications@mgbi.mg")
       |> to(mail_address)
       |> subject("[FRACOMEX.FR] Mot de passe oublié")
       |> html_body(html_text)
