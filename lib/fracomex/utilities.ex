@@ -59,4 +59,16 @@ defmodule Fracomex.Utilities do
     :erlang.float_to_binary(price, [decimals: 2]) |> String.replace(".", ",")
   end
 
+  # Vérifie si un champ est vide ou seulement remplie par des espaces
+  def is_empty?(params) do
+    if not is_nil(params) do
+      is_empty =
+        params
+        |> String.trim()
+        |> String.length()
+
+      if is_empty == 0, do: true, else: false
+    end
+  end
+
 end
