@@ -1692,10 +1692,10 @@ margin-bottom: -10px !important;
   .sidepanel .tab-content ul{
     margin-top: 36px;
   }
-  .sidepanel ul.content-sub li {
+  .sidepanel ul.content-sub li.sub {
     padding: 10px;
   }
-  .sidepanel ul.content-sub li:hover{
+  .sidepanel ul.content-sub li.sub:hover{
     background-image: linear-gradient(
       to right,
       #510101 0%,
@@ -1708,7 +1708,8 @@ margin-bottom: -10px !important;
   }
   .sidepanel li a {
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
+    text-transform: lowercase;
   }
   .sidepanel li a span {
     position: absolute;
@@ -1733,6 +1734,12 @@ margin-bottom: -10px !important;
     left: 0;
     margin: 10px;
     margin-top: 5px;
+  }
+  .li-drop-menu a:hover {
+    color: #e41201;
+  }
+  .li-drop-menu {
+    margin: 10px;
   }
   .overlay-panel {
     position:fixed;
@@ -1797,7 +1804,7 @@ margin-bottom: -10px !important;
 .drop-menu{
     display: none;
     position: absolute;
-    width: 350px;
+    width: 650px;
 }
 
 .drop-menu.active{
@@ -1812,6 +1819,11 @@ margin-bottom: -10px !important;
 .drop-menu .ul-drop-menu {
     margin-top: 0px;
   }
+.drop-menu li {
+    display: inline-flex;
+    width: 200px;
+    line-height: 1.2;
+  }  
 .drop-menu a{
     display: block;
     text-decoration: none;

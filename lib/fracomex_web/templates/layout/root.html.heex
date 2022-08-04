@@ -181,9 +181,9 @@
 									</a>
 
 									<div class="drop-menu dropright" id={"dropright-#{family.id}"}>
-										<ul class="" style="overflow-y: auto; min-height: 460px;">
+										<ul class="ul-drop-menu" style="overflow-y: auto; min-height: 550px; height: 600px;">
 											<%= for sub_family <- family.sub_families do %>
-												<li class="">
+												<li class="li-drop-menu">
 													<a href={Routes.product_path(@conn, :sub_family, family.caption, sub_family.caption)}><%= sub_family.caption %></a>
 												</li>
 											<% end %>
