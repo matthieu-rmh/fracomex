@@ -74,38 +74,16 @@
 					</div>   
 				</div> 
 				
-				<%= for sub_family <- @sub_families_by_family_id do %>
-					<div class="product-grid">	
-						<div class="col-md-3 col-sm-4 content-product">
-							<div class="details-product">
-								<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :sub_family, Fracomex.Products.get_family!(sub_family.family_id).caption, sub_family.caption)}>
-									<div class="single-product-bg shadow">
-										<img src="" alt="">
-										<div class="single-product-bg-overlay"></div>
-										<div hidden class="sale bg-1">
-											<p hidden>news</p>
-											<p>Arrivage</p>
-										</div>
+                
+                <div class="empty-items">
+					<div class="text-center">
+						<img src="https://jersix.com/wp-content/uploads/2020/10/Empty-pana-uai-516x387.png" width="250" height="250" class="img-fluid mb-4 mr-3">
+						<p>
+							<strong>Produit non disponible pour le moment</strong>
+						</p>
+					</div>
+                </div>
 
-										<!--product_title-->
-										<div class="product-name">	
-											<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :sub_family, Fracomex.Products.get_family!(sub_family.family_id).caption, sub_family.caption)}>
-												<%= sub_family.caption %>
-											</a>
-										</div>
-
-										<a class="new-arrival-cart" data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :sub_family, Fracomex.Products.get_family!(sub_family.family_id).caption, sub_family.caption)}>
-											<p class="add-to-cart">
-												<span class="addtocart">Découvrir</span>
-											</p>
-										</a>
-									</div>
-								</a>	
-							</div>
-						</div>	
-					</div>		
-				<% end %>
-		
 			</div>
 		</div>
 	</div>
