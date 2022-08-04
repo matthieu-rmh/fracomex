@@ -2,6 +2,7 @@ defmodule FracomexWeb.Live.ProductLive do
   use FracomexWeb, :live_view
 
   alias Fracomex.Products
+  alias Fracomex.Utilities
 
   def mount(_params, session, socket) do
 
@@ -56,12 +57,39 @@ defmodule FracomexWeb.Live.ProductLive do
         _-> params["sous_categorie"]
       end
 
+    q =
+      cond do
+        Utilities.is_empty?(params["q"]) ->
+          nil
+        true ->
+          params["q"]
+      end
+
     page = String.to_integer(params["page"] || "1")
 
     items = Products.list_items_paginate(params)
     families = Products.list_families_paginate(params)
 
     cond do
+      # Si q ou recherche est spécifié, on charge le produit contenant la valeur recherché par nom
+      not is_nil(q) ->
+        search_item = Products.search_item(q)
+
+        if search_item.entries == [] do
+          {:noreply,
+            socket
+            |> push_redirect(to: Routes.product_path(socket, :empty_items))
+          }
+        else
+          {:noreply,
+            socket
+            |> assign(options: page)
+            |> assign(items: items)
+            |> assign(families: families)
+            |> assign(items: search_item)
+          }
+        end
+
       # Si l'id est spécifié, on charge le produit
       not is_nil(id) ->
         item = Products.get_item_with_family_and_sub_family!(id)
@@ -117,12 +145,6 @@ defmodule FracomexWeb.Live.ProductLive do
                 |> assign(sub_family: sub_family)
               }
           end
-
-          # IO.puts("ITEMS_by_SUBFAMILIES")
-          # IO.inspect(items_by_sub_family_id.entries)
-
-
-
         end
 
       # Si la catégorie est spécifiée, on charge la liste des sous-catégories de cette catégorie
@@ -153,6 +175,14 @@ defmodule FracomexWeb.Live.ProductLive do
           |> assign(families: families)
         }
     end
+  end
+
+  # Rechercher des produits
+  def handle_event("search-item", %{"q" => q}, socket) do
+    {:noreply,
+      socket
+      |> redirect(to: Routes.product_path(socket, :index, q: q))
+    }
   end
 
   # Afficher les sous-catégories appartenant à la catégorie

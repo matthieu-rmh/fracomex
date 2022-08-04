@@ -32,6 +32,14 @@ defmodule FracomexWeb.Live.CartLive do
     |> assign(sum_cart: sum_cart(session["cart"]))
   end
 
+  # Rechercher des produits
+  def handle_event("search-item", %{"q" => q}, socket) do
+    {:noreply,
+      socket
+      |> redirect(to: Routes.product_path(socket, :index, q: q))
+    }
+  end
+
   def handle_event("dec-button", params, socket) do
     quantity = String.to_integer(params["quantity"])
 

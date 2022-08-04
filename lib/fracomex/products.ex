@@ -68,6 +68,21 @@ defmodule Fracomex.Products do
   """
   def get_item!(id), do: Repo.get!(Item, id)
 
+  # Recherche des produits par nom
+  def search_item(search) do
+    search_term = "%#{search}%"
+
+    family_query = from f in Family
+    sub_family_query = from f in SubFamily
+
+    query =
+      from i in Item,
+      where: ilike(i.caption, ^search_term),
+      preload: [family: ^family_query, sub_family: ^sub_family_query]
+
+    Repo.paginate(query)
+  end
+
   def get_item_with_family_and_sub_family!(id) do
     family_query = from f in Family
     sub_family_query = from f in SubFamily

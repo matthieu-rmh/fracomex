@@ -2,6 +2,38 @@ defmodule FracomexWeb.PageController do
   use FracomexWeb, :controller
 
   alias Fracomex.Products
+  alias Fracomex.Utilities
+
+  # Function de recherche
+  def search(conn, params) do
+    q =
+      cond do
+        params["q"] == %{} ->
+          nil
+
+        Utilities.is_empty?(params["q"]) ->
+          nil
+
+        true ->
+          params["q"]
+      end
+
+    search =
+      case q do
+        nil ->
+          nil
+        _ ->
+          Products.search_item(q)
+      end
+
+    if search != [] and not is_nil(search) do
+      conn
+      |> redirect(to: Routes.product_path(conn, :index, q: q))
+    else
+      conn
+      |> redirect(to: Routes.product_path(conn, :index))
+    end
+  end
 
   def index(conn, _params) do
     render(

@@ -27,10 +27,11 @@
 			<div class="top-area">
 				<div class="header-area">
 				    <nav class="navbar navbar-default bootsnav  navbar-sticky">
-				        <form class="s" id="search-nav">
-						<input type="search" class="sb" name="q" autocomplete="off" placeholder="Recherche produits" />
-						<button type="submit" class="sbtn lnr lnr-magnifier"></button>
-						<i class="sbtn lnr lnr-cross" id="close-search"></i> 
+				        <form action={:search} method="post" class="s" id="search-nav" phx-submit="search-item">
+							<input type="hidden" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()}>
+							<input type="search" class="sb" name="q" autocomplete="off" placeholder="Recherche produits" />
+							<button type="submit" class="sbtn lnr lnr-magnifier"></button>
+							<i class="sbtn lnr lnr-cross" id="close-search"></i> 
 						</form> 
 						<div class="nav-page"  data-in="fadeInDown" data-out="fadeOutUp">
 							<ul class="navigation">
