@@ -94,13 +94,21 @@ defmodule FracomexWeb.Live.ProductLive do
       not is_nil(id) ->
         item = Products.get_item_with_family_and_sub_family!(id)
 
-        {:noreply,
-          socket
-          |> assign(options: page)
-          |> assign(items: items)
-          |> assign(families: families)
-          |> assign(item: item)
-        }
+        # On vérifie si le produit existe
+        if is_nil(item) or item == [] do
+          {:noreply,
+            socket
+            |> push_redirect(to: Routes.product_path(socket, :empty_items))
+          }
+        else
+          {:noreply,
+            socket
+            |> assign(options: page)
+            |> assign(items: items)
+            |> assign(families: families)
+            |> assign(item: item)
+          }
+        end
 
       # Si la sous-catégorie est spécifiée, on charge la liste des produits de cette sous-catégorie
       not is_nil(sous_categorie) ->
