@@ -44,13 +44,14 @@ sub.forEach(lisub => {
         removeActive();
         lisub.classList.add('active');
         document.querySelector(lisub.dataset.target).classList.add('active');
-		// $('.drop-menu').show();
+		$('.close-side').hide();
     })
 })
 
 const removeActive = () => {
     sub.forEach(lisub => lisub.classList.remove('active'));
     dropMenus.forEach(dropmenu => dropmenu.classList.remove('active'));
+	$('.close-side').show();
 }
 
 window.onclick = (e) => {

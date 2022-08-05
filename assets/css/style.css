@@ -1784,7 +1784,12 @@ margin-bottom: -10px !important;
 #text-banner{
     margin: 10rem;
 }
-
+.close-drop-menu {
+    position: absolute;
+    display: block;
+    top: 0;
+    right: -3rem;
+  }
 
 /*dropright*/
 .btn{
@@ -1806,7 +1811,7 @@ margin-bottom: -10px !important;
 .drop-menu{
     display: none;
     position: absolute;
-    width: 650px;
+    width: 600px;
 }
 
 .drop-menu.active{
@@ -1820,10 +1825,11 @@ margin-bottom: -10px !important;
 }
 .drop-menu .ul-drop-menu {
     margin-top: 0px;
+    margin-left: 15px;
   }
 .drop-menu li {
     display: inline-flex;
-    width: 200px;
+    width: 260px;
     line-height: 1.2;
   }  
 .drop-menu a{

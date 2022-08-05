@@ -172,7 +172,7 @@
 					<div class="sidepanel">
 						<div class="drop-wrapper">
 							<h3 class="title-panel">Catégories des produits</h3>
-							<ul class="content-sub" style="overflow-y: auto; min-height: 500px; height: 450px;">
+							<ul class="content-sub" style="overflow-y: auto; min-height: 600px; height: 650px;">
 								<%= for family <- Fracomex.Products.list_families_with_subs do %>
 								<li class="sub" data-target={"#dropright-#{family.id}"}>
 									<a style="display: block;" href={Routes.product_path(@conn, :family, family.caption)}>
@@ -181,20 +181,19 @@
 									</a>
 
 									<div class="drop-menu dropright" id={"dropright-#{family.id}"}>
-										<ul class="ul-drop-menu" style="overflow-y: auto; min-height: 550px; height: 600px;">
+										<ul class="ul-drop-menu" style="overflow-y: auto; min-height: 600px; height: 650px;">
 											<%= for sub_family <- family.sub_families do %>
 												<li class="li-drop-menu">
 													<a href={Routes.product_path(@conn, :sub_family, family.caption, sub_family.caption)}><%= sub_family.caption %></a>
 												</li>
 											<% end %>
 										</ul>
+										<i class="fa fa-times close-drop-menu" aria-hidden="true" style="cursor: pointer;"></i>
 									</div>
 								</li>
 								<% end %>
 							</ul>
-						</div>
-						<div class="line"></div>
-						
+						</div>		
 					<i class="fa fa-times close-side" aria-hidden="true" style="cursor: pointer;"></i>
 					</div>
 					<div class="overlay-panel" style=" display: none;"></div>
