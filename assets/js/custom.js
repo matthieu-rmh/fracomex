@@ -44,8 +44,7 @@ sub.forEach(lisub => {
         removeActive();
         lisub.classList.add('active');
         document.querySelector(lisub.dataset.target).classList.add('active');
-		let timer = 0;
-		$(".li-drop-menu").addClass("animated fadeIn").fadeIn(timer += 200);
+		// $('.drop-menu').show();
     })
 })
 
