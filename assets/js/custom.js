@@ -44,7 +44,7 @@ sub.forEach(lisub => {
         removeActive();
         lisub.classList.add('active');
         document.querySelector(lisub.dataset.target).classList.add('active');
-		$('.drop-menu').show();
+		// $('.drop-menu').show();
     })
 })
 
