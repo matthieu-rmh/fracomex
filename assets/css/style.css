@@ -1273,7 +1273,9 @@ input[type=email] {
         padding: 0px 15px 25px 15px;
     }
 }  
-
+.header-slide{
+    z-index: 0 !important;
+}
 
 .itemfamilies-dropdown-menu{
     /* background-color: lightgreen !important; */
