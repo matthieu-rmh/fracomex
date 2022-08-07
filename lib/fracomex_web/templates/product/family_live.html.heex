@@ -61,18 +61,6 @@
 						phx-click="lv:clear-flash"
 						phx-value-key="error"><%= live_flash(@flash, :error) %></p>
 				</main>
-				<div class="row filter">
-					<div class="col-md-2 align-self-end col-filter">					
-					<div class="form-group">
-						<select class="form-control" id="exampleFormControlSelect1">
-						<option>Trier par défaut</option>
-						<option>Trier par 2</option>
-						<option>Trier par 3</option>
-						<option>Trier par 4</option>
-						</select>
-					</div>
-					</div>   
-				</div> 
 				
 				<%= for sub_family <- @sub_families_by_family_id do %>
 					<div class="product-grid">	
