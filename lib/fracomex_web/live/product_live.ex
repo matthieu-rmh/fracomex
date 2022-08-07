@@ -29,6 +29,30 @@ defmodule FracomexWeb.Live.ProductLive do
      |> put_session_assigns(session)}
   end
 
+  # Tri des produits
+  def handle_event("tri", params, socket) do
+    items = Products.filter_items(params["triSelect"])
+
+    {:noreply,
+      socket
+      |> assign(items: items)
+    }
+  end
+
+  # Tri des produits dans le sous-famille
+  def handle_event("tri_sub_family", params, socket) do
+    tri_select = params["triSelect"]
+    sub_family_caption = socket.assigns.sub_family_caption
+    family_caption = socket.assigns.family_caption
+
+    items_by_sub_family_id = Products.filter_items_by_family_and_sub_family(tri_select, family_caption, sub_family_caption)
+
+    {:noreply,
+      socket
+      |> assign(items_by_sub_family_id: items_by_sub_family_id)
+    }
+  end
+
   # Gestion des paramètres dans l'url
   def handle_params(params, _url, socket) do
     id =
@@ -115,8 +139,6 @@ defmodule FracomexWeb.Live.ProductLive do
         sub_family_id = Products.get_sub_family_id_by_caption!(sous_categorie)
 
         if is_nil(sub_family_id) do
-          IO.inspect(socket.assigns)
-
           {:noreply,
             socket
             |> put_flash(:info, "La sous-famille n'existe pas")
@@ -130,7 +152,7 @@ defmodule FracomexWeb.Live.ProductLive do
           family_id = Products.get_sub_family!(sub_family_id).family_id
           family = Products.get_family!(family_id)
 
-          items_by_sub_family_id = Products.get_item_by_sub_family!(sub_family_id, params)
+          items_by_sub_family_id = Products.get_item_by_family_and_sub_family!(family_id, sub_family_id, params)
 
           case items_by_sub_family_id.entries do
             [] ->
@@ -151,6 +173,8 @@ defmodule FracomexWeb.Live.ProductLive do
                 |> assign(items_by_sub_family_id: items_by_sub_family_id)
                 |> assign(family: family)
                 |> assign(sub_family: sub_family)
+                |> assign(family_caption: family.caption)
+                |> assign(sub_family_caption: sub_family.caption)
               }
           end
         end
