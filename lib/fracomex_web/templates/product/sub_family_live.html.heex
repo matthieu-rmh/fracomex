@@ -63,12 +63,14 @@
 				<div class="row filter">
 					<div class="col-md-2 align-self-end col-filter">					
 					<div class="form-group">
-						<select class="form-control" id="exampleFormControlSelect1">
-						<option>Trier par défaut</option>
-						<option>Trier par 2</option>
-						<option>Trier par 3</option>
-						<option>Trier par 4</option>
-						</select>
+						<form phx-change="tri_sub_family">
+							<select name="triSelect" class="form-control" id="exampleFormControlSelect1">
+								<option value="0">Trier par défaut</option>
+								<option value="1">Trier prix par ordre croissant</option>
+								<option value="2">Trier prix par ordre décroissant</option>
+								<option value="3" >Trier produit du plus récent au plus ancien</option>
+							</select>
+						</form>
 					</div>
 					</div>   
 				</div> 
