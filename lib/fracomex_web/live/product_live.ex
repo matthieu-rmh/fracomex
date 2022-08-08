@@ -243,14 +243,6 @@ defmodule FracomexWeb.Live.ProductLive do
     id = params["id"]
     item = Products.get_item_with_family_and_sub_family!(id)
 
-    # family =
-    #   item.family.caption
-    #   |> String.replace(" ", "-")
-
-    # sub_family =
-    #   item.sub_family.caption
-    #   |> String.replace(" ", "-")
-
     caption =
       item.caption
       |> String.replace(" ", "-")
@@ -444,7 +436,7 @@ defmodule FracomexWeb.Live.ProductLive do
   def handle_event("dec-button", params, socket) do
     quantity = String.to_integer(params["quantity"])
 
-    if quantity > 0 do
+    if quantity > 1 do
       {:noreply,
         socket
         |> assign(quantity: quantity - 1)
