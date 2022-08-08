@@ -857,7 +857,7 @@ ul.cart-list > li.total {
 }
 .new-arrival-cart p a{color: #fff;font-weight: 400;font-size: 12px;text-align: center;}
 .new-arrival-cart p span.lnr.lnr-cart {margin-right: 10px;}
-.new-arrival-cart p span{text-transform: uppercase;}
+/* .new-arrival-cart p span{text-transform: uppercase;} */
 p.arrival-review span {margin-right: 15px;}
 .single-product-bg:hover .new-arrival-cart {
     opacity: 0.9;
