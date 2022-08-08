@@ -1275,6 +1275,7 @@ input[type=email] {
 }  
 .header-slide{
     z-index: 0 !important;
+    margin-bottom: -5rem !important;
 }
 
 .itemfamilies-dropdown-menu{
@@ -1845,3 +1846,42 @@ margin-bottom: -10px !important;
     justify-content: center;
     align-items: center;
 }
+.ui-widget-content{
+    background-color: #000;
+    width: 38%;
+    padding: 20px;
+} 
+.ui-autocomplete{
+    z-index: 1;
+    position: fixed !important;
+    padding: 20px;
+} 
+.ui-autocomplete li a{
+    color: #fff;
+    padding-top: 10px;
+} 
+.ui-autocomplete li.ui-menu-item:hover{
+    background-color: #000 !important;
+}
+/*content contact*/
+.row.info {
+    display: flex;
+  }
+.phone {
+    background-color: #fff;
+    padding: 10px;
+    text-align: center;
+    margin-left: 5px;
+  }
+.mail {
+    background-color: #fff;
+    padding: 10px;
+    text-align: center;
+    margin-left: 5px;
+  }
+.location {
+    background-color: #fff;
+    padding: 10px;
+    text-align: center;
+    margin-left: 5px;
+  }    

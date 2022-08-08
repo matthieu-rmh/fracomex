@@ -60,6 +60,10 @@
         text-align: center;
         padding-left: 20px;
       } 
+	.row.info {
+		display: block;
+		margin: 5px;
+	  }  
 }/*max-width:992px*/
 
 @media screen and (max-width:991px){
@@ -128,6 +132,9 @@
 	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container {
 		top: 0px !important;
 	  }  
+	.row.info {
+		display: block;
+	  }
 }/*max-width:660px*/
 
 @media screen and (max-width: 640px){
