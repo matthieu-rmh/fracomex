@@ -269,6 +269,22 @@ defmodule FracomexWeb.Live.ProductLive do
 
     real_stock = Decimal.to_integer(item.real_stock)
 
+    family_caption =
+      cond do
+        is_nil(item.family) ->
+          "famille"
+
+        true -> item.family.caption
+      end
+
+    sub_family_caption =
+      cond do
+        is_nil(item.sub_family) ->
+          "sous-famille"
+
+        true -> item.sub_family.caption
+      end
+
     if quantity == 0 or quantity > real_stock do
       {:noreply, socket}
     else
@@ -282,14 +298,6 @@ defmodule FracomexWeb.Live.ProductLive do
           PhoenixLiveSession.put_session(socket, "cart", [cart])
           PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart([cart]))
 
-          # family =
-          #   item.family.caption
-          #   |> String.replace(" ", "-")
-
-          # sub_family =
-          #   item.sub_family.caption
-          #   |> String.replace(" ", "-")
-
           caption =
             item.caption
             |> String.replace(" ", "-")
@@ -298,7 +306,7 @@ defmodule FracomexWeb.Live.ProductLive do
            socket
            |> put_flash(:info, "(#{if quantity < 10, do: "0#{quantity}", else: quantity}) #{product_added_in_cart}")
            |> assign(cart: [cart])
-           |> redirect(to: Routes.product_path(socket, :product_details, item.family.caption, item.sub_family.caption, caption, item_id))
+           |> redirect(to: Routes.product_path(socket, :product_details, family_caption, sub_family_caption, caption, item_id))
           }
 
         is_nil(Enum.find(socket.assigns.cart, fn cart -> cart.product_id == "#{item_id}" end)) ->
@@ -310,14 +318,6 @@ defmodule FracomexWeb.Live.ProductLive do
           PhoenixLiveSession.put_session(socket, "cart", socket.assigns.cart ++ [cart])
           PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(socket.assigns.cart ++ [cart]))
 
-          # family =
-          #   item.family.caption
-          #   |> String.replace(" ", "-")
-
-          # sub_family =
-          #   item.sub_family.caption
-          #   |> String.replace(" ", "-")
-
           caption =
             item.caption
             |> String.replace(" ", "-")
@@ -326,7 +326,7 @@ defmodule FracomexWeb.Live.ProductLive do
            socket
            |> put_flash(:info, "(#{if quantity < 10, do: "0#{quantity}", else: quantity}) #{product_added_in_cart}")
            |> assign(cart: socket.assigns.cart ++ [cart])
-           |> redirect(to: Routes.product_path(socket, :product_details, item.family.caption,  item.sub_family.caption, caption, item_id))
+           |> redirect(to: Routes.product_path(socket, :product_details, family_caption, sub_family_caption, caption, item_id))
           }
 
         true ->
@@ -352,13 +352,6 @@ defmodule FracomexWeb.Live.ProductLive do
             PhoenixLiveSession.put_session(socket, "cart", new_cart)
             PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(new_cart))
 
-            # family =
-            #   item.family.caption
-            #   |> String.replace(" ", "-")
-
-            # sub_family =
-            #   item.sub_family.caption
-            #   |> String.replace(" ", "-")
 
             caption =
               item.caption
@@ -368,7 +361,7 @@ defmodule FracomexWeb.Live.ProductLive do
              socket
              |> put_flash(:info, "(#{if quantity_in_cart + quantity < 10, do: "0#{quantity_in_cart + quantity}", else: quantity_in_cart + quantity}) #{product_added_in_cart}")
              |> assign(cart: new_cart)
-             |> redirect(to: Routes.product_path(socket, :product_details,  item.family.caption, item.sub_family.caption, caption, item_id))
+             |> redirect(to: Routes.product_path(socket, :product_details, family_caption, sub_family_caption, caption, item_id))
             }
           end
       end
