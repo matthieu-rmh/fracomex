@@ -97,11 +97,6 @@
 			</div>
 
 			<nav aria-label="pagination" class="text-center">
-<%=  @sub_families_by_family_id.total_pages %>
-<%=  @sub_families_by_family_id.page_number %>
-<%=  @sub_families_by_family_id.total_entries %>
-<%=  @sub_families_by_family_id.page_size %>
-
 				<ul class="pagination">
 					<%= if @sub_families_by_family_id.page_number > 1 do %>
 						<li class="page-item">
