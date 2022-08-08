@@ -55,7 +55,7 @@
 												phx-click="dec-button" 
 												phx-value-item_id={@item.id}
 												phx-value-quantity={@quantity} 
-												style={"#{if @quantity < 1, do: "opacity: 0; cursor: auto;", else: "opacity: 1"}"}>-
+												style={"#{if @quantity < 2, do: "opacity: 0; cursor: auto;", else: "opacity: 1"}"}>-
 											</span>
 												<input type="text" value={@quantity} name="quantity">
 											<span 

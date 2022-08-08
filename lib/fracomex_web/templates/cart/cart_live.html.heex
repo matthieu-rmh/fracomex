@@ -1,4 +1,13 @@
 <div class="container" style="margin-top: 15rem; margin-bottom: 15rem;">
+	<main class="container">
+		<p class="alert alert-info" role="alert"
+		phx-click="lv:clear-flash"
+		phx-value-key="info"><%= live_flash(@flash, :info) %></p>
+	
+		<p class="alert alert-danger" role="alert"
+			phx-click="lv:clear-flash"
+			phx-value-key="error"><%= live_flash(@flash, :error) %></p>
+	</main>
 	<div class="row">
 		<div class="col-md-8 cart-table">
 			<table class="table align-middle cart">
@@ -36,7 +45,7 @@
 											phx-click="dec-button" 
 											phx-value-quantity={Enum.at(@cart, i).quantity} 
 											phx-value-item_id={Enum.at(@cart, i).product_id}
-											style={"#{if Enum.at(@cart, i).quantity < 1, do: "opacity: 0; cursor: auto;", else: "opacity: 1"}"}>-
+											style={"#{if Enum.at(@cart, i).quantity < 2, do: "opacity: 0; cursor: auto;", else: "opacity: 1"}"}>-
 										</span>
 											<input type="text" value={Enum.at(@cart, i).quantity} name="quantity_change">
 										<span 
