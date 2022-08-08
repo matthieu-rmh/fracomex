@@ -71,4 +71,16 @@ defmodule Fracomex.Utilities do
     end
   end
 
+  # Calculer la somme totale du panier
+  def sum_cart(cart) do
+    if is_nil(cart) do
+      0
+    else
+      cart
+      |> Enum.map(fn cart -> cart.quantity * Decimal.to_float Products.get_item!(cart.product_id).sale_price_vat_excluded end)
+      |> Enum.sum()
+    end
+  end
+
+
 end

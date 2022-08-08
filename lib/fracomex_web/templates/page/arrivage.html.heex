@@ -1,9 +1,19 @@
+
+  
+		
+		
 		<!--all arrivals start -->
 		<section id="new-arrivals" class="all-product">
 			<div class="container">
 				<div class="section-header">
 				<h1 class="title-section">ARRIVAGES</h1>
-				</div><!--/.section-header-->
+			</div><!--/.section-header-->
+
+			<div class="container" style="margin: 2rem 0 -2rem 0">
+				<p class="alert alert-info" role="alert"><%= get_flash(@conn, :info_panier) %></p>
+				<p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error_panier) %></p>
+			</div>
+
 				<div class="all-product-content">
 					<div class="row">
 					<%= for item <- @items do %>
@@ -43,12 +53,17 @@
 								<p class="p-product-price"><%= Fracomex.Utilities.price_format(item.sale_price_vat_excluded) %> €</p>
 								</div>
 									<div class="new-arrival-cart">
-										<p class="add-to-cart">
-											<a href="#">
-											<span class="lnr lnr-cart"></span>
-											<span class="addtocart">Ajouter au panier</span>
-											</a>
-										</p>
+
+										<form action={:add_to_cart} method="post">
+											<input type="hidden" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()}>
+											<input type="hidden" name="id" value={item.id}>
+											<p class="add-to-cart">
+												<span class="lnr lnr-cart"></span>
+												<button type="submit" class="addtocart">Ajouter au panier</button>
+											</p>
+										</form>
+
+										
 										<!--p class="arrival-review pull-right">
 											<span class="lnr lnr-heart"></span>
 											<span class="lnr lnr-frame-expand" title="Zoom"></span>
