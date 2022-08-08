@@ -92,7 +92,8 @@ defmodule FracomexWeb.Live.ProductLive do
     page = String.to_integer(params["page"] || "1")
 
     items = Products.list_items_paginate(params)
-    families = Products.list_families_paginate(params)
+
+    families = Products.list_families_paginate()
 
     cond do
       # Si q ou recherche est spécifié, on charge le produit contenant la valeur recherché par nom
@@ -193,10 +194,21 @@ defmodule FracomexWeb.Live.ProductLive do
             |> push_redirect(to: Routes.product_path(socket, :index))
           }
         else
-          families = Products.get_family_with_its_subs!(family_id)
-          sub_families = families.sub_families
+          sub_families = Products.get_sub_family_by_family!(family_id, params)
+          family = Products.get_family!(family_id)
 
-          {:noreply, socket |> assign(sub_families_by_family_id: sub_families)}
+          families = Products.list_paginate_families_by_family!(family_id)
+
+          {:noreply,
+            socket
+            |> assign(
+                families: families,
+                family: family,
+                sub_families_by_family_id: sub_families,
+                options: page,
+                items: items
+              )
+          }
         end
 
       true ->
@@ -493,8 +505,14 @@ defmodule FracomexWeb.Live.ProductLive do
     sub_family = %{"caption" => params["sub_family"]}
     page = params["page"]
 
-
     {:noreply, push_redirect(socket, to: Routes.product_path(socket, :sub_family, family["caption"], sub_family["caption"], page: page))}
+  end
+
+  def handle_event("paginate-sub-family-in-family", params, socket) do
+    family_caption = params["family_caption"]
+    page = params["page"]
+
+    {:noreply, push_redirect(socket, to: Routes.product_path(socket, :family, family_caption, page: page))}
   end
 
   def render(assigns) do
@@ -509,6 +527,8 @@ defmodule FracomexWeb.Live.ProductLive do
         FracomexWeb.ProductView.render("single_product_live.html", assigns)
       :empty_items ->
         FracomexWeb.ProductView.render("empty_items_live.html", assigns)
+      _ ->
+        FracomexWeb.ProductView.render("product_live.html", assigns)
     end
   end
 end

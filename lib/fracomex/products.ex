@@ -294,11 +294,21 @@ defmodule Fracomex.Products do
     Repo.all(Family)
   end
 
-  def list_families_paginate(params) do
+  # Ne pas paginer les familles
+  def list_families_paginate do
     query = from f in Family,
             preload: [:sub_families]
 
-    Repo.paginate(query, params)
+    Repo.all(query)
+  end
+
+  # Récupérer les familles et sous-familles par l'id de la famille
+  def list_paginate_families_by_family!(family_id) do
+    query = from f in Family,
+            where: f.id == ^family_id,
+            preload: [:sub_families]
+
+    Repo.paginate(query)
   end
 
   def list_limited_families do
@@ -476,6 +486,14 @@ defmodule Fracomex.Products do
             where: sf.caption == ^sub_family_caption,
             select: sf.id
     Repo.one(query)
+  end
+
+  # Récuperer la sous-famille par l'id de la famille
+  def get_sub_family_by_family!(family_id, params) do
+    query = from sf in SubFamily,
+            where: sf.family_id == ^family_id
+
+    Repo.paginate(query, params)
   end
 
   @doc """
