@@ -21,10 +21,10 @@ defmodule FracomexWeb.Router do
 
     # Route pour la recherche
     post "/search", PageController, :search
-    live "/search", Live.ProductLive, :index
+    live "/search", Live.ProductLive, :search
 
     post "/add_to_cart", PageController, :add_to_cart
-    get "/add_to_cart", PageController, :index
+    get "/add_to_cart", PageController, :add_to_cart
 
     get "/contact", PageController, :contact
     # get "/boutique", ProductController, :index

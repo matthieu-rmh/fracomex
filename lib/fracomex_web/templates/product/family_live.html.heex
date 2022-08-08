@@ -61,20 +61,8 @@
 						phx-click="lv:clear-flash"
 						phx-value-key="error"><%= live_flash(@flash, :error) %></p>
 				</main>
-				<div class="row filter">
-					<div class="col-md-2 align-self-end col-filter">					
-					<div class="form-group">
-						<select class="form-control" id="exampleFormControlSelect1">
-						<option>Trier par défaut</option>
-						<option>Trier par 2</option>
-						<option>Trier par 3</option>
-						<option>Trier par 4</option>
-						</select>
-					</div>
-					</div>   
-				</div> 
 				
-				<%= for sub_family <- @sub_families_by_family_id do %>
+				<%= for sub_family <- @sub_families_by_family_id.entries do %>
 					<div class="product-grid">	
 						<div class="col-md-3 col-sm-4 content-product">
 							<div class="details-product">
@@ -107,6 +95,57 @@
 				<% end %>
 		
 			</div>
+
+			<nav aria-label="pagination" class="text-center">
+				<ul class="pagination">
+					<%= if @sub_families_by_family_id.page_number > 1 do %>
+						<li class="page-item">
+							<a 
+								class="page-link" 
+								data-phx-link="patch"
+								data-phx-link-state="push"
+								href={Routes.product_path(@socket, :family, @family.caption, page: @sub_families_by_family_id.page_number - 1)}
+								aria-label="Previous"
+							>
+								<span aria-hidden="true">&laquo;</span>
+								<span class="sr-only">Previous</span>
+							</a>
+						</li>
+					<% end %>
+
+					<%= if @sub_families_by_family_id.total_pages > 1 do %>
+						<%= for page <- (@options - 3)..(@options + 3), page > 0 do %>
+							<li class="page-item">
+								<a 
+									class={"page-link #{if @items.page_number == page, do: "active"}"} 
+									phx-click="paginate-sub-family-in-family" 
+									phx-value-page={page}
+									phx-value-family_caption={@family.caption}
+									style={"display: #{if page > @sub_families_by_family_id.total_pages, do: "none", else: "block"}"}
+								>
+									<%= page %>	
+								</a>
+							</li>
+						<% end %>
+					<% end %>
+
+					<%= if @sub_families_by_family_id.page_number < @sub_families_by_family_id.total_pages do %>
+						<li class="page-item">
+							<a 
+								class="page-link" 
+								data-phx-link="patch"
+								data-phx-link-state="push"
+								href={Routes.product_path(@socket, :family, @family.caption, page: @sub_families_by_family_id.page_number + 1)}
+								aria-label="Next"
+							>
+								<span aria-hidden="true">&raquo;</span>
+								<span class="sr-only">Next</span>
+							</a>
+						</li>
+					<% end %>
+				</ul>
+			</nav>
+
 		</div>
 	</div>
 </section>

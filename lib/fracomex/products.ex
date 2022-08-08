@@ -68,6 +68,96 @@ defmodule Fracomex.Products do
   """
   def get_item!(id), do: Repo.get!(Item, id)
 
+  # Function de filtre de tous les produits
+  def filter_items(tri) do
+    case tri do
+      "1" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption],
+                order_by: [asc: i.sale_price_vat_excluded]
+
+        Repo.paginate(query)
+      "2" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption],
+                order_by: [desc: i.sale_price_vat_excluded]
+
+        Repo.paginate(query)
+
+      "3" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption],
+                order_by: [desc: i.id]
+
+        Repo.paginate(query)
+      _ ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption]
+
+        Repo.paginate(query)
+    end
+  end
+
+  def filter_items_by_family_and_sub_family(tri, family_caption, sub_family_caption) do
+    family_id = get_family_id_by_caption!(family_caption)
+    sub_family_id = get_sub_family_id_by_caption!(sub_family_caption)
+
+    case tri do
+      "1" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption],
+                order_by: [asc: i.sale_price_vat_excluded]
+
+        Repo.paginate(query)
+      "2" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption],
+                order_by: [desc: i.sale_price_vat_excluded]
+
+        Repo.paginate(query)
+
+      "3" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption],
+                order_by: [desc: i.id]
+
+        Repo.paginate(query)
+      _ ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption]
+
+        Repo.paginate(query)
+    end
+  end
+
   # Recherche des produits par nom
   def search_item(search) do
     search_term = "%#{search}%"
@@ -99,6 +189,17 @@ defmodule Fracomex.Products do
 
     query = from i in Item,
             where: i.sub_family_id == ^id,
+            preload: [family: ^family_query, sub_family: ^sub_family_query]
+    Repo.paginate(query, params)
+  end
+
+  # Récupérer les articles ayant une famille et sous-famille correspondante
+  def get_item_by_family_and_sub_family!(family_id, sub_family_id, params) do
+    family_query = from f in Family
+    sub_family_query = from f in SubFamily
+
+    query = from i in Item,
+            where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id,
             preload: [family: ^family_query, sub_family: ^sub_family_query]
     Repo.paginate(query, params)
   end
@@ -193,11 +294,21 @@ defmodule Fracomex.Products do
     Repo.all(Family)
   end
 
-  def list_families_paginate(params) do
+  # Ne pas paginer les familles
+  def list_families_paginate do
     query = from f in Family,
             preload: [:sub_families]
 
-    Repo.paginate(query, params)
+    Repo.all(query)
+  end
+
+  # Récupérer les familles et sous-familles par l'id de la famille
+  def list_paginate_families_by_family!(family_id) do
+    query = from f in Family,
+            where: f.id == ^family_id,
+            preload: [:sub_families]
+
+    Repo.paginate(query)
   end
 
   def list_limited_families do
@@ -375,6 +486,14 @@ defmodule Fracomex.Products do
             where: sf.caption == ^sub_family_caption,
             select: sf.id
     Repo.one(query)
+  end
+
+  # Récuperer la sous-famille par l'id de la famille
+  def get_sub_family_by_family!(family_id, params) do
+    query = from sf in SubFamily,
+            where: sf.family_id == ^family_id
+
+    Repo.paginate(query, params)
   end
 
   @doc """
