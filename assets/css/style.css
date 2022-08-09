@@ -14,7 +14,7 @@
 /*-------------------------------------
 		1.General css
 --------------------------------------*/
-
+@font-face{font-family:"BodyFont";src:url(/fonts/SctoGroteskA-Regular.woff2)}
 *{
     padding: 0;
     margin: 0;
@@ -38,7 +38,7 @@
     position: relative;
   }
 body{
-	font-family: 'Roboto', sans-serif;
+	font-family: "BodyFont", sans-serif;
 	font-size:16px;
 	color:#a09e9c;
 	background: #f4f4f4;
@@ -453,7 +453,7 @@ ul.cart-list > li.total {
 
 /*mini validate cart*/
 .btn-cart.valide-cart,.btn-cart.valide-cart.slide-more-info {
-    width: 120px;
+    width: 140px;
     height: 40px;
     line-height: 30px;
     border-radius: 1px;
@@ -1277,7 +1277,41 @@ input[type=email] {
     z-index: 0 !important;
     margin-bottom: -5rem !important;
 }
-
+/*slide*/
+.prev-slide{
+position: absolute;
+top: 50%;
+left: 20px;
+padding: 15px;
+z-index: 1;
+cursor: pointer;
+display: none;
+}
+.next-slide{
+position: absolute;
+top: 50%;
+right: 20px;
+padding: 15px;
+z-index: 1;
+cursor: pointer;
+display: none;
+}
+.prev-slide:hover {
+    background-color: #fff;
+    opacity: 0.4;
+    border-radius: 50%;
+    color: #000;
+    box-shadow: 3px 14px 25px -10px #92b4d0;
+    transition: background 0.5s ease 0s;
+}
+.next-slide:hover {
+    background-color: #fff;
+    opacity: 0.4;
+    border-radius: 50%;
+    color: #000;
+    box-shadow: 3px 14px 25px -10px #92b4d0;
+    transition: background 0.5s ease 0s;
+}
 .itemfamilies-dropdown-menu{
     /* background-color: lightgreen !important; */
     /* height: 270px; */
@@ -1726,17 +1760,8 @@ margin-bottom: -10px !important;
     color: #e41201;
     top: 0;
     right: 0;
-    margin-top: 12px;
+    margin-top: 8px;
     margin-right: 5px;
-  }
-  .sidepanel .return {
-    display: block;
-    position: absolute;
-    color: #e41201;
-    top: 0;
-    left: 0;
-    margin: 10px;
-    margin-top: 5px;
   }
   .li-drop-menu a:hover {
     color: #e41201;
@@ -1789,9 +1814,15 @@ margin-bottom: -10px !important;
     position: absolute;
     display: block;
     top: 0;
-    right: -3rem;
+    right: -4rem;
+    padding: 5px;
   }
-
+.close-drop-menu:hover {
+    background-color: #fff;
+    opacity: 0.4;
+    border-radius: 50%;
+    color: #000;
+   }
 /*dropright*/
 .btn{
     padding: 0.5rem 1.5rem;
@@ -1903,3 +1934,14 @@ margin-bottom: -10px !important;
     transform: translateY(0%);
     transition-delay: 1000ms;
   }
+.all-alert{
+    position: absolute;
+    width: auto; 
+    top: 95px; 
+    right: 10px; 
+    bottom: unset; 
+    left: unset; 
+    transform: unset;
+    float: right !important; 
+    box-shadow: 0 16px 24px 2px rgba(29,17,51,.04),0 6px 32px 4px rgba(9,32,77,.12),0 8px 12px -5px rgba(29,17,51,.12);
+  }  

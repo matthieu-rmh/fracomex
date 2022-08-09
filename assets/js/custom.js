@@ -22,7 +22,9 @@ $(document).ready(function(){
 				$('.stop').on('click',function(){
 					owl.trigger('stop.owl.autoplay')
 				})
-	
+                $(".a-refuse-cookie").click(function(){
+                    $(".cookie-alert").removeClass('show');;  
+                });
     // 3. slide animation
 
         $(function(){
@@ -59,6 +61,7 @@ window.onclick = (e) => {
         removeActive()
     }
 }
+/*overlay click*/
 $(".overlay-panel").click(function(){
 	var spWidth = $('.sidepanel').width();
 	var spMarginLeft = parseInt($('.sidepanel').css('margin-left'),10);
@@ -115,3 +118,14 @@ function getCookie(cname) {
     }
     return "";
 }
+/*slide in header*/
+$(document).ready(function(){
+$('#header-carousel').mouseover(function(){
+    $('.prev-slide').show();
+    $('.next-slide').show();
+});
+$('#header-carousel').mouseout(function(){
+    $('.prev-slide').hide();
+    $('.next-slide').hide();
+  });
+});
