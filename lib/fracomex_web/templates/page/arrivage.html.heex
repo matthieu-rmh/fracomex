@@ -52,6 +52,14 @@
 								<div class="product-price" id={"price-#{item.id}"}>
 								<p class="p-product-price"><%= Fracomex.Utilities.price_format(item.sale_price_vat_excluded) %> €</p>
 								</div>
+
+								<% real_stock = 
+									item.real_stock 
+									|> Decimal.to_float()
+									|> trunc() 
+								%>
+
+								<%= if real_stock > 0 do %>
 									<div class="new-arrival-cart">
 
 										<form action={:add_to_cart} method="post">
@@ -69,6 +77,12 @@
 											<span class="lnr lnr-frame-expand" title="Zoom"></span>
 										</p-->
 									</div>
+								<% else %>
+									<div class="out-of-stock-ribbon">
+										<p style="font-size: 1rem;"></p>
+									</div>
+								<% end %>
+									
 								</div>
 							</a>	
 							</div>

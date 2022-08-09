@@ -35,6 +35,13 @@
 						</div>
 					</div>
 				</div>
+
+				<% real_stock = 
+					@item.real_stock 
+					|> Decimal.to_float()
+					|> trunc() 
+				%>
+
 				<div class="col-md-6 col-sm-8">
 					<form phx-submit="add-product-to-cart">
 						<input type="hidden" name="item_id" value={@item.id}>
@@ -48,24 +55,28 @@
 								<p><b>Stock disponible:</b> <%= Decimal.to_integer(@item.real_stock) %></p>
 								<h3 class="details-product-price"><%= Fracomex.Utilities.price_format(@item.sale_price_vat_excluded) %> €</h3>
 								<div class="row">
-									<div class="col-md-2 col-sm-4">
-										<div class="counter">
-											<span 
-												class="down" 
-												phx-click="dec-button" 
-												phx-value-item_id={@item.id}
-												phx-value-quantity={@quantity} 
-												style={"#{if @quantity < 2, do: "opacity: 0; cursor: auto;", else: "opacity: 1"}"}>-
-											</span>
-												<input type="text" value={@quantity} name="quantity">
-											<span 
-												class="up" 
-												phx-click="inc-button" 
-												phx-value-item_id={@item.id}
-												phx-value-quantity={@quantity}>+
-											</span>
+
+									<%= if real_stock > 0 do %>
+										<div class="col-md-2 col-sm-4">
+											<div class="counter">
+												<span 
+													class="down" 
+													phx-click="dec-button" 
+													phx-value-item_id={@item.id}
+													phx-value-quantity={@quantity} 
+													style={"#{if @quantity < 2, do: "opacity: 0; cursor: auto;", else: "opacity: 1"}"}>-
+												</span>
+													<input type="text" value={@quantity} name="quantity">
+												<span 
+													class="up" 
+													phx-click="inc-button" 
+													phx-value-item_id={@item.id}
+													phx-value-quantity={@quantity}>+
+												</span>
+											</div>
 										</div>
-									</div>
+									<% end %>
+
 								</div>
 							<% end %>
 						</div>
@@ -73,14 +84,24 @@
 							phx-click="add-product-to-cart"
 							phx-value-item_id = {@item.id}
 						-->
-						<button 
-							type="submit"
-							class="button-cart product-add-cart" 
-							style={"#{if @quantity < 1, do: "opacity: 0; cursor: auto;", else: "opacity: 1"}"}
-						>	
-							<span class="lnr lnr-cart"></span>
-							<span class="single_product_addtocart">Ajouter au panier</span>
-						</button>
+					
+
+						<%= if real_stock < 1 do %>
+							<div class="out-of-stock mt-5">
+								<span class="lnr lnr-rocket"></span>
+								<p>Rupture de stock</p>
+							</div>
+						<% else %>
+							<button 
+								type="submit"
+								class="button-cart product-add-cart" 
+								style={"#{if @quantity < 1, do: "opacity: 0; cursor: auto;", else: "opacity: 1"}"}
+							>	
+								<span class="lnr lnr-cart"></span>
+								<span class="single_product_addtocart">Ajouter au panier</span>
+							</button>
+						<% end %>						
+						
 					</form>
 				</div>
 				
