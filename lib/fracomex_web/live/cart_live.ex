@@ -43,7 +43,7 @@ defmodule FracomexWeb.Live.CartLive do
   def handle_event("dec-button", params, socket) do
     quantity = String.to_integer(params["quantity"])
 
-    if quantity > 0 do
+    if quantity > 1 do
       item_id = params["item_id"]
 
       # Retrouver la position de l'item dans le panier
