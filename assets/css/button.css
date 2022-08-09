@@ -3,7 +3,7 @@ button.button-cart {
   justify-content: center;
   align-items: center;
   margin: 3rem 0 0 2rem;
-  padding: 1rem 1.5rem; 
+  padding: 1rem 1.5rem;
   background: #e41201;
   color: #fff;
   /* outline: 1px solid #000000 !important; */
@@ -25,14 +25,23 @@ button.button-cart:hover {
   color: #000;
 }
 
-button.button-cart > span.lnr{
-    padding-right: 1rem;
-    font-size: 2rem;
-  }
+button.button-cart > span.lnr {
+  padding-right: 1rem;
+  font-size: 2rem;
+}
 
 @media (max-width: 768px) {
   button.button-cart {
     display: inline block;
     width: auto;
   }
+}
+
+.link-to {
+  color: #a09e9c;
+}
+
+.link-to:hover {
+  color: #a09e9c;
+  text-decoration: underline;
 }
