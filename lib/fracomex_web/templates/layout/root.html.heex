@@ -52,12 +52,13 @@
 				                	</li>
 				                	<li class="nav-setting dropdown">
 				                		<a href={Routes.users_path(@conn, :signin)} class="dropdown-toggle" data-toggle="dropdown"><span class="lnr lnr-user"></span></a>
+
 										<%= if not is_nil(Plug.Conn.get_session(@conn, :user_id)) do %>
-										<ul class="dropdown-menu s-cate" id="user-icon-dropdown">
-											<li class="scroll"><a href={Routes.users_path(@conn, :my_account)}><span class="lnr lnr-user"></span> Mon profil</a></li>
-											<li class="scroll"><a href={Routes.users_path(@conn, :my_address)}><span class="lnr lnr-map-marker"></span> Mon adresse</a></li>
-											<li class="scroll"><a href={Routes.users_path(@conn, :signout)} style="color: red; opacity: 0.75;"><span class="lnr lnr-exit"></span> Se déconnecter</a></li>
-										 </ul>
+											<ul class="dropdown-menu s-cate" id="user-icon-dropdown">
+												<li class="scroll"><a href={Routes.users_path(@conn, :my_account)}><span class="lnr lnr-user"></span> Mon profil</a></li>
+												<li class="scroll"><a href={Routes.users_path(@conn, :my_address)}><span class="lnr lnr-map-marker"></span> Mon adresse</a></li>
+												<li class="scroll"><a href={Routes.users_path(@conn, :signout)} style="color: red; opacity: 0.75;"><span class="lnr lnr-exit"></span> Se déconnecter</a></li>
+											</ul>
 										 <% end %>
 				                	</li>
 				                    <li class="dropdown">
@@ -72,6 +73,36 @@
 											</span>
 				                        </a>
 
+										<ul class="dropdown-menu cart-list s-cate">
+											<%= if not is_nil(@cart) and @cart != [] do %>
+												<%= for i <- 0..Enum.count(@cart) - 1  do %>
+													<li class="single-cart-list">
+														<a href="#" class="photo">
+															<img src={"/images/small-items/#{Fracomex.Utilities.product_in_cart(@cart, i).image}"} class="cart-thumb" alt="image" />
+														</a>
+
+														<div class="cart-list-txt">
+															<h6>
+																<a href={Routes.cart_path(@conn, :index)}>
+																	<%= Fracomex.Utilities.product_in_cart(@cart, i).caption %>
+																</a>
+															</h6>
+															<p><%= Enum.at(@cart, i).quantity %> x - <span class="price"><%= Fracomex.Utilities.price_format(Fracomex.Utilities.product_in_cart(@cart, i).sale_price_vat_excluded) %> €</span></p>
+														</div>
+													</li>
+													
+												<% end %>
+											<% end %>
+
+				                            <li class="total">
+				                                <h4>Total: <%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</h4>
+				                            </li>
+
+											<button class="btn-cart valide-cart" onclick="window.location.href='#'">
+									            <span class="single_product_addtocart">Valider panier</span>
+											</button>
+				                        </ul>
+
 				                    </li>
 				                </ul>
 				            </div>
@@ -80,7 +111,7 @@
 				                    <i class="fa fa-bars"></i>
 				                </button>
 				                <a class="navbar-brand" href={Routes.page_path(@conn, :index)}>
-								<img src={Routes.static_path(@conn, "/images/fracomex.png")}>
+									<img src={Routes.static_path(@conn, "/images/fracomex.png")}>
 								</a>
 
 				            </div>
