@@ -16,7 +16,7 @@
 --------------------------------------*/
 @font-face {
     font-family: "BodyFont";
-    src: url(/fonts/SctoGroteskA-Regular.woff2)
+    src: url("../fonts/SctoGroteskA-Regular.woff2");
 }
 
 * {
