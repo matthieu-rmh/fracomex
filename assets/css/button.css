@@ -4,7 +4,7 @@ button.button-cart {
   align-items: center;
   margin: 3rem 0 0 2rem;
   padding: 1rem 1.5rem; 
-  background: #e6442e;
+  background: #e41201;
   color: #fff;
   /* outline: 1px solid #000000 !important; */
   width: auto;
@@ -21,7 +21,7 @@ button.button-cart.validate-cart {
 button.button-cart:hover {
   cursor: pointer;
   background: transparent;
-  outline: 1px solid #e6442e !important;
+  outline: 1px solid #e41201 !important;
   color: #000;
 }
 

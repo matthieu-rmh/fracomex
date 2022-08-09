@@ -773,6 +773,7 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
         background-color: #630b05;
         position: relative;
         z-index: 2;
+        display: flex;
       }
     .navigation {
         text-align: center;
@@ -786,6 +787,13 @@ body.on-side .wrap-sticky nav.navbar.bootsnav.sticked{
     .navigation li a {
         color: #fff;
       }  
+    .link-nav li {
+        display: inline;
+        padding-left: 20px;
+    }  
+    .link-nav li a {
+        color: #fff;
+    }   
     .scroll.in-top{
         margin-top: 30px;
     }  
