@@ -59,3 +59,17 @@ window.onclick = (e) => {
         removeActive()
     }
 }
+$(".overlay-panel").click(function(){
+	var spWidth = $('.sidepanel').width();
+	var spMarginLeft = parseInt($('.sidepanel').css('margin-left'),10);
+	var w = (spMarginLeft >= 0 ) ? spWidth * -1 : 0;
+	var cw = (w < 0) ? -w : spWidth-22;
+	$('.sidepanel').animate({
+	  marginLeft:w
+	});
+	$('.sidepanel span').animate({
+	  marginLeft:w
+	});
+	$(".overlay-panel").fadeOut();  
+	$("body").removeClass("fixed-position"); 
+});

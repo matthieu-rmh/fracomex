@@ -1669,7 +1669,7 @@ margin-bottom: -10px !important;
     position:fixed;
     height:100vh;
     background-color:#070707;
-    width:22%;
+    width:20%;
     min-width:200px;
     margin-left: -600px;
     z-index:2;
@@ -1712,7 +1712,7 @@ margin-bottom: -10px !important;
   .sidepanel li a {
     color: #fff;
     font-size: 16px;
-    text-transform: lowercase;
+    text-transform: capitalize;
   }
   .sidepanel li a span {
     position: absolute;
@@ -1727,7 +1727,7 @@ margin-bottom: -10px !important;
     top: 0;
     right: 0;
     margin-top: 12px;
-    margin-right: 10px;
+    margin-right: 5px;
   }
   .sidepanel .return {
     display: block;
@@ -1742,7 +1742,7 @@ margin-bottom: -10px !important;
     color: #e41201;
   }
   .li-drop-menu {
-    margin: 10px;
+    margin-left: 10px;
   }
   .overlay-panel {
     position:fixed;
@@ -1812,7 +1812,8 @@ margin-bottom: -10px !important;
 .drop-menu{
     display: none;
     position: absolute;
-    width: 600px;
+    width: 750px;
+    padding: 10px;
 }
 
 .drop-menu.active{
@@ -1825,12 +1826,11 @@ margin-bottom: -10px !important;
     top: 1px;
 }
 .drop-menu .ul-drop-menu {
-    margin-top: 0px;
-    margin-left: 15px;
+    margin-top: 10px;
   }
 .drop-menu li {
     display: inline-flex;
-    width: 260px;
+    width: 228px;
     line-height: 1.2;
   }  
 .drop-menu a{
