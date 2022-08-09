@@ -197,12 +197,9 @@ defmodule FracomexWeb.Live.ProductLive do
           sub_families = Products.get_sub_family_by_family!(family_id, params)
           family = Products.get_family!(family_id)
 
-          families = Products.list_paginate_families_by_family!(family_id)
-
           {:noreply,
             socket
             |> assign(
-                families: families,
                 family: family,
                 sub_families_by_family_id: sub_families,
                 options: page,
