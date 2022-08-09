@@ -41,14 +41,14 @@ defmodule Fracomex.Utilities do
 
   # Transformer le prix décimal en float
   def price_to_float(id) do
-    price = Products.get_item!(id).sale_price_vat_excluded
+    Products.get_item!(id).sale_price_vat_excluded
     |> Decimal.to_float()
   end
 
   # Récupérer les informations des produits dans le panier
   def product_in_cart(cart, i) do
     Enum.at(cart, i).product_id
-    |> Products.get_item!()
+    |> Products.get_item_with_its_family_and_sub_family!()
   end
 
   def price_format(price) do

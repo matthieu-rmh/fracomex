@@ -68,6 +68,17 @@ defmodule Fracomex.Products do
   """
   def get_item!(id), do: Repo.get!(Item, id)
 
+  def get_item_with_its_family_and_sub_family!(id) do
+    family_query = from f in Family
+    sub_family_query = from sf in SubFamily
+
+    query = from i in Item,
+            preload: [family: ^family_query, sub_family: ^sub_family_query],
+            where: i.id == ^id
+
+    Repo.one(query)
+  end
+
   # Function de filtre de tous les produits
   def filter_items(tri) do
     case tri do

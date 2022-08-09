@@ -96,14 +96,16 @@
 												<% end %>
 											<% end %>
 
-				                            <li class="total">
-				                                <h4>Total: <%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</h4>
-				                            </li>
+											<li class="total">
+												<%= if not is_nil(@sum_cart) and @sum_cart != 0 do %>
+													<h4>Total: <%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</h4>
+												<% end %>
+											</li>
 
 											<button class="btn-cart valide-cart" onclick="window.location.href='#'">
-									            <span class="single_product_addtocart">Valider panier</span>
+												<span class="single_product_addtocart">Valider panier</span>
 											</button>
-				                        </ul>
+										</ul>
 
 				                    </li>
 				                </ul>

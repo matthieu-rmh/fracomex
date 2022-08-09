@@ -22,9 +22,29 @@
 					<th scope="col"></th>
 					</tr>
 				</thead>
+				
 				<tbody style="overflow: scroll;">
 					<%= if not is_nil(@cart) and @cart != [] do %>
 						<%= for i <- 0..Enum.count(@cart) - 1  do %>
+
+						<% family_caption = 
+							cond do
+								is_nil(Fracomex.Utilities.product_in_cart(@cart, i).family) ->
+									"famille"
+								true -> 
+									"#{Fracomex.Utilities.product_in_cart(@cart, i).family.caption}"
+							end
+						%>
+
+						<% sub_family_caption = 
+							cond do 
+								is_nil(Fracomex.Utilities.product_in_cart(@cart, i).sub_family) ->
+									"sous-famille"
+								true -> 
+									"#{Fracomex.Utilities.product_in_cart(@cart, i).sub_family.caption}"
+							end 
+						%>
+
 							<tr class="cart-product">
 								<td class="img-cart" style="margin-top: -8px;">
 									<p hidden><%  %>.news</p>
@@ -32,7 +52,16 @@
 								</td>
 
 								<td class="title-cart" width="30%">
-									<p><%= Fracomex.Utilities.product_in_cart(@cart, i).caption %></p>
+									<p>
+										<a 
+											class="link-to"
+											data-phx-link="redirect"
+											data-phx-link-state="push"
+											href={Routes.product_path(@socket, :product_details, family_caption, sub_family_caption, Fracomex.Utilities.product_in_cart(@cart, i).caption, Fracomex.Utilities.product_in_cart(@cart, i).id)}
+										>
+											<%= Fracomex.Utilities.product_in_cart(@cart, i).caption %>
+										</a>
+									</p>
 								</td>
 
 								<td class="price-cart">
