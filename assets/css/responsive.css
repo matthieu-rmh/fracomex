@@ -53,12 +53,13 @@
       }
     .navigation {
         text-align: center;
-        padding-left: 25px;
       }  
+	.link-nav {
+        text-align: center;
+      }    
     .navigation li {
         display: inline;
         text-align: center;
-        padding-left: 20px;
       } 
 	.row.info {
 		display: block;
@@ -73,14 +74,15 @@
 	.nav-page {
         background-color: darkred;
       }
-    .navigation {
+	  .navigation {
         text-align: center;
-        padding-left: 25px;
       }  
+	.link-nav {
+        text-align: center;
+      }    
     .navigation li {
         display: inline;
         text-align: center;
-        padding-left: 20px;
       } 
 
 }/*max-width:991px*/
@@ -144,14 +146,15 @@
 	  .nav-page {
         background-color: darkred;
       }
-    .navigation {
+	  .navigation {
         text-align: center;
-        padding-left: 25px;
       }  
+	.link-nav {
+        text-align: center;
+      }    
     .navigation li {
         display: inline;
         text-align: center;
-        padding-left: 20px;
       }  
 	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full .container {
 		top: 0px !important;
@@ -220,14 +223,15 @@
 	.nav-page {
         background-color: darkred;
       }
-    .navigation {
+	  .navigation {
         text-align: center;
-        padding-left: 25px;
       }  
+	.link-nav {
+        text-align: center;
+      }    
     .navigation li {
         display: inline;
         text-align: center;
-        padding-left: 20px;
       } 
 }/*max-width:320px*/
 
