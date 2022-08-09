@@ -1,7 +1,72 @@
+<% family_caption = 
+	cond do
+		is_nil(@item.family) ->
+			"famille"
+		true -> 
+			"#{@item.family.caption}"
+	end
+%>
+
+<% sub_family_caption = 
+	cond do 
+		is_nil(@item.sub_family) ->
+			"sous-famille"
+		true -> 
+			"#{@item.sub_family.caption}"
+	end 
+%>
+
 <section class="top-section p-4">
 	<div class="container px-4 px-lg-5 my-5" id="shop-banner">
 		<div class="text-center">
-			<h1 class="">Article</h1>
+			<h1 class=""><%= @item.caption %> </h1>
+			<ol style="display: flex; text-align: center;">
+				<li>
+					<a 
+						data-phx-link="redirect" 
+						data-phx-link-state="push"
+						href={Routes.product_path(@socket, :index)}
+					>
+						<span>Boutique</span>
+					</a>
+				</li>
+			
+				<li>
+					<%= if family_caption != "famille" do %>
+						<a 
+							data-phx-link="redirect" 
+							data-phx-link-state="push"
+							href={Routes.product_path(@socket, :family, family_caption)}
+						>
+							<span><%= family_caption %></span>
+						</a>
+					<% else %>
+						<a>
+							<span class="not-underlined"><%= family_caption %></span>
+						</a>
+					<% end %>
+				</li>
+				
+				<li>
+					<%= if sub_family_caption != "sous-famille" do %>
+						<a 
+							data-phx-link="redirect" 
+							data-phx-link-state="push"
+							href={Routes.product_path(@socket, :sub_family, family_caption, sub_family_caption)}
+						>
+							<span><%= sub_family_caption %></span>
+						</a>
+					<% else %>
+						<a>
+							<span class="not-underlined"><%= sub_family_caption %></span>
+						</a>
+					<% end %>
+				</li>
+
+				<li>
+					<span><%= @item.caption %></span>
+				</li>
+			</ol>
 		</div>
 	</div>
 </section>
