@@ -49,7 +49,7 @@
 							<!--/has sub-category-->	
 							<li class="has-child collapsed" id={"li-category#{family.id}"}  data-toggle="collapse" data-target={"#sub-collapse#{family.id}"} aria-expanded="true" aria-controls="collapseOne">
 								<a class="child mb-0" style="color: #000000c4; cursor: pointer;" phx-click="show-sub-family" phx-value-id={family.id}>
-									<%= family.caption %>
+									<%= String.capitalize(family.caption) %>
 								</a>
 							</li>	
 								
@@ -57,7 +57,7 @@
 								<ul class="sub-category">
 									<%= for sub_family <- family.sub_families do %>
 										<li class="">
-											<a href={Routes.product_path(@socket, :sub_family, family.caption, sub_family.caption)}><%= sub_family.caption %></a>
+											<a href={Routes.product_path(@socket, :sub_family, family.caption, sub_family.caption)}><%= String.capitalize(sub_family.caption) %></a>
 										</li>
 									<% end %>
 								</ul>
@@ -67,7 +67,7 @@
 							<!--/has not sub-category-->
 							<li class="no-child" id={"li-category-no-child#{family.id}"}>
 								<a class="child mb-0">
-									<%= family.caption %>
+									<%= String.capitalize(family.caption) %>
 								</a>
 							</li>
 						<% end %>
@@ -92,9 +92,10 @@
 						<form phx-change="tri_sub_family">
 							<select name="triSelect" class="form-control" id="exampleFormControlSelect1">
 								<option value="0">Trier par défaut</option>
-								<option value="1">Trier prix par ordre croissant</option>
-								<option value="2">Trier prix par ordre décroissant</option>
-								<option value="3" >Trier produit du plus récent au plus ancien</option>
+								<option value="1">Trier par prix croissant</option>
+								<option value="2">Trier par prix décroissant</option>
+								<option value="3" >Trier par produit du plus récent au plus ancien</option>
+								<option value="4">Trier par disponibilité</option>
 							</select>
 						</form>
 					</div>
@@ -102,6 +103,12 @@
 				</div> 
 				
 				<%= for item <- @items_by_sub_family_id do %>
+
+					<% real_stock = 
+						item.real_stock 
+						|> Decimal.to_float()
+						|> trunc() 
+					%>
 
 					<% family_caption = 
 						cond do
@@ -134,26 +141,34 @@
 										</div>
 										<!--product_title-->
 										<div class="product-name" id={"name-#{item.id}"}>	
-											<a class="a-product-name" href="#"><%= item.caption %></a>
+											<a class="a-product-name" href="#"><%= String.capitalize(item.caption) %></a>
 										</div>
 										<!--product_price-->
 										<div class="product-price" id={"price-#{item.id}"}>
 											<p class="p-product-price"><%= Fracomex.Utilities.price_format(item.sale_price_vat_excluded) %> €</p>
 										</div>
-										<div 
-											class="new-arrival-cart" 
-											phx-click="add-one-product-to-cart"
-											phx-value-id={item.id}
-										>
-											<p class="add-to-cart">
-												<span class="lnr lnr-cart"></span>
-												<span class="addtocart">Ajouter au panier</span>
-											</p>
-											<!--p class="arrival-review pull-right">
-												<span class="lnr lnr-heart"></span>
-												<span class="lnr lnr-frame-expand" title="Zoom"></span>
-											</p-->
-										</div>
+
+										<%= if real_stock > 0 do %>
+											<div 
+												class="new-arrival-cart" 
+												phx-click="add-one-product-to-cart"
+												phx-value-id={item.id}
+											>
+												<p class="add-to-cart">
+													<span class="lnr lnr-cart"></span>
+													<span class="addtocart">Ajouter au panier</span>
+												</p>
+												<!--p class="arrival-review pull-right">
+													<span class="lnr lnr-heart"></span>
+													<span class="lnr lnr-frame-expand" title="Zoom"></span>
+												</p-->
+											</div>
+										<% else %>
+											<div class="out-of-stock-ribbon">
+												<p style="font-size: 1rem;"></p>
+											</div>
+										<% end %>
+
 									</div>
 									
 								</a>	

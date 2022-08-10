@@ -157,7 +157,7 @@
 								<%= for family <- Fracomex.Products.list_limited_families do %>
 									<li class="scroll in-top">
 										<a href={Routes.product_path(@conn, :family, family.caption)}>
-											<%= family.caption %>
+											<%= String.capitalize(family.caption) %>
 										</a>
 									</li>
 								<% end %>
@@ -214,14 +214,14 @@
 								<li class="sub" data-target={"#dropright-#{family.id}"}>
 									<a style="display: block;" href={Routes.product_path(@conn, :family, family.caption)}>
 										<%= family.caption %> 
-										<span class="lnr lnr-chevron-right"></span>
+										<%= if length(family.sub_families) > 0 do %><span class="lnr lnr-chevron-right"></span><% end %>
 									</a>
 
 									<div class="drop-menu dropright" id={"dropright-#{family.id}"}>
 										<ul class="ul-drop-menu" style="overflow-y: auto; min-height: 600px; height: 650px;">
 											<%= for sub_family <- family.sub_families do %>
 												<li class="li-drop-menu">
-													<a href={Routes.product_path(@conn, :sub_family, family.caption, sub_family.caption)}><%= sub_family.caption %></a>
+													<a href={Routes.product_path(@conn, :sub_family, family.caption, sub_family.caption)}><%= String.capitalize(sub_family.caption) %></a>
 												</li>
 											<% end %>
 										</ul>

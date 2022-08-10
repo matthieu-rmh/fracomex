@@ -110,6 +110,17 @@ defmodule Fracomex.Products do
                 order_by: [desc: i.id]
 
         Repo.paginate(query)
+
+      "4" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                where: i.real_stock > 0,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption]
+
+        Repo.paginate(query)
+
       _ ->
         family_caption = from f in Family
         sub_family_caption = from sf in SubFamily
@@ -157,6 +168,16 @@ defmodule Fracomex.Products do
                 order_by: [desc: i.id]
 
         Repo.paginate(query)
+
+      "4" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id and i.real_stock > 0,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption]
+        Repo.paginate(query)
+
       _ ->
         family_caption = from f in Family
         sub_family_caption = from sf in SubFamily
