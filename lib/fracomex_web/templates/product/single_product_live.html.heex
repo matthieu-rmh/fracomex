@@ -106,10 +106,10 @@
 							<%= if not is_nil(@item) do %>
 								<% family_caption = if not is_nil(@item.family), do: @item.family.caption, else: "Aucune" %>
 								<% sub_family_caption = if not is_nil(@item.sub_family), do: @item.sub_family.caption, else: "Aucune" %>
-								<h2 class="details-product-name"><%= @item.caption %> </h2>
+								<h2 class="details-product-name"><%= String.capitalize(@item.caption) %> </h2>
 								<p><b>Catégorie:</b> <%= family_caption %></p>
 								<p><b>Sous-catégorie:</b> <%= sub_family_caption %></p>
-								<p><b>Stock disponible:</b> <%= Decimal.to_integer(@item.real_stock) %></p>
+								<%= if Decimal.to_integer(@item.real_stock) > 0 do %><p><b style="color: black;">Disponible en stock</b></p><% end %>
 								<h3 class="details-product-price"><%= Fracomex.Utilities.price_format(@item.sale_price_vat_excluded) %> €</h3>
 								<div class="row">
 

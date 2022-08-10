@@ -1123,6 +1123,8 @@ ul.cart-list>li.total {
     position: absolute;
     display: block;
     text-align: center;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 .a-product-name {
@@ -1859,6 +1861,19 @@ ul.category {
     right: 15px;
     transition: content 0.5s ease 0s;
 }
+
+[class="has-child"] > a{
+    color: #e41201 !important; 
+}
+
+.has-child:hover > a {
+    color: #e41201 !important; 
+}
+
+.no-child:hover > a {
+    color: #e41201 !important; 
+}
+
 
 .has-child.collapsed>a:after {
     font-family: "Font Awesome 5 Free";

@@ -40,7 +40,7 @@
 							<!--/has sub-category-->	
 							<li class="has-child collapsed" id={"li-category#{family.id}"}  data-toggle="collapse" data-target={"#sub-collapse#{family.id}"} aria-expanded="true" aria-controls="collapseOne">
 								<a class="child mb-0" style="color: #000000c4; cursor: pointer;" phx-click="show-sub-family" phx-value-id={family.id}>
-									<%= family.caption %>
+									<%= String.capitalize(family.caption) %>
 								</a>
 							</li>	
 								
@@ -48,7 +48,7 @@
 								<ul class="sub-category">
 									<%= for sub_family <- family.sub_families do %>
 										<li class="">
-											<a href={Routes.product_path(@socket, :sub_family, family.caption, sub_family.caption)}><%= sub_family.caption %></a>
+											<a href={Routes.product_path(@socket, :sub_family, family.caption, sub_family.caption)}><%= String.capitalize(sub_family.caption) %></a>
 										</li>
 									<% end %>
 								</ul>
@@ -58,7 +58,7 @@
 							<!--/has not sub-category-->
 							<li class="no-child" id={"li-category-no-child#{family.id}"}>
 								<a class="child mb-0">
-									<%= family.caption %>
+									<%= String.capitalize(family.caption) %>
 								</a>
 							</li>
 						<% end %>
