@@ -104,6 +104,12 @@
 				
 				<%= for item <- @items_by_sub_family_id do %>
 
+					<% real_stock = 
+						item.real_stock 
+						|> Decimal.to_float()
+						|> trunc() 
+					%>
+
 					<% family_caption = 
 						cond do
 							is_nil(item.family) ->
@@ -141,20 +147,28 @@
 										<div class="product-price" id={"price-#{item.id}"}>
 											<p class="p-product-price"><%= Fracomex.Utilities.price_format(item.sale_price_vat_excluded) %> €</p>
 										</div>
-										<div 
-											class="new-arrival-cart" 
-											phx-click="add-one-product-to-cart"
-											phx-value-id={item.id}
-										>
-											<p class="add-to-cart">
-												<span class="lnr lnr-cart"></span>
-												<span class="addtocart">Ajouter au panier</span>
-											</p>
-											<!--p class="arrival-review pull-right">
-												<span class="lnr lnr-heart"></span>
-												<span class="lnr lnr-frame-expand" title="Zoom"></span>
-											</p-->
-										</div>
+
+										<%= if real_stock > 0 do %>
+											<div 
+												class="new-arrival-cart" 
+												phx-click="add-one-product-to-cart"
+												phx-value-id={item.id}
+											>
+												<p class="add-to-cart">
+													<span class="lnr lnr-cart"></span>
+													<span class="addtocart">Ajouter au panier</span>
+												</p>
+												<!--p class="arrival-review pull-right">
+													<span class="lnr lnr-heart"></span>
+													<span class="lnr lnr-frame-expand" title="Zoom"></span>
+												</p-->
+											</div>
+										<% else %>
+											<div class="out-of-stock-ribbon">
+												<p style="font-size: 1rem;"></p>
+											</div>
+										<% end %>
+
 									</div>
 									
 								</a>	
