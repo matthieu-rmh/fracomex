@@ -1,7 +1,15 @@
 <section class="top-section p-4">
 	<div class="container px-4 px-lg-5 my-5" id="shop-banner">
 		<div class="text-center">
-			<h1 class="">Boutique</h1>
+			<h1><%= String.upcase("Boutique") %></h1>
+
+			<ol style="display: flex; text-align: center;">
+				<li>
+					<a>
+						<span>Boutique</span>
+					</a>
+				</li>
+			</ol>
 		</div>
 	</div>
 </section>
@@ -42,7 +50,7 @@
 								<% true -> %>
 									<!--/has not sub-category-->
 									<li class="no-child" id={"li-category-no-child#{family.id}"}>
-										<a class="child mb-0" href="##" >
+										<a class="child mb-0">
 											<%= family.caption %>
 										</a>
 									</li>

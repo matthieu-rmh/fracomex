@@ -201,6 +201,7 @@ defmodule FracomexWeb.Live.ProductLive do
             socket
             |> assign(
                 family: family,
+                family_caption: family.caption,
                 sub_families_by_family_id: sub_families,
                 options: page,
                 items: items

@@ -147,6 +147,38 @@ body {
 .top-section {
     margin-top: 90px;
     background-color: #e41201;
+    display: flex;
+    color: #fff;
+}
+
+.top-section h1, 
+.top-section a, 
+.top-section span {
+    color: #fff;
+}
+
+.top-section ol {
+    list-style: none;
+    justify-content: center;
+    margin-bottom: 0;
+}
+
+/* Ne pas ajouter un "/" après la dernière valeur de la liste */
+.top-section ol li:not(:last-child) a::after {
+    content: "/";
+    color: rgb(255, 255, 255);
+    margin-right: 0.5rem;
+}
+
+.top-section ol li:not(:last-child) span:hover {
+    color: rgb(255, 255, 255);
+    text-decoration: underline;
+}
+
+.top-section ol li:last-child span:hover,
+span.not-underlined:hover{
+    color: rgb(255, 255, 255);
+    text-decoration: none !important;
 }
 
 .breadcrumb-link {
