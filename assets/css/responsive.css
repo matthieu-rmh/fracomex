@@ -65,6 +65,10 @@
 		display: block;
 		margin: 5px;
 	  }  
+	#header-carousel {
+		margin-top: 10rem;
+		margin-bottom: 10rem;
+	  }  
 }/*max-width:992px*/
 
 @media screen and (max-width:991px){
@@ -84,6 +88,28 @@
         display: inline;
         text-align: center;
       } 
+	  .navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full .container > .navbar-header {
+		margin-top: 10px;
+	  }  
+	  .navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full .container > .attr-nav {
+		margin-top: 15px;
+	  }  
+	  .navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container> .navbar-header {
+		margin-top: 5px;
+	}
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container > .attr-nav {
+		margin-top: 5px;
+	}
+	.top-section {
+		margin-top: 120px;
+	}  
+	.product-grid{
+		width: 50%;
+		float: left;
+	}
+	.wrap-sticky nav.navbar.bootsnav.sticked ul.nav > li > a {
+		padding: 10px;
+	  }  
 
 }/*max-width:991px*/
 
@@ -92,8 +118,8 @@
 		position: fixed;
 		height: 100vh;
 		background-color: #070707;
-		width: 100%;
-		min-width: 100px;
+		width: 30%;
+		min-width: 200px;
 		margin-left: -600px;
 		z-index: 2;
 		font-size: 1.5em;
@@ -102,6 +128,23 @@
 		text-align: center;
 		opacity: 1;
 	  }
+	  .drop-menu li {
+		display: block;
+		line-height: 1.5;
+	  }  
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full .container {
+		top: 0px !important;
+	  }
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container {
+		top: 0px !important;
+	  }  
+	.top-section {
+		margin-top: 150px;
+	}  
+	#header-carousel {
+		margin-top: 14rem;
+		margin-bottom: 10rem;
+	  }  
 }/*max-width:768px*/
 
 @media screen and (max-width:767px){
@@ -137,15 +180,31 @@
 	.row.info {
 		display: block;
 	  }
+	.nav-page{
+		display: none;
+	}  
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full .container > .navbar-header {
+		margin-top: -5px;
+	  } 
+	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full .container > .attr-nav {
+		margin-top: -5px;
+	  }   
+	.top-section {
+		margin-top: 60px;
+	}  
+	#header-carousel {
+		margin-top: 5rem;
+		margin-bottom: 5rem;
+	  }  
+	  .carousel-indicators {
+		bottom: 25px;
+	  }  
 }/*max-width:660px*/
 
 @media screen and (max-width: 640px){
 	#navbar-menu {
 		background-color: #e8e8e8;
 	  }
-	  .nav-page {
-        background-color: darkred;
-      }
 	  .navigation {
         text-align: center;
       }  
@@ -161,7 +220,7 @@
 	  }
 	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container {
 		top: 0px !important;
-	  }   
+	  }    
 }/*max-width:640px*/
 
 @media screen and (max-width: 580px){
@@ -196,6 +255,13 @@
 	  }
 	.navbar.navbar-default.bootsnav.navbar-sticky.on.menu-center.no-full.sticked .container {
 		top: 0px !important;
+	  }
+	.top-section {
+		margin-top: 60px;
+	}   
+	#header-carousel {
+		margin-top: 5rem;
+		margin-bottom: 10rem;
 	  }
 }/*max-width:480px*/
 

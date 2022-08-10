@@ -16,7 +16,7 @@
 --------------------------------------*/
 @font-face {
     font-family: "BodyFont";
-    src: url("../fonts/SctoGroteskA-Regular.woff2");
+    src: url(/fonts/SctoGroteskA-Regular.woff2) format('woff2');
 }
 
 * {
@@ -1006,7 +1006,7 @@ ul.cart-list>li.total {
 
 .single-product-bg {
     /* position: relative; */
-    min-height: 310px;
+    min-height: 325px;
     background: #f8f9fc;
     display: flex;
     align-items: center;
@@ -1101,6 +1101,7 @@ ul.cart-list>li.total {
     line-clamp: 1;
     -webkit-box-orient: vertical;
     color: #000 !important;
+    padding: 5px;
 }
 
 .a-product-name:hover {
@@ -1110,6 +1111,7 @@ ul.cart-list>li.total {
     -webkit-line-clamp: 1;
     line-clamp: 1;
     -webkit-box-orient: vertical;
+    padding: 5px;
 }
 
 .product-price {
