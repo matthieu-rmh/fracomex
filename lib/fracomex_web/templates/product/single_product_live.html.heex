@@ -40,10 +40,6 @@
 						>
 							<span><%= family_caption %></span>
 						</a>
-					<% else %>
-						<a>
-							<span class="not-underlined"><%= family_caption %></span>
-						</a>
 					<% end %>
 				</li>
 				
@@ -55,10 +51,6 @@
 							href={Routes.product_path(@socket, :sub_family, family_caption, sub_family_caption)}
 						>
 							<span><%= sub_family_caption %></span>
-						</a>
-					<% else %>
-						<a>
-							<span class="not-underlined"><%= sub_family_caption %></span>
 						</a>
 					<% end %>
 				</li>
