@@ -123,10 +123,10 @@ defmodule FracomexWeb.PageController do
     )
   end
   #checkout page
-  def order_validation(conn, _params) do
+  def validation_commande(conn, _params) do
     render(
       conn,
-      "order_validation.html",
+      "cart_validation.html",
       cart: Plug.Conn.get_session(conn, :cart),
       sum_cart: Plug.Conn.get_session(conn, :sum_cart)
     )

@@ -884,7 +884,10 @@ ul.cart-list>li.total {
     font-size: 14px;
     color: #e41201;   
     text-decoration: underline; 
-    }  
+    }
+.validate-cart {
+        color: #fff;
+      }      
 /*slide-hero-content*/
 
 /* .carousel-indicators */
