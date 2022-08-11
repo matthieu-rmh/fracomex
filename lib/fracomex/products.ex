@@ -26,14 +26,55 @@ defmodule Fracomex.Products do
     Repo.all(query)
   end
 
-  def list_items_paginate(params) do
-    family_caption = from f in Family
-    sub_family_caption = from sf in SubFamily
+  def list_items_paginate(params, sort) do
+    case sort do
+       "1" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
 
-    query = from i in Item,
-            preload: [family: ^family_caption, sub_family: ^sub_family_caption]
+        query = from i in Item,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption],
+                order_by: [asc: i.sale_price_vat_excluded]
 
-    Repo.paginate(query, params)
+        Repo.paginate(query, params)
+      "2" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption],
+                order_by: [desc: i.sale_price_vat_excluded]
+
+        Repo.paginate(query, params)
+
+      "3" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption],
+                order_by: [desc: i.id]
+
+        Repo.paginate(query, params)
+
+      "4" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                where: i.real_stock > 0,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption]
+        Repo.paginate(query, params)
+
+      _ ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption]
+
+        Repo.paginate(query, params)
+    end
   end
 
   def list_items_arrival do
