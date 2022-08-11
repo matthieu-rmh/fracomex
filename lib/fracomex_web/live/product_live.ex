@@ -53,6 +53,8 @@ defmodule FracomexWeb.Live.ProductLive do
 
     items_by_sub_family_id = Products.filter_items_by_family_and_sub_family(tri_select, family_caption, sub_family_caption)
 
+    PhoenixLiveSession.put_session(socket, "sort", tri_select)
+
     {:noreply,
       socket
       |> assign(items_by_sub_family_id: items_by_sub_family_id)
@@ -161,7 +163,7 @@ defmodule FracomexWeb.Live.ProductLive do
           family_id = Products.get_sub_family!(sub_family_id).family_id
           family = Products.get_family!(family_id)
 
-          items_by_sub_family_id = Products.get_item_by_family_and_sub_family!(family_id, sub_family_id, params)
+          items_by_sub_family_id = Products.get_item_by_family_and_sub_family!(sort, family_id, sub_family_id, params)
 
           case items_by_sub_family_id.entries do
             [] ->
