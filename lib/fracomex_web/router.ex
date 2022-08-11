@@ -27,6 +27,7 @@ defmodule FracomexWeb.Router do
     get "/add_to_cart", PageController, :add_to_cart
 
     get "/contact", PageController, :contact
+    get "/validation-commande", PageController, :checkout
     # get "/boutique", ProductController, :index
     live "/boutique", Live.ProductLive, :index
 

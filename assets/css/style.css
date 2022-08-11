@@ -819,7 +819,72 @@ ul.cart-list>li.total {
 .update {
     float: right;
 }
-
+.checkout.table {
+    border: 1px solid #ddd;
+}
+.table.align-middle.checkout {
+    color: #5e5e5e;
+  }
+.head-table{
+    background-color: #e41201;
+    color: #000;
+}
+.item-qty {
+    text-align: center;
+  }
+.item-price {
+    text-align: center;
+  }
+.foot-table{
+    text-align: left;
+}
+.label-subtotal{
+    font-weight: bold;
+}
+.label-total{
+    font-weight: bold;
+}
+.label-payement{
+    font-weight: bold;
+}
+.mod-payement{
+    text-align: left;
+}
+.subtotal{
+    text-align: left;
+}
+.total{
+    text-align: left;
+}
+.validate-checkout td {
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+  }
+.text-offset td {
+    border-bottom: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+  }  
+.link-info{
+    line-height: 2;
+}  
+.link-pc{  
+  font-size: 14px;
+  color: #e41201;   
+}
+.link-pc:hover{  
+  font-size: 14px;
+  color: #e41201;   
+  text-decoration: underline; 
+  }
+.link-to-cgv{  
+    font-size: 14px;
+    color: #e41201;   
+  }
+.link-to-cgv:hover{  
+    font-size: 14px;
+    color: #e41201;   
+    text-decoration: underline; 
+    }  
 /*slide-hero-content*/
 
 /* .carousel-indicators */
