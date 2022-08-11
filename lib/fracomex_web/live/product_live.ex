@@ -16,7 +16,8 @@ defmodule FracomexWeb.Live.ProductLive do
         sub_families: Products.list_sub_families(),
         quantity: 1,
         cart: session["cart"],
-        sum_cart: session["sum_cart"]
+        sum_cart: session["sum_cart"],
+        sort: session["sort"]
       )
 
     {:ok, socket}
@@ -26,12 +27,17 @@ defmodule FracomexWeb.Live.ProductLive do
     {:noreply,
      socket
      |> assign(cart: session["cart"])
+     |> assign(sort: session["sort"])
      |> put_session_assigns(session)}
   end
 
   # Tri des produits
   def handle_event("tri", params, socket) do
-    items = Products.filter_items(params["triSelect"])
+    sort = params["triSelect"]
+    items = Products.list_items_paginate(params, sort)
+    # items = Products.filter_items(params["triSelect"])
+
+    PhoenixLiveSession.put_session(socket, "sort", sort)
 
     {:noreply,
       socket
@@ -91,7 +97,9 @@ defmodule FracomexWeb.Live.ProductLive do
 
     page = String.to_integer(params["page"] || "1")
 
-    items = Products.list_items_paginate(params)
+    sort = socket.assigns.sort
+
+    items = Products.list_items_paginate(params, sort)
 
     families = Products.list_families_paginate()
 
