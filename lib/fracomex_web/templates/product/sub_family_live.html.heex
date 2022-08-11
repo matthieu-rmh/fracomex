@@ -91,11 +91,38 @@
 					<div class="form-group">
 						<form phx-change="tri_sub_family">
 							<select name="triSelect" class="form-control" id="exampleFormControlSelect1">
-								<option value="0">Trier par défaut</option>
-								<option value="1">Trier par prix croissant</option>
-								<option value="2">Trier par prix décroissant</option>
-								<option value="3" >Trier par produit du plus récent au plus ancien</option>
-								<option value="4">Trier par disponibilité</option>
+								<%= case @sort do %>
+									<% "1" -> %>
+										<option value="0">Trier par défaut</option>
+										<option value="1" selected>Trier par prix croissant</option>
+										<option value="2">Trier par prix décroissant</option>
+										<option value="3" >Trier par produit du plus récent au plus ancien</option>
+										<option value="4">Trier par disponibilité</option>
+									<% "2" -> %>
+										<option value="0">Trier par défaut</option>
+										<option value="1">Trier par prix croissant</option>
+										<option value="2" selected>Trier par prix décroissant</option>
+										<option value="3" >Trier par produit du plus récent au plus ancien</option>
+										<option value="4">Trier par disponibilité</option>
+									<% "3" -> %>
+										<option value="0">Trier par défaut</option>
+										<option value="1">Trier par prix croissant</option>
+										<option value="2">Trier par prix décroissant</option>
+										<option value="3" selected>Trier par produit du plus récent au plus ancien</option>
+										<option value="4">Trier par disponibilité</option>
+									<% "4" -> %>
+										<option value="0">Trier par défaut</option>
+										<option value="1">Trier par prix croissant</option>
+										<option value="2">Trier par prix décroissant</option>
+										<option value="3">Trier par produit du plus récent au plus ancien</option>
+										<option value="4" selected>Trier par disponibilité</option>
+									<% _ -> %>
+										<option value="0" selected>Trier par défaut</option>
+										<option value="1">Trier par prix croissant</option>
+										<option value="2">Trier par prix décroissant</option>
+										<option value="3" >Trier par produit du plus récent au plus ancien</option>
+										<option value="4">Trier par disponibilité</option>
+								<% end %>
 							</select>
 						</form>
 					</div>
