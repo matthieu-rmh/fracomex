@@ -154,7 +154,7 @@ defmodule FracomexWeb.Live.CartLive do
   end
 
   def render(assigns) do
-    if is_nil(assigns.cart) do
+    if is_nil(assigns.cart) or assigns.cart == [] do
       FracomexWeb.CartView.render("cart_empty.html", assigns)
     else
       FracomexWeb.CartView.render("cart_live.html", assigns)
