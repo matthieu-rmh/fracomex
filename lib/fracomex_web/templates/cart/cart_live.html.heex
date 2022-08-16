@@ -1,10 +1,10 @@
 <div class="container" style="margin-top: 15rem; margin-bottom: 15rem;">
 	<main class="container">
-		<p class="all-alert alert alert-info" role="alert"
+		<p class="all-alert alert alert-info animated bounceInRight" role="alert"
 		phx-click="lv:clear-flash"
 		phx-value-key="info"><%= live_flash(@flash, :info) %></p>
 	
-		<p class="all-alert alert alert-danger" role="alert"
+		<p class="all-alert alert alert-danger animated bounceInRight" role="alert"
 			phx-click="lv:clear-flash"
 			phx-value-key="error"><%= live_flash(@flash, :error) %></p>
 	</main>
