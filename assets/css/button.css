@@ -18,6 +18,14 @@ button.button-cart.validate-cart {
   transform: translate(-75%, 0%);
 }
 
+button.button-cart.validate-cart > a {
+  color: #fff;
+}
+
+button.button-cart.validate-cart:hover > a {
+  color: #000;
+}
+
 button.button-cart:hover {
   cursor: pointer;
   background: transparent;
