@@ -665,7 +665,8 @@ ul.cart-list>li.total {
 /*mini validate cart*/
 .btn-cart.valide-cart,
 .btn-cart.valide-cart.slide-more-info {
-    width: 140px;
+    padding: 1rem;
+    width: auto;
     height: 40px;
     line-height: 30px;
     border-radius: 1px;

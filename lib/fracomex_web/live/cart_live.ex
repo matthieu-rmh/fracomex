@@ -146,7 +146,18 @@ defmodule FracomexWeb.Live.CartLive do
     }
   end
 
+  def handle_event("link-to-product", _params, socket) do
+    {:noreply,
+      socket
+      |> push_redirect(to: Routes.product_path(socket, :index))
+    }
+  end
+
   def render(assigns) do
-    FracomexWeb.CartView.render("cart_live.html", assigns)
+    if is_nil(assigns.cart) do
+      FracomexWeb.CartView.render("cart_empty.html", assigns)
+    else
+      FracomexWeb.CartView.render("cart_live.html", assigns)
+    end
   end
 end
