@@ -101,9 +101,9 @@
 													<% end %>
 												</li>
 
-												<button class="btn-cart valide-cart" onclick="window.location.href='#'">
+												<a style="width: 50%; cursor: pointer;" class="btn-cart valide-cart" href={Routes.page_path(@conn, :validation_commande)}>
 													<span class="single_product_addtocart">Valider panier</span>
-												</button>
+												</a>
 											</ul>
 										<% end %>
 										
