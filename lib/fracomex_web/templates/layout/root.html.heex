@@ -75,8 +75,8 @@
 											</span>
 				                        </a>
 
-										<ul class="dropdown-menu cart-list s-cate">
-											<%= if not is_nil(@cart) and @cart != [] do %>
+										<%= if not is_nil(@cart) and @cart != [] do %>
+											<ul class="dropdown-menu cart-list s-cate">
 												<%= for i <- 0..Enum.count(@cart) - 1  do %>
 													<li class="single-cart-list">
 														<a href="#" class="photo">
@@ -94,19 +94,19 @@
 													</li>
 													
 												<% end %>
-											<% end %>
 
-											<li class="total">
-												<%= if not is_nil(@sum_cart) and @sum_cart != 0 do %>
-													<h4>Total: <%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</h4>
-												<% end %>
-											</li>
+												<li class="total">
+													<%= if not is_nil(@sum_cart) and @sum_cart != 0 do %>
+														<h4>Total: <%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</h4>
+													<% end %>
+												</li>
 
-											<button class="btn-cart valide-cart" onclick="window.location.href='#'">
-												<span class="single_product_addtocart">Valider panier</span>
-											</button>
-										</ul>
-
+												<button class="btn-cart valide-cart" onclick="window.location.href='#'">
+													<span class="single_product_addtocart">Valider panier</span>
+												</button>
+											</ul>
+										<% end %>
+										
 				                    </li>
 				                </ul>
 				            </div>
