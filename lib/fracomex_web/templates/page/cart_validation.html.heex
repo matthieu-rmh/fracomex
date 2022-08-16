@@ -15,8 +15,9 @@
 				<thead class="head-table">
 					<tr>
 						<th scope="col">Produits</th>
-						<th scope="col" class="text-center">Quantité</th>
 						<th scope="col" class="text-center">Prix Unitaire</th>
+						<th scope="col" class="text-center">Quantité</th>
+						<th scope="col" class="text-center">Prix Total</th>
 					</tr>
 				</thead>
 
@@ -27,8 +28,9 @@
 								<td>
 									<%= Fracomex.Utilities.product_in_cart(@cart, i).caption %>
 								</td>
-								<td class="item-qty"><%= Enum.at(@cart, i).quantity %></td>
 								<td class="item-price"><%= Fracomex.Utilities.price_format(Fracomex.Utilities.product_in_cart(@cart, i).sale_price_vat_excluded) %> €</td>
+								<td class="item-qty"><%= Enum.at(@cart, i).quantity %></td>
+								<td style="text-align: center;"><%= Fracomex.Utilities.price_format_from_float(Float.round((Enum.at(@cart, i).quantity) * Fracomex.Utilities.price_to_float(Enum.at(@cart, i).product_id))) %>€</td>
 							</tr>
 						<% end %>
 					<% end %>
