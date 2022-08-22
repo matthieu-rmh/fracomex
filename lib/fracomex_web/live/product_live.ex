@@ -419,7 +419,11 @@ defmodule FracomexWeb.Live.ProductLive do
           |> trunc()
 
         if quantity_in_cart > real_stock or quantity_in_cart + quantity > real_stock do
-          {:noreply, socket |> put_flash(:error, "Il n'a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier (reste #{real_stock - quantity_in_cart})")}
+          {:noreply,
+            socket
+            |> put_flash(:error, "Il n'a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier (reste #{real_stock - quantity_in_cart})")
+            |> redirect(to: Routes.product_path(socket, :index))
+          }
         else
           index = Enum.find_index(socket.assigns.cart, &(&1.product_id == item.id))
 
@@ -466,7 +470,11 @@ defmodule FracomexWeb.Live.ProductLive do
       |> trunc()
 
     if quantity >= real_stock do
-      {:noreply, socket |> put_flash(:error, "Il n'a pas assez de stock pour #{caption} (reste #{real_stock})")}
+      {:noreply,
+        socket
+        |> put_flash(:error, "Il n'a pas assez de stock pour #{caption} (reste #{real_stock})")
+      }
+
     else
       {:noreply, socket |> assign(quantity: quantity + 1)}
     end
