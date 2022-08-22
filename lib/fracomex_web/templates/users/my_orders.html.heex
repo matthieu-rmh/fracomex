@@ -1,0 +1,54 @@
+<div class="container" style="margin-top: 15rem; margin-bottom: 10rem;">
+    <div class="row">
+		<div class="col-md-12">	
+			<%= FracomexWeb.UsersView.render("my_account_breadcrumb.html", conn: @conn, user: @user) %>
+			<div class="card shadow">		
+				<h2 class="text-center mt-4">Mes commandes</h2>
+				<div class="card-body">
+                    <table class="table align-middle checkout">
+                        <thead class="head-table">
+                            <tr>
+                            <th scope="col">Référence</th>
+                            <th scope="col" class="text-center">Lignes d'article</th>
+                            <th scope="col" class="text-center">Total</th>
+                            <th scope="col" class="text-center">Etat</th>
+                            <th scope="col" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <%= for order <- @orders do %>
+                            <% 
+                                status =  Fracomex.Utilities.print_order_status(@conn, order) 
+                                color = Fracomex.Utilities.status_order_color(status)
+                            %>
+                            <tr class="">
+                                <td class=""><p style="font-weight: bold;"><%= order.id %></p></td>
+                                <td class="">
+                                <%= for order_line <- order.order_lines do  %>
+                                    <p><%= "#{order_line.quantity} X #{String.capitalize(order_line.item.caption)} (#{Fracomex.Utilities.price_format(Decimal.mult order_line.quantity, order_line.item.sale_price_vat_excluded)} €)" %></p>
+                                <% end %>
+                                </td>
+                                <td class=""><%= Fracomex.Utilities.price_format(order.sum) %> €</td>
+                                <td class=""><p style={"font-weight: bold; color: #{color};"}><%= status %></p></td>
+                                <td class="">
+                                <%= if not order.checked_out do %>
+                                    <%= form_for nil, "/valider-commande", fn f -> %>
+                                        <input type="hidden" name="order_id" value={order.id}>
+                                        <button style="margin : 0!important; height: 30px !important;" class="button-cart validate-cart">
+                                        Valider commande
+                                            <input style="display: none;" type="submit" class="single_product_addtocart" value="">
+                                        </button>
+                                    <% end %>
+                                <% else %>
+                                    -
+                                 <% end %>
+                                </td>
+                            </tr>
+                        <% end %>
+                        </tbody>
+			        </table>
+				</div>
+			</div> 
+		</div>   
+	</div>
+</div>

@@ -9,6 +9,7 @@
 			phx-value-key="error"><%= live_flash(@flash, :error) %></p>
 	</main>
 	<div class="row">
+	<%= if not is_nil(@cart) do %>
 		<div class="col-md-8 cart-table">
 			<table class="table align-middle cart">
 				<thead>
@@ -87,7 +88,7 @@
 									</div>
 								</td>
 								<td class="price-cart">
-									<p><%= Fracomex.Utilities.price_format_from_float(Float.round((Enum.at(@cart, i).quantity) * Fracomex.Utilities.price_to_float(Enum.at(@cart, i).product_id))) %>€</p>
+									<p><%= Fracomex.Utilities.price_format(Decimal.mult Enum.at(@cart, i).quantity, Fracomex.Utilities.product_in_cart(@cart, i).sale_price_vat_excluded) %>€</p>
 								</td>
 									
 								<td class="remove-cart" phx-click="remove-item-from-cart" phx-value-id={Enum.at(@cart, i).product_id}>
@@ -100,35 +101,44 @@
 			</table>
 		</div>    
 		<div class="col-md-4">
-		<div class="card cart">		
-		<div class="card-body">
-		<h3 class="cart-title-total">Panier</h3>
-			<ul class="list-group list-group-flush">
-			<li
-				class="list-group-item d-flex justify-content-between align-items-center border-0 p-2">
-				Sous-total :
-				<%= if not is_nil(@cart) and @cart != [] do %>
-					<span><%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</span>
-				<% end %>
-			</li>
-			<li
-				class="list-group-item d-flex justify-content-between align-items-center border-0 p-2 mb-3">
-				<div>
-					<strong>Total :</strong>
-					<%= if not is_nil(@cart) and @cart != [] do %>
-						<span><%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</span>
-					<% end %>
-				</div>
-						
-			</li>
-			</ul>
+			<div class="card cart">		
+				<div class="card-body">
+					<h3 class="cart-title-total">Panier</h3>
+						<ul class="list-group list-group-flush">
+						<li
+							class="list-group-item d-flex justify-content-between align-items-center border-0 p-2">
+							Sous-total :
+							<%= if not is_nil(@cart) and @cart != [] do %>
+								<span><%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</span>
+							<% end %>
+						</li>
+						<li
+							class="list-group-item d-flex justify-content-between align-items-center border-0 p-2 mb-3">
+							<div>
+								<strong>Total :</strong>
+								<%= if not is_nil(@cart) and @cart != [] do %>
+									<span><%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</span>
+								<% end %>
+							</div>
+									
+						</li>
+						</ul>
 
-			<button class="button-cart validate-cart">
-				<a href="/validation-commande"><span class="single_product_addtocart">Valider</span></a>
-			</button>
+						<%= form_for nil, "/valider-commande", fn f -> %>
+							<input type="hidden" name="order_id" value={@current_order}>
+							<button style="" class="button-cart validate-cart">
+							Valider
+								<input style="display: none;" type="submit" class="single_product_addtocart" value="">
+							</button>
+						<% end %>
+
+				</div>
+			</div>
 		</div>
-		</div>
-		</div>
+	<% else %>
+		<h2 style="text-align: center;"><span class="lnr lnr-cart"></span></h2>
+		<h2 style="text-align: center;">Votre panier est actuellement vide.</h2>
+	<% end %>
 	</div>
 	
 </div>

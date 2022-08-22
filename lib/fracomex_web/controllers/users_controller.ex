@@ -5,6 +5,7 @@ defmodule FracomexWeb.UsersController do
   alias Fracomex.Accounts.User
   alias Fracomex.Token
   alias Fracomex.UserEmail
+  alias Fracomex.Products
 
   # VALIDATION DU FORMULAIRE DE VALIDATION DE MODIFICATION DE L'ADRESSE
   def edit_my_address(conn, %{"id" => id, "user" => user_params}) do
@@ -72,6 +73,19 @@ defmodule FracomexWeb.UsersController do
           |> Enum.sort_by(&(&1.name))
           |> Enum.map(fn city -> [key: city.name, value: city.id] end)
         render(conn, "my_address.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: user, cities: cities,changeset: changeset, edit_succesful: false, there_is_error: false)
+    end
+
+  end
+
+  def my_orders(conn, _params) do
+
+    cond do
+      is_nil(get_session(conn, :user_id)) ->
+        redirect(conn, to: "/connexion")
+      true ->
+        user_id = get_session(conn, :user_id)
+        my_orders = Products.list_my_orders(user_id)
+        render(conn, "my_orders.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: Accounts.get_user!(user_id), orders: my_orders)
     end
 
   end
@@ -146,6 +160,17 @@ defmodule FracomexWeb.UsersController do
         id = Accounts.get_user_by_mail_address!(user_params["mail_address"]).id
         cart = Plug.Conn.get_session(conn, :cart)
         sum_cart = Plug.Conn.get_session(conn, :sum_cart)
+
+        # METTRE A JOUR L'ID DE L'UTILISATEUR POUR LA COMMANDE ACTUELLE
+
+        current_order_id = get_session(conn, :current_order)
+
+        if not is_nil(current_order_id) do
+          current_order = Products.get_order(current_order_id)
+          Products.update_order_with_lines_with_user_id(current_order, id)
+        end
+
+        # |> put_session(:current_order, order.id)
         conn
         |> put_session(:user_id, id)
         |> put_session(:cart, cart)

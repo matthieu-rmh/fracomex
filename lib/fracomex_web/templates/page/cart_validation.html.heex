@@ -1,7 +1,7 @@
 <section class="top-section p-4">
             <div class="container px-4 px-lg-5 my-5" id="shop-banner">
                 <div class="text-center">
-                    <h1 class="">Validation commande</h1>
+                    <h1 class="">Validation de votre panier</h1>
                 </div>
             </div>
 </section>
@@ -17,26 +17,31 @@
 					</tr>
 				</thead>
 				<tbody>
+				<%= for cart_item <- @cart_items do %>
 					<tr class="validate-checkout">
-					<td>
-					Product_name
-					</td>
-					<td class="item-qty">1</td>
-					<td class="item-price">€148.90</td>
+						<td class="cart-validation-td">
+							<div class="order-item-container">
+								<img src={Routes.static_path(@conn, "/images/big-items/#{cart_item[:item].image}")} alt="" width="50" height="50">
+								<p><%= String.capitalize(cart_item[:item].caption) %></p>
+							</div>
+						</td>
+						<td class="item-qty cart-validation-td"><%= cart_item[:quantity] %></td>
+						<td class="item-price cart-validation-td"><%= Fracomex.Utilities.price_format(cart_item[:item].sale_price_vat_excluded) %> €</td>
 					</tr>
+				<% end %>
 				</tbody>
 				<tfoot class="foot-table">
 					<tr class="text-offset">
-					<td colspan="2" class="label-subtotal">Sous-total:</td>
-					<td class="subtotal">€148.90</td>
+					<td colspan="2" class="label-subtotal">Sous-total :</td>
+					<td class="subtotal"><%= Fracomex.Utilities.price_format(Decimal.new("148.90")) %> €</td>
 					</tr>
 					<tr class="text-offset">
-					<td colspan="2" class="label-payement">Moyen de paiement:</td>
+					<td colspan="2" class="label-payement">Moyen de paiement :</td>
 					<td class="mod-payement">E-transactions payement</td>
 					</tr>
 					<tr class="text-offset">
-					<td colspan="2" class="label-total">Total:</td>
-					<td class="total">€148.90</td>
+					<td colspan="2" class="label-total">Total :</td>
+					<td class="total"><%= Fracomex.Utilities.price_format(Decimal.new("148.90")) %> €</td>
 					</tr>
 				</tfoot>
 			</table>
@@ -48,7 +53,7 @@
 		</div> 
 		<h5 class="link-cgv"><input type="checkbox" class="text-start" style="width: 4%;"/>J'ai lu et j'accepte les <a href="/" class="link-to-cgv">condition générales</a></h5>
 		<button class="button-cart validate-cart">
-				<a href="/validation-commande" class="validate-cart"><span class="single_product_addtocart">Valider la commande</span></a>
+				<a href="/validation-commande" class="validate-cart"><span class="single_product_addtocart">Passer à la commande</span></a>
 		</button>
 	</div>
 </div>

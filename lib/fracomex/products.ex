@@ -6,7 +6,114 @@ defmodule Fracomex.Products do
   import Ecto.Query, warn: false
   alias Fracomex.Repo
 
-  alias Fracomex.Products.{Item, Family, SubFamily}
+  alias Fracomex.Products.{Item, Family, SubFamily, Order, OrderLine}
+
+  # ORDER LINE CONTEXT
+
+  def list_order_lines do
+    Repo.all(OrderLine)
+  end
+
+  def change_order_line(%OrderLine{} = order_line, attrs \\ %{}) do
+    OrderLine.changeset(order_line, attrs)
+  end
+
+  def create_order_line(attrs \\ %{}) do
+    %OrderLine{}
+    |> OrderLine.create_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_order_line(%OrderLine{} = order_line, attrs) do
+    order_line
+    |> OrderLine.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def delete_order_line(%OrderLine{} = order_line) do
+    Repo.delete(order_line)
+  end
+
+
+  # ORDER CONTEXT
+
+  def list_orders do
+    Repo.all(Order)
+  end
+
+  def list_my_orders(user_id) do
+    ol_query = from ol in OrderLine,
+              preload: [:item]
+
+    query = from o in Order,
+            where: o.user_id == ^user_id,
+            preload: [order_lines: ^ol_query]
+
+    Repo.all(query)
+  end
+
+  def order_id_already_exist?(order_id) do
+    query = from o in Order,
+            where: o.id == ^order_id
+
+    length(Repo.all(query)) > 0
+  end
+
+  def list_orders_ids do
+    query = from o in Order,
+            select: o.id
+    Repo.all(query)
+  end
+
+  def change_order(%Order{} = order, attrs \\ %{}) do
+    Order.changeset(order, attrs)
+  end
+
+  def create_order(attrs \\ %{}) do
+    %Order{}
+    |> Order.create_changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_order(%Order{} = order, attrs) do
+    order
+    |> Order.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def update_order_with_lines_with_user_id(%Order{} = order, user_id) do
+    order_id = order.id
+    ol_query = from o in OrderLine,
+                where: o.order_id == ^order_id
+
+    Repo.update_all(ol_query, set: [user_id: user_id])
+
+    order
+    |> Order.changeset(%{"user_id" => user_id})
+    |> Repo.update()
+  end
+
+  def delete_order(%Order{} = order) do
+    Repo.delete(order)
+  end
+
+  def get_order(id), do: Repo.get!(Order, id)
+
+  def get_order_with_lines(id) do
+    query = from o in Order,
+            preload: [:order_lines]
+    Repo.get!(query, id)
+  end
+
+  def get_order_with_lines_and_items(id) do
+    ol_query = from ol in OrderLine,
+              preload: [:item]
+    query = from o in Order,
+            preload: [order_lines: ^ol_query]
+    Repo.get!(query, id)
+  end
+
+
   @doc """
   Returns the list of items.
 

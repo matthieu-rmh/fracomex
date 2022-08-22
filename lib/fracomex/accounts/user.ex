@@ -2,6 +2,7 @@ defmodule Fracomex.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias Fracomex.Accounts.City
+  alias Fracomex.Utilities
 
   schema "users" do
     field :firstname, :string
@@ -89,6 +90,7 @@ defmodule Fracomex.Accounts.User do
     |> validate_password_confirmation(attrs)
     |> validate_format(:password, ~r/^.{6,}$/, message: "Mot de passe trop court, 6 caractères minimum")
     |> hash_password()
+    |> put_default_fields()
   end
 
   def validate_user_changeset(user) do
@@ -262,5 +264,10 @@ defmodule Fracomex.Accounts.User do
     end
   end
 
+  defp put_default_fields(changeset) do
+    changeset
+    |> put_change(:inserted_at, Utilities.get_remote_naive_date)
+    |> put_change(:updated_at, Utilities.get_remote_naive_date)
+  end
 
 end

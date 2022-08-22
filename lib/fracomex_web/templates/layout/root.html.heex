@@ -57,6 +57,7 @@
 
 										<%= if not is_nil(Plug.Conn.get_session(@conn, :user_id)) do %>
 											<ul class="dropdown-menu s-cate" id="user-icon-dropdown">
+												<li class="scroll"><a href={Routes.users_path(@conn, :my_orders)}><span class=""></span> Mes commandes</a></li>
 												<li class="scroll"><a href={Routes.users_path(@conn, :my_account)}><span class="lnr lnr-user"></span> Mon profil</a></li>
 												<li class="scroll"><a href={Routes.users_path(@conn, :my_address)}><span class="lnr lnr-map-marker"></span> Mon adresse</a></li>
 												<li class="scroll"><a href={Routes.users_path(@conn, :signout)} style="color: red; opacity: 0.75;"><span class="lnr lnr-exit"></span> Se déconnecter</a></li>
@@ -102,9 +103,17 @@
 												<% end %>
 											</li>
 
-											<button class="btn-cart valide-cart" onclick="window.location.href='#'">
-												<span class="single_product_addtocart">Valider panier</span>
-											</button>
+										<%= if not is_nil(@cart) do %>
+											<%= form_for nil, "/valider-commande", fn f -> %>
+												<input type="hidden" name="order_id" value={Plug.Conn.get_session(@conn, :current_order)}>
+												<button style="" class="button-cart validate-cart">
+												Valider panier
+													<input style="display: none;" type="submit" class="single_product_addtocart" value="">
+												</button>
+											<% end %>
+										<% else %>
+											<p style="text-align: center;">Votre panier est vide.</p>
+										<% end %>
 										</ul>
 
 				                    </li>

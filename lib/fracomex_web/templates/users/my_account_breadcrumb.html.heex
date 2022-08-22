@@ -1,7 +1,7 @@
 <% selected_link = "pointer-events: none;font-weight: lighter;color: lightgray;" %>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#">Mes commandes</a></li>
+        <li class="breadcrumb-item"><a href={Routes.users_path(@conn, :my_orders)} style={if (@conn.request_path=="/mon-adresse" or @conn.request_path=="/mes-commandes"), do: selected_link, else: ""}>Mes commandes</a></li>
         <li class="breadcrumb-item active" aria-current="page"><a href={Routes.users_path(@conn, :my_address)} style={if (@conn.request_path=="/mon-adresse" or @conn.request_path=="/modifier-adresse/#{@user.id}"), do: selected_link, else: ""}>Mon adresse</a></li>
         <li class="breadcrumb-item"><a href={Routes.users_path(@conn, :my_account)} style={if (@conn.request_path=="/mon-profil" or @conn.request_path=="/modifier-profil/#{@user.id}"), do: selected_link, else: ""}>Mon profil</a></li>
     </ol>

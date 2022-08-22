@@ -15,7 +15,8 @@ defmodule FracomexWeb.Live.CartLive do
         families: Products.list_families(),
         sub_families: Products.list_sub_families(),
         cart: session["cart"],
-        sum_cart: sum_cart(session["cart"])
+        sum_cart: sum_cart(session["cart"]),
+        current_order: session["current_order"]
       )
 
     {:ok, socket}
@@ -30,6 +31,7 @@ defmodule FracomexWeb.Live.CartLive do
     |> assign(user_id: Map.get(session, "user_id"))
     |> assign(cart: Map.get(session, "cart"))
     |> assign(sum_cart: sum_cart(session["cart"]))
+    |> assign(current_order: Map.get(session, "current_order"))
   end
 
   # Rechercher des produits
@@ -57,6 +59,20 @@ defmodule FracomexWeb.Live.CartLive do
         end)
 
       # Mettre à jour la session avec le nouveau panier
+
+      current_order_id = socket.assigns.current_order
+      current_order = Products.get_order_with_lines(current_order_id)
+
+      added_order_line = Enum.find(current_order.order_lines, &(&1.item_id==item_id))
+      item = Products.get_item!(item_id)
+
+      new_sum =  Decimal.sub current_order.sum, (Decimal.mult(item.sale_price_vat_excluded, 1))
+      new_quantity = added_order_line.quantity - 1
+
+      Products.update_order(current_order, %{"sum" => new_sum})
+      Products.update_order_line(added_order_line, %{"quantity" => new_quantity})
+
+
       PhoenixLiveSession.put_session(socket, "cart", new_cart)
       PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(new_cart))
 
@@ -97,6 +113,19 @@ defmodule FracomexWeb.Live.CartLive do
                       )
 
       # Mettre à jour la session avec le nouveau panier
+
+      current_order_id = socket.assigns.current_order
+      current_order = Products.get_order_with_lines(current_order_id)
+
+      added_order_line = Enum.find(current_order.order_lines, &(&1.item_id==item_id))
+      item = Products.get_item!(item_id)
+
+      new_sum =  Decimal.add current_order.sum, (Decimal.mult(item.sale_price_vat_excluded, 1))
+      new_quantity = added_order_line.quantity + 1
+
+      Products.update_order(current_order, %{"sum" => new_sum})
+      Products.update_order_line(added_order_line, %{"quantity" => new_quantity})
+
       PhoenixLiveSession.put_session(socket, "cart", new_cart)
       PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(new_cart))
 
@@ -116,8 +145,25 @@ defmodule FracomexWeb.Live.CartLive do
 
     new_cart = List.delete_at(socket.assigns.cart, index)
 
+    current_order_id = socket.assigns.current_order
+    current_order = Products.get_order_with_lines(current_order_id)
+    old_sum = current_order.sum
+
+    removed_order_line = Enum.find(current_order.order_lines, &(&1.item_id==id))
+    item = Products.get_item!(removed_order_line.item_id)
+
+
+    new_sum = Decimal.sub old_sum, (Decimal.mult(item.sale_price_vat_excluded, removed_order_line.quantity))
+
+    Products.delete_order_line(removed_order_line)
+    new_order = if new_cart==[], do: nil, else: current_order.id
+
+    if new_cart==[], do: Products.delete_order(current_order), else: Products.update_order(current_order, %{"sum" => new_sum})
+
+
     PhoenixLiveSession.put_session(socket, "cart", new_cart)
     PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(new_cart))
+    PhoenixLiveSession.put_session(socket, "current_order", new_order)
 
     {:noreply,
       socket

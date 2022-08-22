@@ -290,13 +290,32 @@ defmodule FracomexWeb.Live.ProductLive do
     else
       cond do
         is_nil(socket.assigns.cart) ->
+          IO.puts "COND 1 [ADD NEW ORDER AND NEW LINE]"
           cart = %{
             product_id: item_id,
             quantity: quantity
           }
 
+          sum = Utilities.sum_cart([cart])
+
+          {:ok, order} = Products.create_order(
+            %{
+              "user_id" => socket.assigns.user_id,
+              "sum" => sum
+            })
+
+
+          Products.create_order_line(%{
+            "order_id" => order.id,
+            "item_id" => item.id,
+            "user_id" => socket.assigns.user_id,
+            "quantity" => quantity
+          })
+
+
           PhoenixLiveSession.put_session(socket, "cart", [cart])
           PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart([cart]))
+          PhoenixLiveSession.put_session(socket, "current_order", order.id)
 
           caption =
             item.caption
@@ -310,13 +329,52 @@ defmodule FracomexWeb.Live.ProductLive do
           }
 
         is_nil(Enum.find(socket.assigns.cart, fn cart -> cart.product_id == "#{item_id}" end)) ->
+          IO.puts "COND 2 [ADD NEW LINE TO CURRENT ORDER OR ADD NEW ORDER IF CART IS EMPTY]"
           cart = %{
             product_id: item_id,
             quantity: quantity
           }
 
+          order = cond do
+            # SI LE PANIER N'EST PAS VIDE DONC UNE COMMANDE EST EN COURS
+            socket.assigns.cart != [] and not is_nil(socket.assigns.current_order) ->
+              order_id = socket.assigns.current_order
+
+              current_order = Products.get_order(order_id)
+
+              {:ok, order_line} = Products.create_order_line(%{
+                "order_id" => current_order.id,
+                "item_id" => item.id,
+                "user_id" => socket.assigns.user_id,
+                "quantity" => quantity
+              })
+
+              item = Products.get_item!(order_line.item_id)
+              updated_quantity = Decimal.add current_order.sum, (Decimal.mult(item.sale_price_vat_excluded, quantity))
+              Products.update_order(current_order, %{"sum" => updated_quantity})
+              current_order
+            # SI LE PANIER EST VIDE / AUCUNE COMMANDE EN COURS
+            true ->
+              sum = Utilities.sum_cart([cart]) |> Decimal.from_float()
+              {:ok, new_order} = Products.create_order(
+                %{
+                  "user_id" => socket.assigns.user_id,
+                  "sum" => sum
+                })
+
+                Products.create_order_line(%{
+                  "order_id" => new_order.id,
+                  "item_id" => item.id,
+                  "user_id" => socket.assigns.user_id,
+                  "quantity" => quantity
+                })
+                new_order
+          end
+
+
           PhoenixLiveSession.put_session(socket, "cart", socket.assigns.cart ++ [cart])
           PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(socket.assigns.cart ++ [cart]))
+          PhoenixLiveSession.put_session(socket, "current_order", order.id)
 
           caption =
             item.caption
@@ -340,7 +398,7 @@ defmodule FracomexWeb.Live.ProductLive do
             |> trunc()
 
           if quantity_in_cart > real_stock or quantity_in_cart + quantity > real_stock do
-            {:noreply, socket |> put_flash(:error, "Il n'a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier (reste #{real_stock - quantity_in_cart})")}
+            {:noreply, socket |> put_flash(:error, "Il n'y a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier")}
           else
             index = Enum.find_index(socket.assigns.cart, &(&1.product_id == item_id))
 
@@ -349,6 +407,20 @@ defmodule FracomexWeb.Live.ProductLive do
             new_cart = List.update_at(socket.assigns.cart, index, fn cart -> %{product_id: item_id, quantity: cart.quantity + quantity} end)
 
             # Mettre à jour la session avec le nouveau panier
+            IO.puts "COND 3 [UPDATE CORRESPONDING ORDER_LINE QUANTITY FROM CURRENT ORDER]"
+
+            current_order_id = socket.assigns.current_order
+            current_order = Products.get_order_with_lines(current_order_id)
+
+            added_order_line = Enum.find(current_order.order_lines, &(&1.item_id==item.id))
+            item = Products.get_item!(added_order_line.item_id)
+
+            new_sum =  Decimal.add current_order.sum, (Decimal.mult(item.sale_price_vat_excluded, quantity))
+            new_quantity = added_order_line.quantity + quantity
+
+            Products.update_order(current_order, %{"sum" => new_sum})
+            IO.inspect Products.update_order_line(added_order_line, %{"quantity" => new_quantity})
+
             PhoenixLiveSession.put_session(socket, "cart", new_cart)
             PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(new_cart))
 
@@ -377,13 +449,31 @@ defmodule FracomexWeb.Live.ProductLive do
 
     cond do
       is_nil(socket.assigns.cart) ->
+        IO.puts "COND 1 [ADD NEW ORDER AND NEW LINE]"
         cart = %{
           product_id: item.id,
           quantity: quantity
         }
 
+        sum = Utilities.sum_cart([cart])
+
+        {:ok, order} = Products.create_order(
+          %{
+            "user_id" => socket.assigns.user_id,
+            "sum" => sum
+          })
+
+
+        Products.create_order_line(%{
+          "order_id" => order.id,
+          "item_id" => item.id,
+          "user_id" => socket.assigns.user_id,
+          "quantity" => quantity
+        })
+
         PhoenixLiveSession.put_session(socket, "cart", [cart])
         PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart([cart]))
+        PhoenixLiveSession.put_session(socket, "current_order", order.id)
 
         {:noreply,
           socket
@@ -393,13 +483,51 @@ defmodule FracomexWeb.Live.ProductLive do
         }
 
       is_nil(Enum.find(socket.assigns.cart, fn cart -> cart.product_id == "#{item.id}" end)) ->
+        IO.puts "COND 2 [ADD NEW LINE TO CURRENT ORDER OR ADD NEW ORDER IF CART IS EMPTY]"
         cart = %{
           product_id: item.id,
           quantity: quantity
         }
 
+        order = cond do
+          # SI LE PANIER N'EST PAS VIDE DONC UNE COMMANDE EST EN COURS
+          socket.assigns.cart != [] and not is_nil(socket.assigns.current_order) ->
+            order_id = socket.assigns.current_order
+
+            current_order = Products.get_order(order_id)
+
+            {:ok, order_line} = Products.create_order_line(%{
+              "order_id" => current_order.id,
+              "item_id" => item.id,
+              "user_id" => socket.assigns.user_id,
+              "quantity" => quantity
+            })
+
+            item = Products.get_item!(order_line.item_id)
+            updated_quantity = Decimal.add current_order.sum, (Decimal.mult(item.sale_price_vat_excluded, quantity))
+            Products.update_order(current_order, %{"sum" => updated_quantity})
+            current_order
+          # SI LE PANIER EST VIDE / AUCUNE COMMANDE EN COURS
+          true ->
+            sum = Utilities.sum_cart([cart]) |> Decimal.from_float()
+            {:ok, new_order} = Products.create_order(
+              %{
+                "user_id" => socket.assigns.user_id,
+                "sum" => sum
+              })
+
+              Products.create_order_line(%{
+                "order_id" => new_order.id,
+                "item_id" => item.id,
+                "user_id" => socket.assigns.user_id,
+                "quantity" => quantity
+              })
+              new_order
+        end
+
         PhoenixLiveSession.put_session(socket, "cart", socket.assigns.cart ++ [cart])
         PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(socket.assigns.cart ++ [cart]))
+        PhoenixLiveSession.put_session(socket, "current_order", order.id)
 
         {:noreply,
           socket
@@ -419,7 +547,7 @@ defmodule FracomexWeb.Live.ProductLive do
           |> trunc()
 
         if quantity_in_cart > real_stock or quantity_in_cart + quantity > real_stock do
-          {:noreply, socket |> put_flash(:error, "Il n'a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier (reste #{real_stock - quantity_in_cart})")}
+          {:noreply, socket |> put_flash(:error, "Il n'a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier")}
         else
           index = Enum.find_index(socket.assigns.cart, &(&1.product_id == item.id))
 
@@ -428,6 +556,20 @@ defmodule FracomexWeb.Live.ProductLive do
           new_cart = List.update_at(socket.assigns.cart, index, fn cart -> %{product_id: item.id, quantity: cart.quantity + quantity} end)
 
           # Mettre à jour la session avec le nouveau panier
+          IO.puts "COND 3 [UPDATE CORRESPONDING ORDER_LINE QUANTITY FROM CURRENT ORDER]"
+
+          current_order_id = socket.assigns.current_order
+          current_order = Products.get_order_with_lines(current_order_id)
+
+          added_order_line = Enum.find(current_order.order_lines, &(&1.item_id==item.id))
+          item = Products.get_item!(added_order_line.item_id)
+
+          new_sum =  Decimal.add current_order.sum, (Decimal.mult(item.sale_price_vat_excluded, quantity))
+          new_quantity = added_order_line.quantity + quantity
+
+          Products.update_order(current_order, %{"sum" => new_sum})
+          Products.update_order_line(added_order_line, %{"quantity" => new_quantity})
+
           PhoenixLiveSession.put_session(socket, "cart", new_cart)
           PhoenixLiveSession.put_session(socket, "sum_cart", sum_cart(new_cart))
 
@@ -466,7 +608,7 @@ defmodule FracomexWeb.Live.ProductLive do
       |> trunc()
 
     if quantity >= real_stock do
-      {:noreply, socket |> put_flash(:error, "Il n'a pas assez de stock pour #{caption} (reste #{real_stock})")}
+      {:noreply, socket |> put_flash(:error, "Il n'a pas assez de stock pour #{caption}")}
     else
       {:noreply, socket |> assign(quantity: quantity + 1)}
     end
@@ -476,6 +618,7 @@ defmodule FracomexWeb.Live.ProductLive do
     socket
     |> assign(user_id: Map.get(session, "user_id"))
     |> assign(cart: Map.get(session, "cart"))
+    |> assign(current_order: Map.get(session, "current_order"))
   end
 
   # Calculer la somme totale du panier

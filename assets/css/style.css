@@ -16,7 +16,7 @@
 --------------------------------------*/
 @font-face {
     font-family: "BodyFont";
-    src: url(/fonts/SctoGroteskA-Regular.woff2) format('woff2');
+    src: url(/home/ubuntu/fracomex/assets/fonts/SctoGroteskA-Regular.woff2) format('woff2');
 }
 
 * {
@@ -1116,8 +1116,8 @@ ul.cart-list>li.total {
 }
 
 .single-product-bg img {
-    width: auto;
-    height: auto;
+    width: 252.83px;
+    height: 252.83px;
     -webkit-transition: .3s linear;
     -moz-transition: .3s linear;
     -ms-transition: .3s linear;
@@ -2588,4 +2588,26 @@ ul.category {
     transform: unset;
     float: right !important;
     box-shadow: 0 16px 24px 2px rgba(29, 17, 51, .04), 0 6px 32px 4px rgba(9, 32, 77, .12), 0 8px 12px -5px rgba(29, 17, 51, .12);
+}
+
+/* DIV A CHAQUE LIGNE DE COMMANDE */
+.order-item-container{
+    display:flex;
+    align-items: center;
+}
+
+.item-qty, .item-price{
+    vertical-align: middle !important;
+    text-align: center;
+}
+
+.cart-validation-td{
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+
+.order-item-caption{
+    margin-left: 10px;
 }

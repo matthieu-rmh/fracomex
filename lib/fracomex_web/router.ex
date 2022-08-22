@@ -27,7 +27,7 @@ defmodule FracomexWeb.Router do
     get "/add_to_cart", PageController, :add_to_cart
 
     get "/contact", PageController, :contact
-    get "/validation-commande", PageController, :validation_commande
+    get "/validation-panier", PageController, :validate_cart
     # get "/boutique", ProductController, :index
     live "/boutique", Live.ProductLive, :index
 
@@ -52,9 +52,12 @@ defmodule FracomexWeb.Router do
     get "/renvoi-verification-mail", UsersController, :resend_confirmation_mail
     get "/mon-profil", UsersController, :my_account
     get "/mon-adresse", UsersController, :my_address
+    get "/mes-commandes", UsersController, :my_orders
 
     post "/valider-connexion", UsersController, :submit_signin
     post "/valider-inscription", UsersController, :submit_signup
+    post "/valider-commande", PageController, :submit_order
+    post "/recap-commande", PageController, :recap_order
     post "/envoi-mail-mdp-oublie", UsersController, :submit_forgotten_password
     post "/renvoi-mail-confirmation", UsersController, :submit_resend_confirmation_mail
 

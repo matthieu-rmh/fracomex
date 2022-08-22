@@ -1,0 +1,68 @@
+<section class="top-section p-4">
+            <div class="container px-4 px-lg-5 my-5" id="shop-banner">
+                <div class="text-center">
+                    <h1 class="">Validation de votre commande</h1>
+                </div>
+            </div>
+</section>
+<div class="container" style="margin-top: 5rem; margin-bottom: 5rem;">
+    <div class="row">
+		<div class="col-md-12">	
+			 <table class="table align-middle checkout">
+				<thead class="head-table">
+					<tr>
+					<th scope="col" style="color: white;">Produits</th>
+					<th scope="col" style="color: white;" class="text-center">Prix unitaire</th>
+					<th scope="col" style="color: white;" class="text-center">Quantité</th>
+					<th scope="col" style="color: white;" class="text-center">Total</th>
+					</tr>
+				</thead>
+				<tbody>
+				<%= for order_line <- @order.order_lines do %>
+					<tr class="validate-checkout">
+						<td class="cart-validation-td">
+							<div class="order-item-container">
+								<img src={Routes.static_path(@conn, "/images/big-items/#{order_line.item.image}")} alt="" width="50" height="50">
+								<p class="order-item-caption"><%= String.capitalize(order_line.item.caption) %></p>
+							</div>
+						</td>
+						<td class="item-qty cart-validation-td"><%= Fracomex.Utilities.price_format(order_line.item.sale_price_vat_excluded) %> €</td>
+						<td class="item-qty cart-validation-td"><%= order_line.quantity %></td>
+						<td class="item-price cart-validation-td"><%= Fracomex.Utilities.price_format(Decimal.mult order_line.quantity, order_line.item.sale_price_vat_excluded) %> €</td>
+					</tr>
+				<% end %>
+				</tbody>
+				<tfoot class="foot-table">
+					<tr class="text-offset">
+                        <td colspan="3" class="label-subtotal">Sous-total :</td>
+                        <td class="subtotal"><%= @order.sum |> Fracomex.Utilities.price_format() %> €</td>
+					</tr>
+					<tr class="text-offset">
+                        <td colspan="3" class="label-payement">Moyen de paiement :</td>
+                        <td class="mod-payement">E-transactions payement</td>
+					</tr>
+					<tr class="text-offset">
+                        <td colspan="3" class="label-total">Total :</td>
+                        <td class="total"><%= @order.sum |> Fracomex.Utilities.price_format() %> €</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div> 
+	</div>
+	<div class="row">
+		<div class="col-md-12 mb-4">	
+			<h5 class="link-info">Vos données personnelles seront utilisées pour le traitement de votre commande, vous accompagner au cours de votre visite du site web, et pour d'autres raisons décrites dans notre <a href="/" class="link-pc">politique de confidentialité</a></h5>
+		</div> 
+        <%= form_for nil, "/recap-commande", fn f -> %>
+			<h5 class="link-cgv">
+			<!-- <input type="checkbox" class="text-start" style="width: 4%;" value="false"/>J'ai lu et j'accepte les <a href="/" class="link-to-cgv">condition générales</a></h5> -->
+			<%= checkbox f, :cvg_accepted, class: "text-start", style: "width: 4%;" %> J'ai lu et j'accepte les <a href="/" class="link-to-cgv">condition générales</a></h5>            
+			<p style="color: red; font-weight: bold; font-size: 12px;"><%= @not_accepted_error_message %></p>
+			<input type="hidden" name="order_id" value={@order.id}>
+            <button style="" class="button-cart validate-cart">
+            Passer à la commande
+                <input style="display: none;" type="submit" class="single_product_addtocart" value="">
+            </button>
+        <% end %>
+	</div>
+</div>
