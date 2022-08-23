@@ -103,7 +103,7 @@
 												<% end %>
 											</li>
 
-										<%= if not is_nil(@cart) do %>
+										<%= if not is_nil(@cart) and @cart != [] do %>
 											<%= form_for nil, "/valider-commande", fn f -> %>
 												<input type="hidden" name="order_id" value={Plug.Conn.get_session(@conn, :current_order)}>
 												<button style="" class="button-cart validate-cart">
