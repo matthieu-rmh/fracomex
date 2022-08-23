@@ -10,15 +10,22 @@
 @import "./pagination.css";
 /* Alerts and form errors used by phx.new */
 .alert {
+  position: fixed;
+  bottom: 0 !important;
+  right: 0 !important;
   padding: 15px;
-  margin-bottom: 20px;
+  margin: 20px;
   border: 1px solid transparent;
   border-radius: 4px;
+  width: 350px;
+  height: max-content;
+  font-size: 1.30rem;
+  z-index: 11;
 }
 .alert-info {
-  color: #31708f;
-  background-color: #d9edf7;
-  border-color: #bce8f1;
+  color: #fff;
+  background-color: #3498db;
+  border-color: #3498db;
 }
 .alert-warning {
   color: #8a6d3b;
@@ -26,9 +33,9 @@
   border-color: #faebcc;
 }
 .alert-danger {
-  color: #a94442;
-  background-color: #f2dede;
-  border-color: #ebccd1;
+  color: #ffffff;
+  background-color: #df3f2e;
+  border-color: #df3f2e;
 }
 .alert p {
   margin-bottom: 0;
