@@ -1,3 +1,5 @@
+
+
 <section class="top-section p-4">
             <div class="container px-4 px-lg-5 my-5" id="shop-banner">
                 <div class="text-center">
@@ -8,14 +10,17 @@
 <div class="container" style="margin-top: 5rem; margin-bottom: 5rem;">
     <div class="row">
 		<div class="col-md-12">	
-			 <table class="table align-middle checkout">
+
+			<table class="table align-middle checkout">
 				<thead class="head-table">
 					<tr>
-					<th scope="col">Produits</th>
-					<th scope="col" class="text-center">Quantité</th>
-					<th scope="col" class="text-center">Total</th>
+						<th scope="col">Produits</th>
+						<th scope="col" class="text-center">Prix Unitaire</th>
+						<th scope="col" class="text-center">Quantité</th>
+						<th scope="col" class="text-center">Prix Total</th>
 					</tr>
 				</thead>
+
 				<tbody>
 				<%= for cart_item <- @cart_items do %>
 					<tr class="validate-checkout">
@@ -45,6 +50,34 @@
 					</tr>
 				</tfoot>
 			</table>
+
+			<%= if not is_nil(@cart) and @cart != [] do %>
+				<table class="table align-middle checkout">
+					<thead class="head-table">
+						<tr>
+							<th>Total</th>
+						</tr>
+					</thead>
+
+					<tfoot class="foot-table">
+						<tr class="text-offset">
+							<td colspan="2" class="label-subtotal">Sous-total:</td>
+							<td class="subtotal"><%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</td>
+						</tr>
+
+						<tr class="text-offset">
+							<td colspan="2" class="label-payement">Moyen de paiement:</td>
+							<td class="mod-payement">E-transactions payement</td>
+						</tr>
+
+						<tr class="text-offset">
+							<td colspan="2" class="label-total">Total:</td>
+							<td class="total"><%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</td>
+						</tr>
+					</tfoot>
+				</table>
+			<% end %>
+			
 		</div> 
 	</div>
 	<div class="row">

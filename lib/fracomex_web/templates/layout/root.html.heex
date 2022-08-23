@@ -76,8 +76,8 @@
 											</span>
 				                        </a>
 
-										<ul class="dropdown-menu cart-list s-cate">
-											<%= if not is_nil(@cart) and @cart != [] do %>
+										<%= if not is_nil(@cart) and @cart != [] do %>
+											<ul class="dropdown-menu cart-list s-cate">
 												<%= for i <- 0..Enum.count(@cart) - 1  do %>
 													<li class="single-cart-list">
 														<a href="#" class="photo">
@@ -95,13 +95,6 @@
 													</li>
 													
 												<% end %>
-											<% end %>
-
-											<li class="total">
-												<%= if not is_nil(@sum_cart) and @sum_cart != 0 do %>
-													<h4>Total: <%= Fracomex.Utilities.price_format_from_float(@sum_cart) %> €</h4>
-												<% end %>
-											</li>
 
 										<%= if not is_nil(@cart) do %>
 											<%= form_for nil, "/valider-commande", fn f -> %>
@@ -116,6 +109,13 @@
 										<% end %>
 										</ul>
 
+
+												<a style="width: 50%; cursor: pointer;" class="btn-cart valide-cart" href={Routes.page_path(@conn, :validation_commande)}>
+													<span class="single_product_addtocart">Valider panier</span>
+												</a>
+											</ul>
+										<% end %>
+										
 				                    </li>
 				                </ul>
 				            </div>
@@ -415,10 +415,9 @@ $("#toggleCurrentPassword").click(function(){
 /* all alert */
 $(function() {
 setTimeout(function(){ 
-	$(".all-alert").hide().fadeOut(1500); }
-	, 2000)
+	$(".all-alert").hide().fadeOut(4000); }, 4000)
 })		
-</script>		
+</script>	
   <!--script>
   $('.item').each(function() {
     var data = $(this).data('item');
