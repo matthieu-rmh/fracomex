@@ -247,19 +247,6 @@ defmodule FracomexWeb.Live.ProductLive do
     }
   end
 
-  def handle_event("show-product-details", params, socket) do
-    id = params["id"]
-    item = Products.get_item_with_family_and_sub_family!(id)
-
-    caption =
-      item.caption
-      |> String.replace(" ", "-")
-
-    {:noreply,
-     socket
-     |> push_redirect(to: Routes.product_path(socket, :product_details, item.family.caption, item.sub_family.caption, caption, id))}
-  end
-
   def handle_event("add-product-to-cart", params, socket) do
     item_id = params["item_id"]
     item = Products.get_item_with_family_and_sub_family!(item_id)
@@ -398,7 +385,10 @@ defmodule FracomexWeb.Live.ProductLive do
             |> trunc()
 
           if quantity_in_cart > real_stock or quantity_in_cart + quantity > real_stock do
-            {:noreply, socket |> put_flash(:error, "Il n'y a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier")}
+            {:noreply,
+              socket
+              |> put_flash(:error, "Il n'y a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier")
+            }
           else
             index = Enum.find_index(socket.assigns.cart, &(&1.product_id == item_id))
 
@@ -547,7 +537,11 @@ defmodule FracomexWeb.Live.ProductLive do
           |> trunc()
 
         if quantity_in_cart > real_stock or quantity_in_cart + quantity > real_stock do
-          {:noreply, socket |> put_flash(:error, "Il n'a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier")}
+          {:noreply,
+            socket
+            |> put_flash(:error, "Il n'a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier")
+            |> redirect(to: Routes.product_path(socket, :index))
+          }
         else
           index = Enum.find_index(socket.assigns.cart, &(&1.product_id == item.id))
 
