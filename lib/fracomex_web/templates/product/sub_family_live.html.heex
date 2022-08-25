@@ -47,13 +47,13 @@
 						<%= cond do  %>
 							<% length(family.sub_families) > 0 -> %>
 							<!--/has sub-category-->	
-							<li class="has-child collapsed" id={"li-category#{family.id}"}  data-toggle="collapse" data-target={"#sub-collapse#{family.id}"} aria-expanded="true" aria-controls="collapseOne">
+							<li class={"has-child#{if family.id != @selected_family_id, do: " collapsed"}"} id={"li-category#{family.id}"}  data-toggle="collapse" data-target={"#sub-collapse#{family.id}"} aria-expanded="true" aria-controls="collapseOne">
 								<a class="child mb-0" style="color: #000000c4; cursor: pointer;" phx-click="show-sub-family" phx-value-id={family.id}>
 									<%= String.capitalize(family.caption) %>
 								</a>
 							</li>	
 								
-							<div id={"sub-collapse#{family.id}"} class="collapse category-collapse" data-parent="#collapse-category">
+							<div id={"sub-collapse#{family.id}"} class={"collapse category-collapse #{if family.id == @selected_family_id, do: "in"}"} data-parent="#collapse-category">
 								<ul class="sub-category">
 									<%= for sub_family <- family.sub_families do %>
 										<li class="">
