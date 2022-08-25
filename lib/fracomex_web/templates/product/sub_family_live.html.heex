@@ -39,7 +39,7 @@
 			<!--col category start -->					
 				<div class="all-category col-md-3 col-sm-4 p-4">	
 				<div class="section-header mb-4">
-					<h3 class="title"> <span class="lnr lnr-cart"></span> Catégories de produits</h3>
+					<h3 class="title"> <span class="lnr lnr-cart"></span> Catégories de produits </h3>
 				</div><!--/.section-header-->			
 				<div id="collapse-category" class="card p-4" style="background: none !important;">
 					<ul class="category">
@@ -55,9 +55,14 @@
 								
 							<div id={"sub-collapse#{family.id}"} class={"collapse category-collapse #{if family.id == @selected_family_id, do: "in"}"} data-parent="#collapse-category">
 								<ul class="sub-category">
+
+
+
 									<%= for sub_family <- family.sub_families do %>
 										<li class="">
-											<a href={Routes.product_path(@socket, :sub_family, family.caption, sub_family.caption)}><%= String.capitalize(sub_family.caption) %></a>
+											<a href={Routes.product_path(@socket, :sub_family, family.caption, sub_family.caption)} style={"color: #{if sub_family.id == @selected_sub_family_id, do: "red"}"}>
+												<%= String.capitalize(sub_family.caption) %>
+											</a>
 										</li>
 									<% end %>
 								</ul>
@@ -66,7 +71,7 @@
 							<% true -> %>
 							<!--/has not sub-category-->
 							<li class="no-child" id={"li-category-no-child#{family.id}"}>
-								<a class="child mb-0">
+								<a class="child mb-0" style="cursor: not-allowed;">
 									<%= String.capitalize(family.caption) %>
 								</a>
 							</li>
