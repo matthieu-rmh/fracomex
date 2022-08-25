@@ -55,9 +55,6 @@
 								
 							<div id={"sub-collapse#{family.id}"} class={"collapse category-collapse #{if family.id == @selected_family_id, do: "in"}"} data-parent="#collapse-category">
 								<ul class="sub-category">
-
-
-
 									<%= for sub_family <- family.sub_families do %>
 										<li class="">
 											<a href={Routes.product_path(@socket, :sub_family, family.caption, sub_family.caption)} style={"color: #{if sub_family.id == @selected_sub_family_id, do: "red"}"}>
