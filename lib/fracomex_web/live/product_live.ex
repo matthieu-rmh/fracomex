@@ -41,6 +41,7 @@ defmodule FracomexWeb.Live.ProductLive do
 
     {:noreply,
       socket
+      |> redirect(to: Routes.product_path(socket, :index))
       |> assign(items: items)
     }
   end
@@ -57,6 +58,7 @@ defmodule FracomexWeb.Live.ProductLive do
 
     {:noreply,
       socket
+      |> redirect(to: Routes.product_path(socket, :sub_family, family_caption, sub_family_caption))
       |> assign(items_by_sub_family_id: items_by_sub_family_id)
     }
   end
