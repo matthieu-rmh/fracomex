@@ -148,6 +148,12 @@
 							<span class="single_product_addtocart">Connectez-vous</span>	
 							</a>
 						</div>
+						<div class="row mb-2 text-center">
+							Déjà inscrit mais vous n'avez pas reçu le mail de confirmation? Cliquez pour 
+							<a href={Routes.users_path(@conn, :resend_confirmation_mail)}>
+							<span class="single_product_addtocart">renvoyer le mail .</span>	
+							</a>
+						</div>
 					<% end %>
 				</div>
 			</div> 

@@ -21,7 +21,7 @@ defmodule Fracomex.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :firstname, :mail_address, :street, :phone_number, :password, :country_id, :city_id])
+    |> cast(attrs, [:name, :firstname, :mail_address, :street, :phone_number, :password, :country_id, :city_id, :is_valid])
     |> validate_required([:name, :firstname, :mail_address, :street, :phone_number, :password, :country_id, :city_id])
   end
 

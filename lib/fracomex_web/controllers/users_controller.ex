@@ -242,8 +242,14 @@ defmodule FracomexWeb.UsersController do
 
   # FORMULAIRE DE RENVOI DE CONFIRMATION DU MAIL
   def resend_confirmation_mail(conn, _params) do
-    changeset = Accounts.change_user(%User{})
-    render(conn, "resend_confirmation_mail.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
+    cond do
+      not is_nil(get_session(conn, :user_id)) ->
+        redirect(conn, to: "/mon-profil")
+
+      true ->
+        changeset = Accounts.change_user(%User{})
+        render(conn, "resend_confirmation_mail.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
+    end
   end
 
   def submit_resend_confirmation_mail(conn, %{"user" => user_params}) do
