@@ -72,10 +72,10 @@
 				</main>
 
 				<div class="row filter">
-					<div class="col-md-2 align-self-end col-filter">					
+					<div class="col-md-2 col-filter">					
 						<div class="form-group">
 							<form phx-change="tri">
-								<select name="triSelect" class="form-control" id="exampleFormControlSelect1">
+								<select name="triSelect" class="form-control" id="exampleFormControlSelect1" style="width: auto;">
 									<%= case @sort do %>
 										<% "1" -> %>
 											<option value="0">Trier par défaut</option>

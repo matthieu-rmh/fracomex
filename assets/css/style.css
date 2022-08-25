@@ -1964,7 +1964,7 @@ ul.category {
 
 /*filter*/
 .col-filter {
-    float: inline-end;
+    /* float: inline-end; */
     text-align: end;
     margin: 0 10px 10px;
     margin-bottom: -10px !important;
