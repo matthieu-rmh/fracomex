@@ -16,7 +16,8 @@ defmodule FracomexWeb.Live.CartLive do
         sub_families: Products.list_sub_families(),
         cart: session["cart"],
         sum_cart: sum_cart(session["cart"]),
-        current_order: session["current_order"]
+        current_order: session["current_order"],
+        selected_family_id: session["selected_family_id"]
       )
 
     {:ok, socket}
