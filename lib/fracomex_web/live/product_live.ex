@@ -19,7 +19,6 @@ defmodule FracomexWeb.Live.ProductLive do
         sum_cart: session["sum_cart"],
         sort: session["sort"]
       )
-
     {:ok, socket}
   end
 
@@ -28,7 +27,8 @@ defmodule FracomexWeb.Live.ProductLive do
      socket
      |> assign(cart: session["cart"])
      |> assign(sort: session["sort"])
-     |> put_session_assigns(session)}
+     |> put_session_assigns(session)
+    }
   end
 
   # Tri des produits
@@ -174,6 +174,7 @@ defmodule FracomexWeb.Live.ProductLive do
                 |> assign(options: page)
                 |> assign(items: items)
                 |> assign(families: families)
+                |> assign(selected_sub_family_id: sub_family_id)
                 |> push_redirect(to: Routes.product_path(socket, :empty_items))
               }
 
@@ -188,6 +189,8 @@ defmodule FracomexWeb.Live.ProductLive do
                 |> assign(sub_family: sub_family)
                 |> assign(family_caption: family.caption)
                 |> assign(sub_family_caption: sub_family.caption)
+                |> assign(selected_family_id: family_id)
+                |> assign(selected_sub_family_id: sub_family_id)
               }
           end
         end
@@ -195,6 +198,7 @@ defmodule FracomexWeb.Live.ProductLive do
       # Si la catégorie est spécifiée, on charge la liste des sous-catégories de cette catégorie
       not is_nil(categorie) ->
         family_id = Products.get_family_id_by_caption!(categorie)
+
         if is_nil(family_id) do
           {:noreply,
             socket
@@ -208,8 +212,6 @@ defmodule FracomexWeb.Live.ProductLive do
           sub_families = Products.get_sub_family_by_family!(family_id, params)
           family = Products.get_family!(family_id)
 
-          # IO.puts "TAFIDITRA CONDITION"
-          # Process.send(socket|>transport_pid, {:update_selected_family_id , family_id})
           {:noreply,
             socket
             |> assign(
@@ -217,7 +219,8 @@ defmodule FracomexWeb.Live.ProductLive do
                 family_caption: family.caption,
                 sub_families_by_family_id: sub_families,
                 options: page,
-                items: items
+                items: items,
+                selected_family_id: family_id
               )
           }
         end
@@ -231,13 +234,6 @@ defmodule FracomexWeb.Live.ProductLive do
         }
     end
   end
-
-  # def handle_info({:update_selected_family_id , family_id}, socket) do
-  #   IO.puts "EVENT VO NOFORONONA"
-  #   IO.inspect family_id
-  #   # PhoenixLiveSession.put_session(socket, "selected_family_id", family_id)
-  #   {:noreply, socket}
-  # end
 
   # Rechercher des produits
   def handle_event("search-item", %{"q" => q}, socket) do
@@ -255,7 +251,7 @@ defmodule FracomexWeb.Live.ProductLive do
 
     {:noreply,
       socket
-      |> push_patch(to: Routes.product_path(socket, :family, families.caption))
+      |> redirect(to: Routes.product_path(socket, :family, families.caption))
     }
   end
 
@@ -626,6 +622,7 @@ defmodule FracomexWeb.Live.ProductLive do
     |> assign(cart: Map.get(session, "cart"))
     |> assign(current_order: Map.get(session, "current_order"))
     |> assign(selected_family_id: Map.get(session, "selected_family_id"))
+    |> assign(selected_sub_family_id: Map.get(session, "selected_sub_family_id"))
   end
 
   # Calculer la somme totale du panier
