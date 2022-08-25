@@ -44,7 +44,7 @@
 										</a>
 									</li>	
 										
-									<div id={"sub-collapse#{family.id}"} class="collapse category-collapse" data-parent="#collapse-category">
+									<div id={"sub-collapse#{family.id}"} class={"collapse category-collapse"} data-parent="#collapse-category">
 										<ul class="sub-category">
 											<%= for sub_family <- family.sub_families do %>
 												<li class="">
@@ -84,7 +84,7 @@
 							<div class="details-product">
 								<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :sub_family, Fracomex.Products.get_family!(sub_family.family_id).caption, sub_family.caption)}>
 									<div class="single-product-bg shadow">
-										<img src="" alt="">
+										<img src={Routes.static_path(@socket, "/images/empty.png")} alt="">
 										<div class="single-product-bg-overlay"></div>
 										<div hidden class="sale bg-1">
 											<p hidden>news</p>
