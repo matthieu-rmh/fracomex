@@ -2,7 +2,7 @@
     <div class="row">
 		<div class="col-md-12">	
 			<div class="card shadow login">		
-    			<h2 class="text-center mt-4" style="font-size: 95%;">Entrez votre adresse e-mail pour renvoyer le lien de confirmation</h2>
+    			<h2 class="text-center mt-4" style="font-size: 95%;padding-left: 15px;padding-right: 15px">Entrez votre adresse e-mail pour renvoyer le lien de confirmation</h2>
 				<div class="card-body">
 					<%= form_for @changeset, Routes.users_path(@conn, :submit_resend_confirmation_mail), fn f -> %>
 						<div class="row mb-0 p-4">
