@@ -166,7 +166,7 @@
 
 								<%= for family <- Fracomex.Products.list_limited_families do %>
 									<li class="scroll in-top">
-										<a href={Routes.product_path(@conn, :family, family.caption)} style={"color: #{if family.id == @selected_family_id and String.contains?(@conn.request_path, "/boutique"), do: "#e41201"};"}>
+										<a href={Routes.product_path(@conn, :family, family.caption)} style={"color: #{if family.id == @selected_family_id and String.contains?(@conn.request_path, "/boutique/"), do: "#e41201"};"}>
 											<%= String.capitalize(family.caption) %>
 										</a>
 									</li>
