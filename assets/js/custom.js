@@ -82,6 +82,7 @@ $(".overlay-panel").click(function(){
 
     var cookieAlert = document.querySelector(".cookie-alert");
     var acceptCookies = document.querySelector(".accept-cookies");
+    var refuseCookies = document.querySelector(".refuse-cookie");
 
     cookieAlert.offsetHeight;
 
@@ -93,6 +94,10 @@ $(".overlay-panel").click(function(){
         setCookie("acceptCookies", true, 60);
         cookieAlert.classList.remove("show");
     });
+
+    refuseCookies.addEventListener("click", () => {
+        setCookie("acceptCookies", false, 60);
+    })
 })();
 
 // Cookie functions
