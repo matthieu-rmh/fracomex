@@ -19,7 +19,7 @@
 <section class="top-section p-4">
 	<div class="container px-4 px-lg-5 my-5" id="shop-banner">
 		<div class="text-center">
-			<h1 class=""><%= @item.caption %> </h1>
+			<h1 class="" style="word-wrap: anywhere;"><%= @item.caption %> </h1>
 			<ol style="display: flex; text-align: center;">
 				<li>
 					<a 
@@ -55,7 +55,7 @@
 					<% end %>
 				</li>
 
-				<li>
+				<li style="max-width: 70%;">
 					<span><%= @item.caption %></span>
 				</li>
 			</ol>
@@ -106,7 +106,7 @@
 							<%= if not is_nil(@item) do %>
 								<% family_caption = if not is_nil(@item.family), do: @item.family.caption, else: "Aucune" %>
 								<% sub_family_caption = if not is_nil(@item.sub_family), do: @item.sub_family.caption, else: "Aucune" %>
-								<h2 class="details-product-name"><%= String.capitalize(@item.caption) %> </h2>
+								<h2 class="details-product-name" style="word-wrap: anywhere; font-size: 26px;"><%= String.capitalize(@item.caption) %> </h2>
 								<p><b>Catégorie:</b> <%= family_caption %></p>
 								<p><b>Sous-catégorie:</b> <%= sub_family_caption %></p>
 								<%= if Decimal.to_integer(@item.real_stock) > 0 do %><p><b style="color: black;">Disponible en stock</b></p><% end %>

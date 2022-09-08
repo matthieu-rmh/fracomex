@@ -14,10 +14,10 @@
 /*-------------------------------------
 		1.General css
 --------------------------------------*/
-@font-face {
+/* @font-face {
     font-family: "BodyFont";
     src: url(/home/ubuntu/fracomex/assets/fonts/SctoGroteskA-Regular.woff2) format('woff2');
-}
+} */
 
 * {
     padding: 0;
@@ -1196,24 +1196,28 @@ ul.cart-list>li.total {
 }
 
 .a-product-name {
-    overflow: hidden;
+    /* overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     line-clamp: 1;
-    -webkit-box-orient: vertical;
+    -webkit-box-orient: vertical; */
     color: #000 !important;
     padding: 5px;
+    word-wrap: anywhere;
+    margin-bottom: 4rem;
+    font-size: 14px;
 }
 
 .a-product-name:hover {
-    overflow: hidden;
+    /* overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     line-clamp: 1;
-    -webkit-box-orient: vertical;
+    -webkit-box-orient: vertical; */
     padding: 5px;
+    font-size: 14px;
 }
 
 .product-price {
