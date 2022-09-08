@@ -1206,7 +1206,6 @@ ul.cart-list>li.total {
     padding: 5px;
     word-wrap: anywhere;
     margin-bottom: 4rem;
-    font-size: 14px;
 }
 
 .a-product-name:hover {
@@ -1217,7 +1216,6 @@ ul.cart-list>li.total {
     line-clamp: 1;
     -webkit-box-orient: vertical; */
     padding: 5px;
-    font-size: 14px;
 }
 
 .product-price {
