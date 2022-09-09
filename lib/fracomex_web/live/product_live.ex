@@ -190,8 +190,13 @@ defmodule FracomexWeb.Live.ProductLive do
                 |> assign(options: page)
                 |> assign(items: items)
                 |> assign(families: families)
+                |> assign(items_by_sub_family_id: items_by_sub_family_id)
+                |> assign(family: family)
+                |> assign(sub_family: sub_family)
+                |> assign(family_caption: family.caption)
+                |> assign(sub_family_caption: sub_family.caption)
+                |> assign(selected_family_id: family_id)
                 |> assign(selected_sub_family_id: sub_family_id)
-                |> push_redirect(to: Routes.product_path(socket, :empty_items))
               }
 
             _ ->
