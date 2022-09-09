@@ -66,103 +66,314 @@
 					</ul>
 				</div>	
 			</div>	
-								
-			<div class="col-md-9 col-sm-12">
-				<main class="container">
-					<p class="all-alert alert animated fadeInRight alert-info" role="alert"
-					phx-click="lv:clear-flash"
-					phx-value-key="info"><%= live_flash(@flash, :info) %></p>
-				
-					<p class="all-alert alert animated fadeInRight alert-danger" role="alert"
-						phx-click="lv:clear-flash"
-						phx-value-key="error"><%= live_flash(@flash, :error) %></p>
-				</main>
-				
-				<%= for sub_family <- @sub_families_by_family_id.entries do %>
-					<div class="product-grid">	
-						<div class="col-md-3 col-sm-4 content-product">
-							<div class="details-product">
-								<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :sub_family, Fracomex.Products.get_family!(sub_family.family_id).caption, sub_family.caption)}>
-									<div class="single-product-bg shadow">
-										<img src={Routes.static_path(@socket, "/images/empty.png")} alt="">
-										<div class="single-product-bg-overlay"></div>
-										<div hidden class="sale bg-1">
-											<p hidden>news</p>
-											<p>Arrivage</p>
-										</div>
 
-										<!--product_title-->
-										<div class="product-name">	
-											<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :sub_family, Fracomex.Products.get_family!(sub_family.family_id).caption, sub_family.caption)}>
-												<%= String.capitalize(sub_family.caption) %>
+			<!-- Si la sous-famille existe pour une famille selectionné, alors on affiche les articles qui ont des sous-familles -->
+			<%= if not is_nil(@sub_families_by_family_id) do %>
+				<div class="col-md-9 col-sm-12">
+					<main class="container">
+						<p class="all-alert alert animated fadeInRight alert-info" role="alert"
+						phx-click="lv:clear-flash"
+						phx-value-key="info"><%= live_flash(@flash, :info) %></p>
+					
+						<p class="all-alert alert animated fadeInRight alert-danger" role="alert"
+							phx-click="lv:clear-flash"
+							phx-value-key="error"><%= live_flash(@flash, :error) %></p>
+					</main>
+				
+					<%= for sub_family <- @sub_families_by_family_id.entries do %>
+						<div class="product-grid">	
+							<div class="col-md-3 col-sm-4 content-product">
+								<div class="details-product">
+									<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :sub_family, Fracomex.Products.get_family!(sub_family.family_id).caption, sub_family.caption)}>
+										<div class="single-product-bg shadow">
+											<img src={Routes.static_path(@socket, "/images/empty.png")} alt="">
+											<div class="single-product-bg-overlay"></div>
+											<div hidden class="sale bg-1">
+												<p hidden>news</p>
+												<p>Arrivage</p>
+											</div>
+
+											<!--product_title-->
+											<div class="product-name">	
+												<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :sub_family, Fracomex.Products.get_family!(sub_family.family_id).caption, sub_family.caption)}>
+													<%= String.capitalize(sub_family.caption) %>
+												</a>
+											</div>
+
+											<a class="new-arrival-cart" data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :sub_family, Fracomex.Products.get_family!(sub_family.family_id).caption, sub_family.caption)}>
+												<p class="add-to-cart">
+													<span class="addtocart">Découvrir</span>
+												</p>
 											</a>
 										</div>
-
-										<a class="new-arrival-cart" data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :sub_family, Fracomex.Products.get_family!(sub_family.family_id).caption, sub_family.caption)}>
-											<p class="add-to-cart">
-												<span class="addtocart">Découvrir</span>
-											</p>
-										</a>
-									</div>
-								</a>	
-							</div>
-						</div>	
-					</div>		
-				<% end %>
-		
-			</div>
-
-			<nav aria-label="pagination" class="text-center">
-				<ul class="pagination">
-					<%= if @sub_families_by_family_id.page_number > 1 do %>
-						<li class="page-item">
-							<a 
-								class="page-link" 
-								data-phx-link="patch"
-								data-phx-link-state="push"
-								href={Routes.product_path(@socket, :family, @family.caption, page: @sub_families_by_family_id.page_number - 1)}
-								aria-label="Previous"
-							>
-								<span aria-hidden="true">&laquo;</span>
-								<span class="sr-only">Previous</span>
-							</a>
-						</li>
+									</a>	
+								</div>
+							</div>	
+						</div>		
 					<% end %>
+			
+				</div>
 
-					<%= if @sub_families_by_family_id.total_pages > 1 do %>
-						<%= for page <- (@options - 3)..(@options + 3), page > 0 do %>
+				<nav aria-label="pagination" class="text-center">
+					<ul class="pagination">
+						<%= if @sub_families_by_family_id.page_number > 1 do %>
 							<li class="page-item">
 								<a 
-									class={"page-link #{if @items.page_number == page, do: "active"}"} 
-									phx-click="paginate-sub-family-in-family" 
-									phx-value-page={page}
-									phx-value-family_caption={@family.caption}
-									style={"display: #{if page > @sub_families_by_family_id.total_pages, do: "none", else: "block"}"}
+									class="page-link" 
+									data-phx-link="patch"
+									data-phx-link-state="push"
+									href={Routes.product_path(@socket, :family, @family.caption, page: @sub_families_by_family_id.page_number - 1)}
+									aria-label="Previous"
 								>
-									<%= page %>	
+									<span aria-hidden="true">&laquo;</span>
+									<span class="sr-only">Previous</span>
 								</a>
 							</li>
 						<% end %>
-					<% end %>
 
-					<%= if @sub_families_by_family_id.page_number < @sub_families_by_family_id.total_pages do %>
-						<li class="page-item">
-							<a 
-								class="page-link" 
-								data-phx-link="patch"
-								data-phx-link-state="push"
-								href={Routes.product_path(@socket, :family, @family.caption, page: @sub_families_by_family_id.page_number + 1)}
-								aria-label="Next"
+						<%= if @sub_families_by_family_id.total_pages > 1 do %>
+							<%= for page <- (@options - 3)..(@options + 3), page > 0 do %>
+								<li class="page-item">
+									<a 
+										class={"page-link #{if @items.page_number == page, do: "active"}"} 
+										phx-click="paginate-sub-family-in-family" 
+										phx-value-page={page}
+										phx-value-family_caption={@family.caption}
+										style={"display: #{if page > @sub_families_by_family_id.total_pages, do: "none", else: "block"}"}
+									>
+										<%= page %>	
+									</a>
+								</li>
+							<% end %>
+						<% end %>
+
+						<%= if @sub_families_by_family_id.page_number < @sub_families_by_family_id.total_pages do %>
+							<li class="page-item">
+								<a 
+									class="page-link" 
+									data-phx-link="patch"
+									data-phx-link-state="push"
+									href={Routes.product_path(@socket, :family, @family.caption, page: @sub_families_by_family_id.page_number + 1)}
+									aria-label="Next"
+								>
+									<span aria-hidden="true">&raquo;</span>
+									<span class="sr-only">Next</span>
+								</a>
+							</li>
+						<% end %>
+					</ul>
+				</nav>
+
+			<% else %>
+
+				<!-- Si il n'y a aucun produit, alors on affiche item not found -->
+				<%= if Enum.empty?(@item_without_sub_family.entries) do %>
+					<div style="  
+						width: 40%;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						flex-direction: column;
+						margin: 0 auto;"
+					>
+						<img src="https://dbeautyloungeindia.com/wp-content/uploads/2021/05/nproduct.png" alt="produit-non-trouvé">
+						<div style="text-align: center;">
+							<p style="
+								background: #202020;
+								color: #fff;
+								padding: 0.5rem 1rem;"
 							>
-								<span aria-hidden="true">&raquo;</span>
-								<span class="sr-only">Next</span>
-							</a>
-						</li>
-					<% end %>
-				</ul>
-			</nav>
+								Il n'existe pas d'article pour la catégorie séléctionnée
+							</p>
+						</div>
+					</div>
+
+				<% else %>
+
+					<!-- Si la famille n'existe pas pour une famille séléctionné, alors on affiche les articles qui ont n'ont pas de sous-famille -->								
+					<div class="col-md-9 col-sm-12">
+						<main class="container">
+							<p class="all-alert alert fadeInRight alert-info" role="alert"
+							phx-click="lv:clear-flash"
+							phx-value-key="info"><%= live_flash(@flash, :info) %></p>
+						
+							<p class="all-alert alert fadeInRight alert-danger" role="alert"
+								phx-click="lv:clear-flash"
+								phx-value-key="error"><%= live_flash(@flash, :error) %></p>
+						</main>
+						<div class="row filter">
+							<div class="col-md-2 col-filter">					
+							<div class="form-group">
+								<form phx-change="tri_item_without_sub_family">
+									<select name="triSelect" class="form-control" id="exampleFormControlSelect1" style="width: auto";>
+										<%= case @sort do %>
+											<% "1" -> %>
+												<option value="0">Trier par défaut</option>
+												<option value="1" selected>Trier par prix croissant</option>
+												<option value="2">Trier par prix décroissant</option>
+												<option value="3" >Trier par produit du plus récent au plus ancien</option>
+												<option value="4">Trier par disponibilité</option>
+											<% "2" -> %>
+												<option value="0">Trier par défaut</option>
+												<option value="1">Trier par prix croissant</option>
+												<option value="2" selected>Trier par prix décroissant</option>
+												<option value="3" >Trier par produit du plus récent au plus ancien</option>
+												<option value="4">Trier par disponibilité</option>
+											<% "3" -> %>
+												<option value="0">Trier par défaut</option>
+												<option value="1">Trier par prix croissant</option>
+												<option value="2">Trier par prix décroissant</option>
+												<option value="3" selected>Trier par produit du plus récent au plus ancien</option>
+												<option value="4">Trier par disponibilité</option>
+											<% "4" -> %>
+												<option value="0">Trier par défaut</option>
+												<option value="1">Trier par prix croissant</option>
+												<option value="2">Trier par prix décroissant</option>
+												<option value="3">Trier par produit du plus récent au plus ancien</option>
+												<option value="4" selected>Trier par disponibilité</option>
+											<% _ -> %>
+												<option value="0" selected>Trier par défaut</option>
+												<option value="1">Trier par prix croissant</option>
+												<option value="2">Trier par prix décroissant</option>
+												<option value="3" >Trier par produit du plus récent au plus ancien</option>
+												<option value="4">Trier par disponibilité</option>
+										<% end %>
+									</select>
+								</form>
+							</div>
+							</div>   
+						</div> 
+						
+						<%= for item <- @item_without_sub_family.entries do %>
+
+							<% real_stock = 
+								item.real_stock 
+								|> Decimal.to_float()
+								|> trunc() 
+							%>
+
+							<% family_caption = 
+								cond do
+									is_nil(item.family) ->
+										"famille"
+									true -> 
+										"#{item.family.caption}"
+								end
+							%>
+
+							<% sub_family_caption = 
+								cond do 
+									is_nil(item.sub_family) ->
+										"sous-famille"
+									true -> 
+										"#{item.sub_family.caption}"
+								end 
+							%>
+
+							<div class="product-grid">	
+								<div class="col-md-3 col-sm-4 content-product">
+									<div class="details-product" id={"details-#{item.id}"}>
+										<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :product_details, family_caption, sub_family_caption, "#{item.caption}", "#{item.id}")}>
+											<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
+												<img src={Routes.static_path(@socket, "/images/small-items/#{item.image}")} alt={item.caption}>
+												<div class="single-product-bg-overlay"></div>
+												<div hidden class="sale bg-1">
+													<p hidden>news</p>
+													<p>Arrivage</p>
+												</div>
+												<!--product_title-->
+												<div class="product-name" id={"name-#{item.id}"}>	
+													<a class="a-product-name" href="#"><%= String.capitalize(item.caption) %></a>
+												</div>
+												<!--product_price-->
+												<div class="product-price" id={"price-#{item.id}"}>
+													<p class="p-product-price"><%= Fracomex.Utilities.price_format(item.sale_price_vat_excluded) %> €</p>
+												</div>
+
+												<%= if real_stock > 0 do %>
+													<div 
+														class="new-arrival-cart" 
+														phx-click="add-one-product-to-cart"
+														phx-value-id={item.id}
+													>
+														<p class="add-to-cart">
+															<span class="lnr lnr-cart"></span>
+															<span class="addtocart">Ajouter au panier</span>
+														</p>
+														<!--p class="arrival-review pull-right">
+															<span class="lnr lnr-heart"></span>
+															<span class="lnr lnr-frame-expand" title="Zoom"></span>
+														</p-->
+													</div>
+												<% else %>
+													<div class="out-of-stock-ribbon">
+														<p style="font-size: 1rem;"></p>
+													</div>
+												<% end %>
+
+											</div>
+											
+										</a>	
+									</div>
+								</div>	
+							</div>		
+						<% end %>
+					</div>
+
+
+					<!-- Pagination -->
+					<nav aria-label="pagination" class="text-center">
+						<ul class="pagination">
+							<%= if @item_without_sub_family.page_number > 1 do %>
+								<li class="page-item">
+									<a 
+										class="page-link" 
+										data-phx-link="patch"
+										data-phx-link-state="push"
+										href={Routes.product_path(@socket, :family, @family.caption, page: @item_without_sub_family.page_number - 1)}
+										aria-label="Previous"
+									>
+										<span aria-hidden="true">&laquo;</span>
+										<span class="sr-only">Previous</span>
+									</a>
+								</li>
+							<% end %>
+
+							<%= if @item_without_sub_family.total_pages > 1 do %>
+								<%= for page <- (@options - 3)..(@options + 3), page > 0 do %>
+									<li class="page-item">
+										<a 
+											class={"page-link #{if @options == page, do: "active"}"} 
+											phx-click="paginate-item-without-sub-family" 
+											phx-value-page={page}
+											phx-value-family={@family.caption}
+											style={"display: #{if page > @item_without_sub_family.total_pages, do: "none", else: "block"}"}
+										>
+											<%= page %>	
+										</a>
+									</li>
+								<% end %>
+							<% end %>
+
+							<%= if @item_without_sub_family.page_number < @item_without_sub_family.total_pages do %>
+								<li class="page-item">
+									<a 
+										class="page-link" 
+										data-phx-link="patch"
+										data-phx-link-state="push"
+										href={Routes.product_path(@socket, :family, @family.caption, page: @item_without_sub_family.page_number + 1)}
+										aria-label="Next"
+									>
+										<span aria-hidden="true">&raquo;</span>
+										<span class="sr-only">Next</span>
+									</a>
+								</li>
+							<% end %>
+						</ul>
+					</nav>
+				<% end %>
+			<% end %>
 
 		</div>
 	</div>
 </section>
-<!--all product end -->

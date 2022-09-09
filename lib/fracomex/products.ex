@@ -280,6 +280,63 @@ defmodule Fracomex.Products do
     end
   end
 
+  # FILTER ITEM WITHOUT SUB FAMILY
+  def filter_item_without_sub_family_by_family!(tri, family_id, params) do
+    case tri do
+      "1" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                where: i.family_id == ^family_id,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption],
+                order_by: [asc: i.sale_price_vat_excluded]
+
+        Repo.paginate(query, params)
+      "2" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                where: i.family_id == ^family_id,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption],
+                order_by: [desc: i.sale_price_vat_excluded]
+
+        Repo.paginate(query, params)
+
+      "3" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                where: i.family_id == ^family_id,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption],
+                order_by: [desc: i.id]
+
+        Repo.paginate(query, params)
+
+      "4" ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                where: i.family_id == ^family_id and i.real_stock > 0,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption]
+
+        Repo.paginate(query, params)
+
+      _ ->
+        family_caption = from f in Family
+        sub_family_caption = from sf in SubFamily
+
+        query = from i in Item,
+                where: i.family_id == ^family_id,
+                preload: [family: ^family_caption, sub_family: ^sub_family_caption]
+
+        Repo.paginate(query, params)
+    end
+  end
+
   def filter_items_by_family_and_sub_family(tri, family_caption, sub_family_caption) do
     family_id = get_family_id_by_caption!(family_caption)
     sub_family_id = get_sub_family_id_by_caption!(sub_family_caption)

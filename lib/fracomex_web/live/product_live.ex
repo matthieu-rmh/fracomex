@@ -63,6 +63,21 @@ defmodule FracomexWeb.Live.ProductLive do
     }
   end
 
+  def handle_event("tri_item_without_sub_family", params, socket) do
+    tri = params["triSelect"]
+    family = socket.assigns.family
+
+    item_without_sub_family = Products.filter_item_without_sub_family_by_family!(tri, family.id, params)
+
+    PhoenixLiveSession.put_session(socket, "sort", tri)
+
+    {:noreply,
+      socket
+      |> assign(item_without_sub_family: item_without_sub_family)
+      |> redirect(to: Routes.product_path(socket, :family, family.caption))
+    }
+  end
+
   # Gestion des paramètres dans l'url
   def handle_params(params, _url, socket) do
     id =
@@ -115,7 +130,8 @@ defmodule FracomexWeb.Live.ProductLive do
         if search_item.entries == [] do
           {:noreply,
             socket
-            |> push_redirect(to: Routes.product_path(socket, :empty_items))
+            |> put_flash(:error, "Aucun produit ne correspond à votre recherche #{String.upcase(q)}")
+            |> push_redirect(to: Routes.product_path(socket, :index))
           }
         else
           {:noreply,
@@ -212,17 +228,38 @@ defmodule FracomexWeb.Live.ProductLive do
           sub_families = Products.get_sub_family_by_family!(family_id, params)
           family = Products.get_family!(family_id)
 
-          {:noreply,
-            socket
-            |> assign(
-                family: family,
-                family_caption: family.caption,
-                sub_families_by_family_id: sub_families,
-                options: page,
-                items: items,
-                selected_family_id: family_id
-              )
-          }
+          item_without_sub_family = Products.filter_item_without_sub_family_by_family!(socket.assigns.sort, family.id, params)
+
+          case sub_families.entries do
+            [] ->
+              {:noreply,
+                socket
+                |> assign(
+                  family: family,
+                  family_caption: family.caption,
+                  sub_families_by_family_id: nil,
+                  options: page,
+                  items: items,
+                  selected_family_id: family_id,
+                  item_without_sub_family: item_without_sub_family
+                )
+              }
+
+            _ ->
+              {:noreply,
+                socket
+                |> assign(
+                    family: family,
+                    family_caption: family.caption,
+                    sub_families_by_family_id: sub_families,
+                    options: page,
+                    items: items,
+                    selected_family_id: family_id
+                  )
+              }
+          end
+
+
         end
 
       true ->
@@ -646,6 +683,16 @@ defmodule FracomexWeb.Live.ProductLive do
     page = params["page"]
 
     {:noreply, push_redirect(socket, to: Routes.product_path(socket, :sub_family, family["caption"], sub_family["caption"], page: page))}
+  end
+
+  def handle_event("paginate-item-without-sub-family", params, socket) do
+    family_caption = params["family"]
+    page = params["page"]
+
+    {:noreply,
+      socket
+      |> push_redirect(to: Routes.product_path(socket, :family, family_caption, page: page))
+    }
   end
 
   def handle_event("paginate-sub-family-in-family", params, socket) do
