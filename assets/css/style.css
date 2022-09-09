@@ -14,10 +14,10 @@
 /*-------------------------------------
 		1.General css
 --------------------------------------*/
-/* @font-face {
+@font-face {
     font-family: "BodyFont";
     src: url(/home/ubuntu/fracomex/assets/fonts/SctoGroteskA-Regular.woff2) format('woff2');
-} */
+}
 
 * {
     padding: 0;
