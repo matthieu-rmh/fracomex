@@ -19,7 +19,6 @@ defmodule FracomexWeb.Live.ProductLive do
         sum_cart: session["sum_cart"],
         sort: session["sort"]
       )
-
     {:ok, socket}
   end
 
@@ -28,7 +27,8 @@ defmodule FracomexWeb.Live.ProductLive do
      socket
      |> assign(cart: session["cart"])
      |> assign(sort: session["sort"])
-     |> put_session_assigns(session)}
+     |> put_session_assigns(session)
+    }
   end
 
   # Tri des produits
@@ -41,6 +41,7 @@ defmodule FracomexWeb.Live.ProductLive do
 
     {:noreply,
       socket
+      |> redirect(to: Routes.product_path(socket, :index))
       |> assign(items: items)
     }
   end
@@ -57,7 +58,23 @@ defmodule FracomexWeb.Live.ProductLive do
 
     {:noreply,
       socket
+      |> redirect(to: Routes.product_path(socket, :sub_family, family_caption, sub_family_caption))
       |> assign(items_by_sub_family_id: items_by_sub_family_id)
+    }
+  end
+
+  def handle_event("tri_item_without_sub_family", params, socket) do
+    tri = params["triSelect"]
+    family = socket.assigns.family
+
+    item_without_sub_family = Products.filter_item_without_sub_family_by_family!(tri, family.id, params)
+
+    PhoenixLiveSession.put_session(socket, "sort", tri)
+
+    {:noreply,
+      socket
+      |> assign(item_without_sub_family: item_without_sub_family)
+      |> redirect(to: Routes.product_path(socket, :family, family.caption))
     }
   end
 
@@ -113,7 +130,8 @@ defmodule FracomexWeb.Live.ProductLive do
         if search_item.entries == [] do
           {:noreply,
             socket
-            |> push_redirect(to: Routes.product_path(socket, :empty_items))
+            |> put_flash(:error, "Aucun produit ne correspond à votre recherche #{String.upcase(q)}")
+            |> push_redirect(to: Routes.product_path(socket, :index))
           }
         else
           {:noreply,
@@ -172,7 +190,13 @@ defmodule FracomexWeb.Live.ProductLive do
                 |> assign(options: page)
                 |> assign(items: items)
                 |> assign(families: families)
-                |> push_redirect(to: Routes.product_path(socket, :empty_items))
+                |> assign(items_by_sub_family_id: items_by_sub_family_id)
+                |> assign(family: family)
+                |> assign(sub_family: sub_family)
+                |> assign(family_caption: family.caption)
+                |> assign(sub_family_caption: sub_family.caption)
+                |> assign(selected_family_id: family_id)
+                |> assign(selected_sub_family_id: sub_family_id)
               }
 
             _ ->
@@ -186,6 +210,8 @@ defmodule FracomexWeb.Live.ProductLive do
                 |> assign(sub_family: sub_family)
                 |> assign(family_caption: family.caption)
                 |> assign(sub_family_caption: sub_family.caption)
+                |> assign(selected_family_id: family_id)
+                |> assign(selected_sub_family_id: sub_family_id)
               }
           end
         end
@@ -193,6 +219,7 @@ defmodule FracomexWeb.Live.ProductLive do
       # Si la catégorie est spécifiée, on charge la liste des sous-catégories de cette catégorie
       not is_nil(categorie) ->
         family_id = Products.get_family_id_by_caption!(categorie)
+
         if is_nil(family_id) do
           {:noreply,
             socket
@@ -206,18 +233,38 @@ defmodule FracomexWeb.Live.ProductLive do
           sub_families = Products.get_sub_family_by_family!(family_id, params)
           family = Products.get_family!(family_id)
 
-          # IO.puts "TAFIDITRA CONDITION"
-          # Process.send(socket|>transport_pid, {:update_selected_family_id , family_id})
-          {:noreply,
-            socket
-            |> assign(
-                family: family,
-                family_caption: family.caption,
-                sub_families_by_family_id: sub_families,
-                options: page,
-                items: items
-              )
-          }
+          item_without_sub_family = Products.filter_item_without_sub_family_by_family!(socket.assigns.sort, family.id, params)
+
+          case sub_families.entries do
+            [] ->
+              {:noreply,
+                socket
+                |> assign(
+                  family: family,
+                  family_caption: family.caption,
+                  sub_families_by_family_id: nil,
+                  options: page,
+                  items: items,
+                  selected_family_id: family_id,
+                  item_without_sub_family: item_without_sub_family
+                )
+              }
+
+            _ ->
+              {:noreply,
+                socket
+                |> assign(
+                    family: family,
+                    family_caption: family.caption,
+                    sub_families_by_family_id: sub_families,
+                    options: page,
+                    items: items,
+                    selected_family_id: family_id
+                  )
+              }
+          end
+
+
         end
 
       true ->
@@ -229,13 +276,6 @@ defmodule FracomexWeb.Live.ProductLive do
         }
     end
   end
-
-  # def handle_info({:update_selected_family_id , family_id}, socket) do
-  #   IO.puts "EVENT VO NOFORONONA"
-  #   IO.inspect family_id
-  #   # PhoenixLiveSession.put_session(socket, "selected_family_id", family_id)
-  #   {:noreply, socket}
-  # end
 
   # Rechercher des produits
   def handle_event("search-item", %{"q" => q}, socket) do
@@ -253,21 +293,8 @@ defmodule FracomexWeb.Live.ProductLive do
 
     {:noreply,
       socket
-      |> push_patch(to: Routes.product_path(socket, :family, families.caption))
+      |> redirect(to: Routes.product_path(socket, :family, families.caption))
     }
-  end
-
-  def handle_event("show-product-details", params, socket) do
-    id = params["id"]
-    item = Products.get_item_with_family_and_sub_family!(id)
-
-    caption =
-      item.caption
-      |> String.replace(" ", "-")
-
-    {:noreply,
-     socket
-     |> push_redirect(to: Routes.product_path(socket, :product_details, item.family.caption, item.sub_family.caption, caption, id))}
   end
 
   def handle_event("add-product-to-cart", params, socket) do
@@ -408,7 +435,10 @@ defmodule FracomexWeb.Live.ProductLive do
             |> trunc()
 
           if quantity_in_cart > real_stock or quantity_in_cart + quantity > real_stock do
-            {:noreply, socket |> put_flash(:error, "Il n'y a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier")}
+            {:noreply,
+              socket
+              |> put_flash(:error, "Il n'y a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier")
+            }
           else
             index = Enum.find_index(socket.assigns.cart, &(&1.product_id == item_id))
 
@@ -557,7 +587,11 @@ defmodule FracomexWeb.Live.ProductLive do
           |> trunc()
 
         if quantity_in_cart > real_stock or quantity_in_cart + quantity > real_stock do
-          {:noreply, socket |> put_flash(:error, "Il n'a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier")}
+          {:noreply,
+            socket
+            |> put_flash(:error, "Il n'a pas assez de stock pour #{item.caption} - Vous avez déja ajouté #{if real_stock < 10, do: "0#{quantity_in_cart}", else: quantity_in_cart} #{item.caption} dans le panier")
+            |> redirect(to: Routes.product_path(socket, :index))
+          }
         else
           index = Enum.find_index(socket.assigns.cart, &(&1.product_id == item.id))
 
@@ -630,6 +664,7 @@ defmodule FracomexWeb.Live.ProductLive do
     |> assign(cart: Map.get(session, "cart"))
     |> assign(current_order: Map.get(session, "current_order"))
     |> assign(selected_family_id: Map.get(session, "selected_family_id"))
+    |> assign(selected_sub_family_id: Map.get(session, "selected_sub_family_id"))
   end
 
   # Calculer la somme totale du panier
@@ -653,6 +688,16 @@ defmodule FracomexWeb.Live.ProductLive do
     page = params["page"]
 
     {:noreply, push_redirect(socket, to: Routes.product_path(socket, :sub_family, family["caption"], sub_family["caption"], page: page))}
+  end
+
+  def handle_event("paginate-item-without-sub-family", params, socket) do
+    family_caption = params["family"]
+    page = params["page"]
+
+    {:noreply,
+      socket
+      |> push_redirect(to: Routes.product_path(socket, :family, family_caption, page: page))
+    }
   end
 
   def handle_event("paginate-sub-family-in-family", params, socket) do

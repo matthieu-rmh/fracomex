@@ -18,10 +18,10 @@ defmodule FracomexWeb.UsersController do
 
     case Accounts.edit_oneself_address(user, user_params) do
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "my_address.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: user, cities: cities, changeset: changeset, edit_succesful: false, there_is_error: true)
+        render(conn, "my_address.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: user, cities: cities, changeset: changeset, edit_succesful: false, there_is_error: true)
       {:ok, user} ->
         user_with_city = Accounts.get_user_with_city!(user.id)
-        render(conn, "my_address.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: user_with_city, cities: cities, changeset: changeset, edit_succesful: true, there_is_error: false)
+        render(conn, "my_address.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: user_with_city, cities: cities, changeset: changeset, edit_succesful: true, there_is_error: false)
     end
   end
 
@@ -40,9 +40,9 @@ defmodule FracomexWeb.UsersController do
           true ->
             true
         end
-        render(conn, "my_account.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: user, changeset: changeset, there_is_password_error: there_is_password_error, edit_succesful: false)
+        render(conn, "my_account.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: user, changeset: changeset, there_is_password_error: there_is_password_error, edit_succesful: false)
       {:ok, user} ->
-        render(conn, "my_account.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: user, changeset: changeset, there_is_password_error: false, edit_succesful: true)
+        render(conn, "my_account.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: user, changeset: changeset, there_is_password_error: false, edit_succesful: true)
     end
 
   end
@@ -55,7 +55,7 @@ defmodule FracomexWeb.UsersController do
         user_id = get_session(conn, :user_id)
         user = Accounts.get_user!(user_id)
         changeset = Accounts.change_user(%User{})
-        render(conn, "my_account.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: user, changeset: changeset, there_is_password_error: false, edit_succesful: false)
+        render(conn, "my_account.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: user, changeset: changeset, there_is_password_error: false, edit_succesful: false)
     end
   end
 
@@ -72,7 +72,7 @@ defmodule FracomexWeb.UsersController do
         cities = Accounts.list_cities
           |> Enum.sort_by(&(&1.name))
           |> Enum.map(fn city -> [key: city.name, value: city.id] end)
-        render(conn, "my_address.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: user, cities: cities,changeset: changeset, edit_succesful: false, there_is_error: false)
+        render(conn, "my_address.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: user, cities: cities,changeset: changeset, edit_succesful: false, there_is_error: false)
     end
 
   end
@@ -85,7 +85,7 @@ defmodule FracomexWeb.UsersController do
       true ->
         user_id = get_session(conn, :user_id)
         my_orders = Products.list_my_orders(user_id)
-        render(conn, "my_orders.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: Accounts.get_user!(user_id), orders: my_orders)
+        render(conn, "my_orders.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), user: Accounts.get_user!(user_id), orders: my_orders)
     end
 
   end
@@ -99,7 +99,7 @@ defmodule FracomexWeb.UsersController do
     changeset = Accounts.change_user(%User{})
     cond do
       is_nil(get_session(conn, :user_id)) ->
-        render(conn, "signin.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
+        render(conn, "signin.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
       true ->
         # IO.inspect(conn)
         conn
@@ -118,7 +118,7 @@ defmodule FracomexWeb.UsersController do
                 |> Enum.sort_by(&(&1.name))
                 |> Enum.map(fn city -> [key: city.name, value: city.id] end)
 
-    render(conn, "signup.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset, countries: countries, cities: cities)
+    render(conn, "signup.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset, countries: countries, cities: cities)
   end
 
   def signout(conn, _params) do
@@ -143,9 +143,9 @@ defmodule FracomexWeb.UsersController do
         check_mail_url = "#{FracomexWeb.Endpoint.url()}#{Routes.users_path(conn, :check_signup_mail, token: token)}"
         UserEmail.send_check_signup_mail(check_mail_url, user.mail_address)
         conn
-        |> render("signup_mail_sent.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
+        |> render("signup_mail_sent.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "signup.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset, countries: countries, cities: cities)
+        render(conn, "signup.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset, countries: countries, cities: cities)
     end
   end
 
@@ -155,7 +155,7 @@ defmodule FracomexWeb.UsersController do
     case Accounts.signin_user(user_params) do
       {:error, changeset} ->
         # IO.inspect(changeset)
-        render(conn, "signin.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
+        render(conn, "signin.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
       _ ->
         id = Accounts.get_user_by_mail_address!(user_params["mail_address"]).id
         cart = Plug.Conn.get_session(conn, :cart)
@@ -186,9 +186,9 @@ defmodule FracomexWeb.UsersController do
     with  {:ok, user_id} <- Fracomex.Token.verify_new_account_token(token) do
       # IO.inspect(user_id)
       Accounts.validate_user(Accounts.get_user!(user_id))
-      render(conn, "valid_signup_token.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
+      render(conn, "valid_signup_token.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
     else
-      _ -> render(conn, "invalid_signup_token.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
+      _ -> render(conn, "invalid_signup_token.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
     end
 
   end
@@ -196,7 +196,7 @@ defmodule FracomexWeb.UsersController do
   # Formulaire pour mot de passe oublié
   def forgot_password(conn, _params) do
     changeset = Accounts.change_user(%User{})
-    render(conn, "forgot_password.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
+    render(conn, "forgot_password.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
   end
 
   # Envoi de l'adresse mail de mot de passe oublié de l'utilisateur
@@ -205,13 +205,13 @@ defmodule FracomexWeb.UsersController do
     case Accounts.forgot_password(user_params) do
       {:error, changeset} ->
         # IO.inspect(changeset)
-        render(conn, "forgot_password.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
+        render(conn, "forgot_password.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
       _ ->
         user = Accounts.get_user_by_mail_address!(user_params["mail_address"])
         token = Token.generate_new_account_token(user.id)
         forgot_password_mail_url = "#{FracomexWeb.Endpoint.url()}#{Routes.users_path(conn, :check_forgotten_password_mail, token: token)}"
         UserEmail.send_forgotten_password_mail(forgot_password_mail_url, user.mail_address)
-        render(conn, "forgot_password_mail_sent.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
+        render(conn, "forgot_password_mail_sent.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
     end
 
   end
@@ -221,9 +221,9 @@ defmodule FracomexWeb.UsersController do
     with  {:ok, user_id} <- Fracomex.Token.verify_new_account_token(token) do
       # IO.inspect(user_id)
       changeset = Accounts.change_user(%User{})
-      render(conn, "update_forgotten_password.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset, user_id: user_id)
+      render(conn, "update_forgotten_password.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset, user_id: user_id)
     else
-      _ -> render(conn, "invalid_forgotten_password_token.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
+      _ -> render(conn, "invalid_forgotten_password_token.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
     end
   end
 
@@ -234,9 +234,9 @@ defmodule FracomexWeb.UsersController do
     user = Accounts.get_user!(user_id)
     case Accounts.update_new_password_forgotten_user(user, user_params) do
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "update_forgotten_password.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset, user_id: user_id)
+        render(conn, "update_forgotten_password.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset, user_id: user_id)
       _ ->
-        render(conn, "valid_forgotten_password_token.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
+        render(conn, "valid_forgotten_password_token.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
     end
   end
 
@@ -248,7 +248,7 @@ defmodule FracomexWeb.UsersController do
 
       true ->
         changeset = Accounts.change_user(%User{})
-        render(conn, "resend_confirmation_mail.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
+        render(conn, "resend_confirmation_mail.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
     end
   end
 
@@ -256,13 +256,13 @@ defmodule FracomexWeb.UsersController do
 
     case Accounts.resend_confirmation_mail(user_params) do
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "resend_confirmation_mail.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
+        render(conn, "resend_confirmation_mail.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart), changeset: changeset)
       _ ->
         user = Accounts.get_user_by_mail_address!(user_params["mail_address"])
         token = Token.generate_new_account_token(user.id)
         check_mail_url = "#{FracomexWeb.Endpoint.url()}#{Routes.users_path(conn, :check_signup_mail, token: token)}"
         UserEmail.send_check_signup_mail(check_mail_url, user.mail_address)
-        render(conn, "signup_mail_sent.html", cart: Plug.Conn.get_session(conn, :cart), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
+        render(conn, "signup_mail_sent.html", cart: Plug.Conn.get_session(conn, :cart), selected_family_id: Plug.Conn.get_session(conn, :selected_family_id), sum_cart: Plug.Conn.get_session(conn, :sum_cart))
       end
 
   end

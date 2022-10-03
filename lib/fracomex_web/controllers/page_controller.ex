@@ -14,6 +14,7 @@ defmodule FracomexWeb.PageController do
         render(conn, "order_validation.html",
             cart: get_session(conn, :cart),
             sum_cart: get_session(conn, :sum_cart),
+            selected_family_id: Plug.Conn.get_session(conn, :selected_family_id),
             order: Products.get_order_with_lines_and_items(order_id),
             not_accepted_error_message: "Veuillez accepter les conditions avant de poursuivre"
             )
@@ -21,6 +22,7 @@ defmodule FracomexWeb.PageController do
         render(conn, "recap_order.html",
                 cart: get_session(conn, :cart),
                 sum_cart: get_session(conn, :sum_cart),
+                selected_family_id: Plug.Conn.get_session(conn, :selected_family_id),
                 order: Products.get_order(order_id),
                 date: date
                 )
@@ -50,6 +52,7 @@ defmodule FracomexWeb.PageController do
             render(conn, "order_validation.html",
             cart: get_session(conn, :cart),
             sum_cart: get_session(conn, :sum_cart),
+            selected_family_id: Plug.Conn.get_session(conn, :selected_family_id),
             order: Products.get_order_with_lines_and_items(order_id),
             not_accepted_error_message: nil
             )
@@ -94,6 +97,7 @@ defmodule FracomexWeb.PageController do
         |> put_session(:cart, [cart])
         |> put_session(:sum_cart, sum)
         |> put_session(:current_order, order.id)
+        |> put_session(:selected_family_id, Plug.Conn.get_session(conn, :selected_family_id))
         |> put_flash(:info_panier, "(0#{quantity}) #{product_added_in_cart}")
         |> redirect(to: Routes.page_path(conn, :index, id: params["id"]))
 
@@ -232,7 +236,8 @@ defmodule FracomexWeb.PageController do
       families: Products.list_families(),
       sub_families: Products.list_sub_families(),
       cart: Plug.Conn.get_session(conn, :cart),
-      sum_cart: Plug.Conn.get_session(conn, :sum_cart)
+      sum_cart: Plug.Conn.get_session(conn, :sum_cart),
+      selected_family_id: Plug.Conn.get_session(conn, :selected_family_id)
     )
 
     # render(conn, "arrivage.html")
@@ -243,7 +248,8 @@ defmodule FracomexWeb.PageController do
       conn,
       "contact.html",
       cart: Plug.Conn.get_session(conn, :cart),
-      sum_cart: Plug.Conn.get_session(conn, :sum_cart)
+      sum_cart: Plug.Conn.get_session(conn, :sum_cart),
+      selected_family_id: Plug.Conn.get_session(conn, :selected_family_id)
     )
   end
 
@@ -275,7 +281,7 @@ defmodule FracomexWeb.PageController do
 
               # SI TOUT SE PASSE BIEN
               cart_items = Utilities.get_items_from_cart(cart)
-              render(conn, "cart_validation.html", cart: cart, sum_cart: sum_cart, cart_items: cart_items)
+              render(conn, "cart_validation.html", cart: cart, sum_cart: sum_cart, cart_items: cart_items, selected_family_id: Plug.Conn.get_session(conn, :selected_family_id))
         end
     end
 

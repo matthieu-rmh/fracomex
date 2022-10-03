@@ -16,7 +16,8 @@ defmodule FracomexWeb.Live.CartLive do
         sub_families: Products.list_sub_families(),
         cart: session["cart"],
         sum_cart: sum_cart(session["cart"]),
-        current_order: session["current_order"]
+        current_order: session["current_order"],
+        selected_family_id: session["selected_family_id"]
       )
 
     {:ok, socket}
@@ -192,7 +193,19 @@ defmodule FracomexWeb.Live.CartLive do
     }
   end
 
+  # Event: lien vers la page product
+  def handle_event("link-to-product", _params, socket) do
+    {:noreply,
+      socket
+      |> push_redirect(to: Routes.product_path(socket, :index))
+    }
+  end
+
   def render(assigns) do
-    FracomexWeb.CartView.render("cart_live.html", assigns)
+    if is_nil(assigns.cart) or assigns.cart == [] do
+      FracomexWeb.CartView.render("cart_empty.html", assigns)
+    else
+      FracomexWeb.CartView.render("cart_live.html", assigns)
+    end
   end
 end

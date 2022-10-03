@@ -103,7 +103,7 @@
 												<% end %>
 											</li>
 
-										<%= if not is_nil(@cart) do %>
+										<%= if not is_nil(@cart) and @cart != [] do %>
 											<%= form_for nil, "/valider-commande", fn f -> %>
 												<input type="hidden" name="order_id" value={Plug.Conn.get_session(@conn, :current_order)}>
 												<button style="" class="button-cart validate-cart">
@@ -163,9 +163,10 @@
 										<span class="lnr lnr-menu" style="font-size: 16px;"></span> Tous les produits
 									</a>
 								</li>
+
 								<%= for family <- Fracomex.Products.list_limited_families do %>
 									<li class="scroll in-top">
-										<a href={Routes.product_path(@conn, :family, family.caption)}>
+										<a href={Routes.product_path(@conn, :family, family.caption)} style={"color: #{if family.id == @selected_family_id and String.contains?(@conn.request_path, "/boutique/"), do: "#e41201"};"}>
 											<%= String.capitalize(family.caption) %>
 										</a>
 									</li>
@@ -411,14 +412,18 @@ $("#toggleCurrentPassword").click(function(){
   this.classList.toggle('fa-eye-slash');
 });
 </script>
+
+
 <script>
 /* all alert */
 $(function() {
 setTimeout(function(){ 
-	$(".all-alert").hide().fadeOut(1500); }
-	, 2000)
+	$(".all-alert").hide().fadeOut(5000); }
+	, 5000)
 })		
-</script>		
+</script>	
+
+
   <!--script>
   $('.item').each(function() {
     var data = $(this).data('item');

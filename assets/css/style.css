@@ -1196,23 +1196,25 @@ ul.cart-list>li.total {
 }
 
 .a-product-name {
-    overflow: hidden;
+    /* overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     line-clamp: 1;
-    -webkit-box-orient: vertical;
+    -webkit-box-orient: vertical; */
     color: #000 !important;
     padding: 5px;
+    word-wrap: anywhere;
+    margin-bottom: 4rem;
 }
 
 .a-product-name:hover {
-    overflow: hidden;
+    /* overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     line-clamp: 1;
-    -webkit-box-orient: vertical;
+    -webkit-box-orient: vertical; */
     padding: 5px;
 }
 
@@ -1660,7 +1662,7 @@ input[type=password] {
     cursor: pointer;
     color: #fff;
     background: #e41201;
-    border-radius: 50%;
+    clip-path: circle();
     -webkit-transition: .5s;
     -moz-transition: .5s;
     -ms-transition: .5s;
@@ -1746,7 +1748,7 @@ input[type=password] {
     top: 50%;
     left: -8px;
     padding: 0 18px 0 15px;
-    border-radius: 50px;
+    clip-path: circle();
     box-shadow: 3px 14px 25px -10px #92b4d0;
     transition: background 0.5s ease 0s;
     z-index: 0;
@@ -1763,7 +1765,7 @@ input[type=password] {
     top: 50%;
     right: -8px;
     padding: 0 15px 0 18px;
-    border-radius: 50px;
+    clip-path: circle();
     box-shadow: -3px 14px 25px -10px #92b4d0;
     transition: background 0.5s ease 0s;
     z-index: 0;
@@ -1964,7 +1966,7 @@ ul.category {
 
 /*filter*/
 .col-filter {
-    float: inline-end;
+    /* float: inline-end; */
     text-align: end;
     margin: 0 10px 10px;
     margin-bottom: -10px !important;
@@ -2579,14 +2581,6 @@ ul.category {
 }
 
 .all-alert {
-    position: absolute;
-    width: auto;
-    top: 95px;
-    right: 10px;
-    bottom: unset;
-    left: unset;
-    transform: unset;
-    float: right !important;
     box-shadow: 0 16px 24px 2px rgba(29, 17, 51, .04), 0 6px 32px 4px rgba(9, 32, 77, .12), 0 8px 12px -5px rgba(29, 17, 51, .12);
 }
 
