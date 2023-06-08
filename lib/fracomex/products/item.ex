@@ -12,6 +12,8 @@ defmodule Fracomex.Products.Item do
     field :image_version, :integer
     field :real_stock, :decimal
     field :stock_status, :boolean, default: false
+    field :is_published, :boolean, default: true
+
     # field :family_id, :string
     # field :sub_family_id, :string
     belongs_to :family, Family, type: :string

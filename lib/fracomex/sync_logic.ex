@@ -11,6 +11,7 @@ defmodule Fracomex.SyncLogic do
 
     sync_item_families()
     sync_item_sub_families()
+    sync_item_publishing()
     sync_items()
 
     IO.puts "SYNC STOPPING"
@@ -21,6 +22,23 @@ defmodule Fracomex.SyncLogic do
   end
 
   ###########  ITEM SYNC LOGICS ###########
+  #SYNCHRONISATION DE LA PUBLICATION DES ARTICLES ENTRE TEMPS REPUBLIÉS
+  def sync_item_publishing do
+    list_item_ids_to_be_published()
+    |> Products.publish_items()
+  end
+
+  def list_item_ids_to_be_published do
+    Enum.filter(select_item_ids_from_ebp(), fn id ->
+      id in select_item_ids_from_postgres_where_is_published_false()
+    end)
+
+  end
+
+  def select_item_ids_from_postgres_where_is_published_false do
+    Products.list_unpublished_item_ids
+  end
+
   # SYNCHRONISATION DES ARTICLES
   def sync_items() do
     # start = NaiveDateTime.local_now()
@@ -36,7 +54,7 @@ defmodule Fracomex.SyncLogic do
   # SUPPRESSION DES ARTICLES N'EXISTANT PLUS SUR EBP OU AYANT UNE NOUVELLE FAMILLE/SOUS-FAMILLE NON EXISTANTE SUR POSTGRES
   def delete_items() do
     get_item_ids_to_be_deleted()
-    |> Products.delete_sub_families()
+    |> Products.unpublish_items()
   end
 
   # SELECTION DES IDS ARTICLES N'EXISTANT PLUS SUR EBP OU AYANT UNE NOUVELLE FAMILLE/SOUS-FAMILLE NON EXISTANTE SUR POSTGRES
@@ -55,7 +73,7 @@ defmodule Fracomex.SyncLogic do
   # MISE A JOUR DES DIFFÉRENCES POUR LES ARTICLES AVEC IMAGE
   def update_items_diff_with_image() do
     Enum.each(select_valid_changesets_with_images(), fn changeset ->
-      Fracomex.Repo.update(changeset)
+      Focicom.Repo.update(changeset)
     end)
   end
 
@@ -86,7 +104,7 @@ defmodule Fracomex.SyncLogic do
 
 
           id = item.id
-          image = subresult.rowd |> Enum.at(0) |> Enum.at(0)
+          image = subresult.rows |> Enum.at(0) |> Enum.at(0)
           get_image_file(id, image)
         true ->
           item.image
@@ -102,7 +120,7 @@ defmodule Fracomex.SyncLogic do
   # MISE A JOUR DES DIFFÉRENCES POUR LES ARTICLES SANS IMAGE
   def update_items_diff_without_image() do
     Enum.each(select_valid_changesets_without_images(), fn changeset ->
-      Fracomex.Repo.update(changeset)
+      Focicom.Repo.update(changeset)
     end)
   end
 
@@ -192,7 +210,7 @@ defmodule Fracomex.SyncLogic do
           end
 
           %{id: id, caption: caption, sale_price_vat_excluded: sale_price_vat_excluded, stock_status: stock_status,
-            image: image_file, image_version: image_version, real_stock: real_stock, family_id: family_id, sub_family_id: sub_family_id}
+            image: image_file, image_version: image_version, real_stock: real_stock, family_id: family_id, sub_family_id: sub_family_id, is_published: true}
         end)
       _ ->
         []
@@ -241,14 +259,26 @@ defmodule Fracomex.SyncLogic do
     sub_family_ids = Products.list_sub_family_ids |> ids_list_to_sql_readable
     # IO.inspect sub_family_ids
 
-    test_query = "SELECT Id
-    FROM Item
-    WHERE (
-        (FamilyId in #{family_ids} OR FamilyId IS NULL)
-        AND
-        (SubFamilyId in #{sub_family_ids} OR SubFamilyId IS NULL)
-        )
-    AND AllowPublishOnWeb=1"
+    test_query = cond do
+      length(Products.list_sub_family_ids) <= 0 ->
+        "SELECT Id
+        FROM Item
+        WHERE (
+            (FamilyId in #{family_ids} OR FamilyId IS NULL)
+            AND
+            (SubFamilyId IS NULL)
+            )
+        AND AllowPublishOnWeb=1"
+      true ->
+        "SELECT Id
+        FROM Item
+        WHERE (
+            (FamilyId in #{family_ids} OR FamilyId IS NULL)
+            AND
+            (SubFamilyId in #{sub_family_ids} OR SubFamilyId IS NULL)
+            )
+        AND AllowPublishOnWeb=1"
+    end
 
     {:ok, result} = EbpRepo.query(test_query)
 
@@ -289,7 +319,7 @@ defmodule Fracomex.SyncLogic do
   # MISE A JOUR DES CHANGEMENTS DE VALEUR DES SOUS-FAMILLES
   def update_item_sub_families_diffs() do
     Enum.each(get_item_sub_families_valid_changesets_from_diffs(), fn changeset ->
-      Fracomex.Repo.update(changeset)
+      Focicom.Repo.update(changeset)
     end)
   end
 
@@ -408,7 +438,7 @@ defmodule Fracomex.SyncLogic do
   # MISE A JOUR DES CHANGEMENTS DE VALEUR DES FAMILLES
   def update_item_families_diffs() do
     Enum.each(get_item_families_valid_changesets_from_diffs(), fn changeset ->
-      Fracomex.Repo.update(changeset)
+      Focicom.Repo.update(changeset)
     end)
   end
 
@@ -445,7 +475,7 @@ defmodule Fracomex.SyncLogic do
   def insert_missing_item_families() do
     select_item_families_to_be_inserted()
     # |> Products.insert_families
-    |> Enum.each(fn family -> Fracomex.Repo.insert(family) end)
+    |> Enum.each(fn family -> Focicom.Repo.insert(family) end)
   end
 
   # SELECTION DES FAMILLES A INSÉRER

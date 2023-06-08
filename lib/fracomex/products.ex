@@ -128,6 +128,7 @@ defmodule Fracomex.Products do
     sub_family_caption = from sf in SubFamily
 
     query = from i in Item,
+            where: i.is_published,
             preload: [family: ^family_caption, sub_family: ^sub_family_caption]
 
     Repo.all(query)
@@ -140,6 +141,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
+                where: i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption],
                 order_by: [asc: i.sale_price_vat_excluded]
 
@@ -149,6 +151,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
+                where: i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption],
                 order_by: [desc: i.sale_price_vat_excluded]
 
@@ -159,6 +162,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
+                where: i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption],
                 order_by: [desc: i.id]
 
@@ -169,7 +173,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
-                where: i.real_stock > 0,
+                where: i.real_stock > 0 and i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption]
         Repo.paginate(query, params)
 
@@ -178,6 +182,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
+                where: i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption]
 
         Repo.paginate(query, params)
@@ -189,6 +194,7 @@ defmodule Fracomex.Products do
     sub_family_query = from sf in SubFamily
 
     query = from i in Item,
+            where: i.is_published,
             preload: [family: ^family_query, sub_family: ^sub_family_query],
             limit: 8
     Repo.all(query)
@@ -196,6 +202,14 @@ defmodule Fracomex.Products do
 
   def list_item_ids do
     query = from i in Item,
+            where: i.is_published,
+            select: i.id
+    Repo.all(query)
+  end
+
+  def list_unpublished_item_ids do
+    query = from i in Item,
+            where: i.is_published==false,
             select: i.id
     Repo.all(query)
   end
@@ -288,7 +302,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id,
+                where: i.family_id == ^family_id and i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption],
                 order_by: [asc: i.sale_price_vat_excluded]
 
@@ -298,7 +312,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id,
+                where: i.family_id == ^family_id and i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption],
                 order_by: [desc: i.sale_price_vat_excluded]
 
@@ -309,7 +323,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id,
+                where: i.family_id == ^family_id and i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption],
                 order_by: [desc: i.id]
 
@@ -320,7 +334,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id and i.real_stock > 0,
+                where: i.family_id == ^family_id and i.real_stock > 0 and i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption]
 
         Repo.paginate(query, params)
@@ -330,7 +344,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id,
+                where: i.family_id == ^family_id and i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption]
 
         Repo.paginate(query, params)
@@ -347,7 +361,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id and i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption],
                 order_by: [asc: i.sale_price_vat_excluded]
 
@@ -357,7 +371,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id and i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption],
                 order_by: [desc: i.sale_price_vat_excluded]
 
@@ -368,7 +382,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id and i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption],
                 order_by: [desc: i.id]
 
@@ -379,7 +393,7 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id and i.real_stock > 0,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id and i.real_stock > 0 and i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption]
 
         Repo.paginate(query)
@@ -389,23 +403,23 @@ defmodule Fracomex.Products do
         sub_family_caption = from sf in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id and i.is_published,
                 preload: [family: ^family_caption, sub_family: ^sub_family_caption]
 
         Repo.paginate(query)
     end
   end
 
-  # Recherche des produits par nom
-  def search_item(search) do
-    search_term = "%#{search}%"
+  # Search item per name or id
+  def search_item(key) do
+    key_like = "%#{key}%"
 
     family_query = from f in Family
     sub_family_query = from f in SubFamily
 
     query =
       from i in Item,
-      where: ilike(i.caption, ^search_term),
+      where: (ilike(i.id, ^key_like) or ilike(i.caption, ^key_like)) and i.is_published,
       preload: [family: ^family_query, sub_family: ^sub_family_query]
 
     Repo.paginate(query)
@@ -416,7 +430,7 @@ defmodule Fracomex.Products do
     sub_family_query = from f in SubFamily
 
     query = from i in Item,
-            where: i.id == ^id,
+            where: i.id == ^id and i.is_published,
             preload: [family: ^family_query, sub_family: ^sub_family_query]
     Repo.one(query)
   end
@@ -426,7 +440,7 @@ defmodule Fracomex.Products do
     sub_family_query = from f in SubFamily
 
     query = from i in Item,
-            where: i.sub_family_id == ^id,
+            where: i.sub_family_id == ^id and i.is_published,
             preload: [family: ^family_query, sub_family: ^sub_family_query]
     Repo.paginate(query, params)
   end
@@ -439,7 +453,7 @@ defmodule Fracomex.Products do
         sub_family_query = from f in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id and i.is_published,
                 preload: [family: ^family_query, sub_family: ^sub_family_query],
                 order_by: [asc: i.sale_price_vat_excluded]
 
@@ -450,7 +464,7 @@ defmodule Fracomex.Products do
         sub_family_query = from f in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id and i.is_published,
                 preload: [family: ^family_query, sub_family: ^sub_family_query],
                 order_by: [desc: i.sale_price_vat_excluded]
 
@@ -461,7 +475,7 @@ defmodule Fracomex.Products do
         sub_family_query = from f in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id and i.is_published,
                 preload: [family: ^family_query, sub_family: ^sub_family_query],
                 order_by: [desc: i.id]
 
@@ -472,7 +486,7 @@ defmodule Fracomex.Products do
         sub_family_query = from f in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id and i.real_stock > 0,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id and i.real_stock > 0 and i.is_published,
                 preload: [family: ^family_query, sub_family: ^sub_family_query]
         Repo.paginate(query, params)
 
@@ -481,7 +495,7 @@ defmodule Fracomex.Products do
         sub_family_query = from f in SubFamily
 
         query = from i in Item,
-                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id,
+                where: i.family_id == ^family_id and i.sub_family_id == ^sub_family_id and i.is_published,
                 preload: [family: ^family_query, sub_family: ^sub_family_query]
 
         Repo.paginate(query, params)
