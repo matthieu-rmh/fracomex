@@ -73,7 +73,7 @@ defmodule Fracomex.SyncLogic do
   # MISE A JOUR DES DIFFÉRENCES POUR LES ARTICLES AVEC IMAGE
   def update_items_diff_with_image() do
     Enum.each(select_valid_changesets_with_images(), fn changeset ->
-      Focicom.Repo.update(changeset)
+      Fracomex.Repo.update(changeset)
     end)
   end
 
@@ -120,7 +120,7 @@ defmodule Fracomex.SyncLogic do
   # MISE A JOUR DES DIFFÉRENCES POUR LES ARTICLES SANS IMAGE
   def update_items_diff_without_image() do
     Enum.each(select_valid_changesets_without_images(), fn changeset ->
-      Focicom.Repo.update(changeset)
+      Fracomex.Repo.update(changeset)
     end)
   end
 
@@ -143,13 +143,13 @@ defmodule Fracomex.SyncLogic do
       ebp_caption = result.rows |> Enum.at(0) |> Enum.at(0)
       ebp_sale_price_vat_excluded = result.rows |> Enum.at(0) |> Enum.at(1)
       ebp_real_stock = result.rows |> Enum.at(0) |> Enum.at(2)
-      ebp_stock_status = cond do
-        Decimal.to_integer(ebp_real_stock) > 0 ->
-          true
-        true ->
-          false
+      #ebp_stock_status = cond do
+      #  Decimal.to_integer(ebp_real_stock) > 0 ->
+      #    true
+      #  true ->
+      #    false
+      #end
 
-      end
       ebp_family_id = result.rows |> Enum.at(0) |> Enum.at(3)
       ebp_sub_family_id = result.rows |> Enum.at(0) |> Enum.at(4)
 
@@ -159,7 +159,7 @@ defmodule Fracomex.SyncLogic do
         "caption" => ebp_caption,
         "sale_price_vat_excluded" => ebp_sale_price_vat_excluded,
         "real_stock" => ebp_real_stock,
-        "stock_status" => ebp_stock_status,
+        #"stock_status" => ebp_stock_status,
         "family_id" => ebp_family_id,
         "sub_family_id" => ebp_sub_family_id,
       }
@@ -202,15 +202,23 @@ defmodule Fracomex.SyncLogic do
 
           image_file = get_image_file(id, image)
 
-          stock_status = cond do
-            Decimal.to_integer(real_stock) > 0 ->
-              true
-            true ->
-              false
-          end
+          #stock_status = cond do
+          #  Decimal.to_integer(real_stock) > 0 ->
+          #    true
+          #  true ->
+          #    false
+          #end
 
-          %{id: id, caption: caption, sale_price_vat_excluded: sale_price_vat_excluded, stock_status: stock_status,
-            image: image_file, image_version: image_version, real_stock: real_stock, family_id: family_id, sub_family_id: sub_family_id, is_published: true}
+          %{id: id,
+            caption: caption,
+            sale_price_vat_excluded: sale_price_vat_excluded,
+            #stock_status: stock_status,
+            image: image_file,
+            image_version: image_version,
+            real_stock: real_stock,
+            family_id: family_id,
+            sub_family_id: sub_family_id,
+            is_published: true}
         end)
       _ ->
         []
@@ -319,7 +327,7 @@ defmodule Fracomex.SyncLogic do
   # MISE A JOUR DES CHANGEMENTS DE VALEUR DES SOUS-FAMILLES
   def update_item_sub_families_diffs() do
     Enum.each(get_item_sub_families_valid_changesets_from_diffs(), fn changeset ->
-      Focicom.Repo.update(changeset)
+      Fracomex.Repo.update(changeset)
     end)
   end
 
@@ -438,7 +446,7 @@ defmodule Fracomex.SyncLogic do
   # MISE A JOUR DES CHANGEMENTS DE VALEUR DES FAMILLES
   def update_item_families_diffs() do
     Enum.each(get_item_families_valid_changesets_from_diffs(), fn changeset ->
-      Focicom.Repo.update(changeset)
+      Fracomex.Repo.update(changeset)
     end)
   end
 
@@ -475,7 +483,7 @@ defmodule Fracomex.SyncLogic do
   def insert_missing_item_families() do
     select_item_families_to_be_inserted()
     # |> Products.insert_families
-    |> Enum.each(fn family -> Focicom.Repo.insert(family) end)
+    |> Enum.each(fn family -> Fracomex.Repo.insert(family) end)
   end
 
   # SELECTION DES FAMILLES A INSÉRER

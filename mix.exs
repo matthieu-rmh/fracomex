@@ -54,7 +54,8 @@ defmodule Fracomex.MixProject do
       {:mogrify, "~> 0.9.2"},
       {:plug_cowboy, "~> 2.5"},
       {:phoenix_live_session, "~> 0.1"},
-      {:scrivener_ecto, "~> 2.7"}
+      {:scrivener_ecto, "~> 2.7"},
+      {:decimal, "~> 2.0"}
     ]
   end
 
