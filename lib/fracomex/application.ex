@@ -13,7 +13,7 @@ defmodule Fracomex.Application do
       # Start the Ebp repository
       Fracomex.EbpRepo,
       # Start Synchro
-      #Fracomex.SyncWorker,
+      Fracomex.SyncWorker,
       # Start the Telemetry supervisor
       FracomexWeb.Telemetry,
       # Start the PubSub system

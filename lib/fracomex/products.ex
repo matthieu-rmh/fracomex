@@ -564,6 +564,18 @@ defmodule Fracomex.Products do
     Repo.delete_all(query)
   end
 
+  def publish_items(ids) do
+    query = from item in Item,
+            where: item.id in ^ids
+    Repo.update_all(query, set: [is_published: true])
+  end
+
+  def unpublish_items(ids) do
+    query = from item in Item,
+            where: item.id in ^ids
+    Repo.update_all(query, set: [is_published: false])
+  end
+
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking item changes.
 
