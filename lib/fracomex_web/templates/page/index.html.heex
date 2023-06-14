@@ -1,9 +1,11 @@
 <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
 				<!--/.carousel-indicator -->
 				 <ol class="carousel-indicators header-slide">
-					<li data-target="#header-carousel" data-slide-to="0" class="active"><span class="small-circle"></span></li>
-					<li data-target="#header-carousel" data-slide-to="1"><span class="small-circle"></span></li>
-					<li data-target="#header-carousel" data-slide-to="2"><span class="small-circle"></span></li>
+
+                <%= for i <- @indexes do %>
+					<li data-target="#header-carousel" data-slide-to={"#{i}"} class={"#{if i==0, do: "active"}"}><span class="small-circle"></span></li>
+                <% end %>
+
 				</ol><!-- /ol-->
 				<!--/.carousel-indicator -->
                 <div class="owl-controls clickable">			
@@ -16,45 +18,21 @@
 				</div>
 				<!--/.carousel-inner -->
 				<div class="carousel-inner" role="listbox">
-					<!-- .item -->
-					<div class="item active">
-						<div class="single-slide-item slide1">
-							<div class="container p-4">
-								<div class="slide-hero-content">
-									<div class="row">
-										<img src={Routes.static_path(@conn, "/images/slide.jpg")} alt="categ image" class="shadow">
-									</div>	
-								</div><!--/.slide-hero-content-->
-							</div><!-- /.container-->
-						</div><!-- /.single-slide-item-->
+                    <%= for {filename, i} <- @slides_files do %>
+                        <!-- .item -->
+                        <div class={"item #{if i==1 ,do: "active"}"}>
+                            <div class={"single-slide-item slide#{i}"}>
+                                <div class="container p-4">
+                                    <div class="slide-hero-content">
+                                        <div class="row">
+                                            <img src={Routes.static_path(@conn, "/images/slides/#{filename}")} alt="categ image" class="shadow">
+                                        </div>	
+                                    </div><!--/.slide-hero-content-->
+                                </div><!-- /.container-->
+                            </div><!-- /.single-slide-item-->
 
-					</div><!-- /.item .active-->
-
-					<div class="item">
-						<div class="single-slide-item slide2">
-							<div class="container p-4">
-								<div class="slide-hero-content">
-									<div class="row">
-										<img src={Routes.static_path(@conn, "/images/slide2.jpg")} alt="categ image"  class="shadow">
-									</div>	
-								</div><!--/.slide-hero-content-->
-							</div><!-- /.container-->
-						</div><!-- /.single-slide-item-->
-
-					</div><!-- /.item .active-->
-
-					<div class="item">
-						<div class="single-slide-item slide3">
-							<div class="container p-4">
-								<div class="slide-hero-content">
-									<div class="row">
-										<img src={Routes.static_path(@conn, "/images/slide.jpg")} alt="categ image"  class="shadow">
-									</div>	
-								</div><!--/.slide-hero-content-->
-							</div><!-- /.container-->
-						</div><!-- /.single-slide-item-->
-						
-					</div><!-- /.item .active-->
+                        </div><!-- /.item .active-->
+                    <% end %>
 				</div><!-- /.carousel-inner-->
 
 </div><!--/#header-carousel-->

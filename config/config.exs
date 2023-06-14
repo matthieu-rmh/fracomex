@@ -7,12 +7,18 @@
 # General application configuration
 import Config
 
+{:ok, project_path} = File.cwd
+slides_path = "#{project_path}/priv/static/images/slides"
+{:ok, slides_files} = File.ls(slides_path)
+
 config :fracomex,
-  ecto_repos: [Fracomex.Repo]
+  ecto_repos: [Fracomex.Repo],
+  slides_files: slides_files
+  # slides_files: Application.app_dir(:fracomex, "priv/static/images/slides") |> Tuple.to_list() |> Enum.at(1)
 
 # Configures the endpoint
 config :fracomex, FracomexWeb.Endpoint,
-  url: [host: "162.19.74.21"],
+  url: [host: "localhost"],
   render_errors: [view: FracomexWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Fracomex.PubSub,
   live_view: [signing_salt: "vQgynYPm"]

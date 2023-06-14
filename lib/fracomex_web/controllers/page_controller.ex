@@ -229,9 +229,24 @@ defmodule FracomexWeb.PageController do
   end
 
   def index(conn, _params) do
+    slides_files = Application.get_env(:fracomex, :slides_files)
+    indexes = slides_files
+    |> Enum.with_index
+    |> Enum.map(fn {_filename, index} ->
+      index
+    end)
+
+    slides_files_with_indexes = Application.get_env(:fracomex, :slides_files)
+    |> Enum.with_index
+    |> Enum.map(fn {filename, index} ->
+      {filename, index+1}
+    end)
+
     render(
       conn,
       "index.html",
+      slides_files: slides_files_with_indexes,
+      indexes: indexes,
       items: Products.list_items_arrival(),
       families: Products.list_families(),
       sub_families: Products.list_sub_families(),
