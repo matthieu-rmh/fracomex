@@ -1205,7 +1205,10 @@ ul.cart-list>li.total {
     color: #000 !important;
     padding: 5px;
     word-wrap: anywhere;
-    margin-bottom: 4rem;
+    /* margin-bottom: 4rem; */
+    font-weight: bolder;
+    font-size: larger;
+    background: ghostwhite;
 }
 
 .a-product-name:hover {
