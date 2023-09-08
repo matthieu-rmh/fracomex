@@ -176,7 +176,7 @@
 						flex-direction: column;
 						margin: 0 auto;"
 					>
-						<img src="https://dbeautyloungeindia.com/wp-content/uploads/2021/05/nproduct.png" alt="produit-non-trouvé">
+						<img src={Routes.static_path(@socket, "/images/no_product.png")} alt="produit-non-trouvé">
 						<div style="text-align: center;">
 							<p style="
 								background: #202020;
@@ -275,7 +275,7 @@
 									<div class="details-product" id={"details-#{item.id}"}>
 										<a data-phx-link="redirect" data-phx-link-state="push" href={Routes.product_path(@socket, :product_details, family_caption, sub_family_caption, "#{item.caption}", "#{item.id}")}>
 											<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
-												<img src={Routes.static_path(@socket, "/images/small-items/#{item.image}")} alt={item.caption}>
+												<img src={Routes.static_path(@socket, "/big/small-items/#{item.image}")} alt={item.caption}>
 												<div class="single-product-bg-overlay"></div>
 												<div hidden class="sale bg-1">
 													<p hidden>news</p>

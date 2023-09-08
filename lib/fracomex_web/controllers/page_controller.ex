@@ -1,7 +1,20 @@
 defmodule FracomexWeb.PageController do
   use FracomexWeb, :controller
 
-  alias Fracomex.{Products, Utilities, Accounts}
+  alias Fracomex.{Products, Utilities, Accounts, UserEmail}
+
+  def send_contact_mail(conn, params) do
+
+    mail = params["mail"]
+    name = params["name"]
+    subject = params["subject"]
+    message = params["message"]
+
+    UserEmail.send_contact_mail(mail, name, subject, message)
+    conn
+    |> put_flash(:info, "Votre message a bien été envoyé.")
+    |> redirect(to: "/")
+  end
 
   # RÉSUMÉ DE LA COMMANDE AVANT PAIEMENT
   def recap_order(conn, %{"nil" => %{"cvg_accepted" => cvg_accepted}, "order_id" => order_id}) do

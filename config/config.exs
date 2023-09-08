@@ -12,6 +12,11 @@ slides_path = "#{project_path}/priv/static/images/slides"
 {:ok, slides_files} = File.ls(slides_path)
 
 config :fracomex,
+  direction_mail_address: "devis.fracomex@gmail.com",
+  mail_sender: {"FRACOMEX Mayotte","fracomex@mgbi.mg"},
+  mail_ccs: ["matthieu@phidia.onmicrosoft.com"]
+
+config :fracomex,
   ecto_repos: [Fracomex.Repo],
   slides_files: slides_files
   # slides_files: Application.app_dir(:fracomex, "priv/static/images/slides") |> Tuple.to_list() |> Enum.at(1)

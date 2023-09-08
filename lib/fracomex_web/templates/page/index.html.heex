@@ -1,3 +1,5 @@
+<p class="all-alert alert fadeInRight alert-info" role="alert" style="margin-top: 15px;"><%= get_flash(@conn, :info) %></p>
+<p class="all-alert alert fadeInRight alert-danger" role="alert" style="margin-top: 15px; text-align: center;"><%= get_flash(@conn, :error) %></p>
 <div id="header-carousel" class="carousel slide carousel-fade" data-ride="carousel">
 				<!--/.carousel-indicator -->
 				 <ol class="carousel-indicators header-slide">
@@ -24,8 +26,8 @@
                             <div class={"single-slide-item slide#{i}"}>
                                 <div class="container p-4">
                                     <div class="slide-hero-content">
-                                        <div class="row">
-                                            <img src={Routes.static_path(@conn, "/images/slides/#{filename}")} alt="categ image" class="shadow">
+                                        <div class="row slide-row">
+                                            <img src={Routes.static_path(@conn, "/images/slides/#{filename}")} alt="categ image" class="shadow slide-img">
                                         </div>	
                                     </div><!--/.slide-hero-content-->
                                 </div><!-- /.container-->

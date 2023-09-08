@@ -38,7 +38,7 @@
 							<div class={"details-product-#{item.id}"} id="details">
 							<a href={Routes.product_path(@conn, :product_details, family_caption, sub_family_caption, "#{item.caption}", item.id)} class={"product-#{item.id}"} >
 								<div class="single-product-bg shadow" id={"product-#{item.id}"} data-product-id={item.id}>
-									<img src={Routes.static_path(@conn, "/images/small-items/#{item.image}")} alt={item.image}>
+									<img src={Routes.static_path(@conn, "/images/big-items/#{item.image}")} alt={item.image}>
 									<div class="single-product-bg-overlay"></div>
 									<div class="sale bg-1" hidden>
 										<p hidden><%= Enum.count(@items) %> news</p>

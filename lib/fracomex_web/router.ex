@@ -21,6 +21,8 @@ defmodule FracomexWeb.Router do
 
     # Route pour la recherche
     post "/search", PageController, :search
+
+    post "/send_contact_mail", PageController, :send_contact_mail
     live "/search", Live.ProductLive, :search
 
     post "/add_to_cart", PageController, :add_to_cart

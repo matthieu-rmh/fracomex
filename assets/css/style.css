@@ -16,7 +16,7 @@
 --------------------------------------*/
 @font-face {
     font-family: "BodyFont";
-    src: url(/home/ubuntu/fracomex/assets/fonts/SctoGroteskA-Regular.woff2) format('woff2');
+    src: url(/home/mgbi/elixir/fracomex/static_assets/fonts/SctoGroteskA-Regular.woff2) format('woff2');
 }
 
 * {
@@ -1227,6 +1227,7 @@ ul.cart-list>li.total {
 }
 
 .p-product-price {
+    display: none;
     color: #e41201 !important;
 }
 
@@ -2604,4 +2605,14 @@ ul.category {
 
 .order-item-caption{
     margin-left: 10px;
+}
+
+.slide-img {
+	width: 50%;
+}
+
+.slide-row {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
